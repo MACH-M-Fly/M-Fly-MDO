@@ -1,0 +1,120 @@
+
+ ===================================================
+  Athena Vortex Lattice  Program      Version  3.32
+  Copyright (C) 2002   Mark Drela, Harold Youngren
+
+  This software comes with ABSOLUTELY NO WARRANTY,
+    subject to the GNU General Public License.
+
+  Caveat computor
+ ===================================================
+
+ ==========================================================
+   Quit    Exit program
+
+  .OPER    Compute operating-point run cases
+  .MODE    Eigenvalue analysis of run cases
+  .TIME    Time-domain calculations
+
+   LOAD f  Read configuration input file
+   MASS f  Read mass distribution file
+   CASE f  Read run case file
+
+   CINI    Clear and initialize run cases
+   MSET i  Apply mass file data to stored run case(s)
+
+  .PLOP    Plotting options
+   NAME s  Specify new configuration name
+
+ AVL   c>  
+ AVL   c>   ---- command not recognized.  Type a "?" for list
+
+ AVL   c>   RUN  command not recognized.  Type a "?" for list
+
+ AVL   c>  
+ AVL   c>   ALPH command not recognized.  Type a "?" for list
+
+ AVL   c>   BETA command not recognized.  Type a "?" for list
+
+ AVL   c>   PB/  command not recognized.  Type a "?" for list
+
+ AVL   c>   QC/  command not recognized.  Type a "?" for list
+
+ AVL   c>   RB/  command not recognized.  Type a "?" for list
+
+ AVL   c>   CAMB command not recognized.  Type a "?" for list
+
+ AVL   c>   AILE command not recognized.  Type a "?" for list
+
+ AVL   c>   ELEV command not recognized.  Type a "?" for list
+
+ AVL   c>   RUDD command not recognized.  Type a "?" for list
+
+ AVL   c>  
+ AVL   c>   ALPH command not recognized.  Type a "?" for list
+
+ AVL   c>   BETA command not recognized.  Type a "?" for list
+
+ AVL   c>   PB/  command not recognized.  Type a "?" for list
+
+ AVL   c>   QC/  command not recognized.  Type a "?" for list
+
+ AVL   c>   RB/  command not recognized.  Type a "?" for list
+
+ AVL   c>   CL   command not recognized.  Type a "?" for list
+
+ AVL   c>   CDO  command not recognized.  Type a "?" for list
+
+ AVL   c>   BANK command not recognized.  Type a "?" for list
+
+ AVL   c>   ELEV command not recognized.  Type a "?" for list
+
+ AVL   c>   HEAD command not recognized.  Type a "?" for list
+
+ AVL   c>   MACH command not recognized.  Type a "?" for list
+
+ AVL   c>   VELO command not recognized.  Type a "?" for list
+
+ AVL   c>   DENS command not recognized.  Type a "?" for list
+
+ AVL   c>   GRAV command not recognized.  Type a "?" for list
+
+ AVL   c>   TURN command not recognized.  Type a "?" for list
+
+ AVL   c>  
+ ** Open error on file: . =   1.00000
+    Trying alternative: . =   1.00000.avl
+
+ ** Open error on file: . =   1.00000.avl
+ ** File not processed. Current geometry may be corrupted.
+
+ AVL   c>   X_CG command not recognized.  Type a "?" for list
+
+ AVL   c>   Y_CG command not recognized.  Type a "?" for list
+
+ AVL   c>   Z_CG command not recognized.  Type a "?" for list
+
+ AVL   c>  
+ Mass file  =  0.231000     kg  open error
+
+ AVL   c>   IXX  command not recognized.  Type a "?" for list
+
+ AVL   c>   IYY  command not recognized.  Type a "?" for list
+
+ AVL   c>   IZZ  command not recognized.  Type a "?" for list
+
+ AVL   c>   IXY  command not recognized.  Type a "?" for list
+
+ AVL   c>   IYZ  command not recognized.  Type a "?" for list
+
+ AVL   c>   IZX  command not recognized.  Type a "?" for list
+
+ AVL   c>   VISC command not recognized.  Type a "?" for list
+
+ AVL   c>   VISC command not recognized.  Type a "?" for list
+
+ AVL   c>   VISC command not recognized.  Type a "?" for list
+
+ AVL   c>   VISC command not recognized.  Type a "?" for list
+
+ AVL   c>  

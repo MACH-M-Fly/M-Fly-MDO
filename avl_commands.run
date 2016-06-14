@@ -1,0 +1,9 @@
+LOAD supergee
+OPER
+X
+FE
+supergee_forces.txt
+
+QUIT
+
+
