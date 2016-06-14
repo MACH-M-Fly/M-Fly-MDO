@@ -64,24 +64,19 @@ class AVL():
 
 	def run_avl():
 		# Need to change to a command file
-		# # Initialize AVL
-		# os.system('./avl')
+		with open('avl_commands.run', 'w') as w:
+			
+		# LOAD avl geometry file
+		w.write('LOAD '+str(self.name) + '\n');
 
-		# # LOAD avl geometry file and run file
-		# os.system('LOAD ' + str(name) + '.avl')
-		# os.system('RUN  ' + str(name) + '.run')
-		# # Disables graphics so no errors can pop up
-		# os.system('PLOP')
-		# os.system('G,F')
-
-		# #Enter OPER
-		# os.system('OPER')
-		# os.system('X')	#Runs analysis the file
+		#Enter OPER
+		os.system('OPER')
+		os.system('X')	#Runs analysis the file
 
 
 
 
-		os.system( )
+		os.system('./avl < avl_commands.run > avl_output.txt' )
 	# All Geometry file related 
 	def create_geometry_file():
 		self.geometry
