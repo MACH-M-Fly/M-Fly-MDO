@@ -1,6 +1,12 @@
 LOAD supergee
 OPER
+A
+A
+10
 X
+FT
+supergee_forces.txt
+
 FE
 supergee_forces.txt
 
