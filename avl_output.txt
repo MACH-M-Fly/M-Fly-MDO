@@ -219,45 +219,5 @@ Enter filename, or <return> for screen output   s>
                                VM  strip shear,moment    
 
  .OPER (case 1/1)   c>  
- * Option not recognized
-
- Operation of run case 1/1:   -unnamed-                              
- ==========================================================
-
-  variable          constraint              
-  ------------      ------------------------
-  A lpha        ->  alpha       =   0.000         
-  B eta         ->  beta        =   0.000         
-  R oll  rate   ->  pb/2V       =   0.000         
-  P itch rate   ->  qc/2V       =   0.000         
-  Y aw   rate   ->  rb/2V       =   0.000         
-  D1  camber    ->  camber      =   0.000         
-  D2  aileron   ->  aileron     =   0.000         
-  D3  elevator  ->  elevator    =   0.000         
-  D4  rudder    ->  rudder      =   0.000         
-  ------------      ------------------------
-
-  C1  set level or banked  horizontal flight constraints
-  C2  set steady pitch rate (looping) flight constraints
-  M odify parameters                                    
-
- "#" select  run case          L ist defined run cases   
-  +  add new run case          S ave run cases to file   
-  -  delete  run case          F etch run cases from file
-  N ame current run case       W rite forces to file     
-
- eX ecute run case             I nitialize variables     
-
-  G eometry plot               T refftz Plane plot       
-
-  ST  stability derivatives    FT  total   forces        
-  SB  body-axis derivatives    FN  surface forces        
-  RE  reference quantities     FS  strip   forces        
-  DE  design changes           FE  element forces        
-  O ptions                     FB  body forces           
-                               HM  hinge moments         
-                               VM  strip shear,moment    
-
- .OPER (case 1/1)   c>  
  AVL   c>  
  AVL   c>  
