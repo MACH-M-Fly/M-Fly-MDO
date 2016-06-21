@@ -63,10 +63,10 @@ NOTE: All arrays are strings, use float() or int() to convert to values
 	[name, Xcg,  alpha, beta, pb/2V ,qc/2V, rb/2V, camber, aileron, elevator, rudder, alpha (labeled +2), beta, pb/2V, qc/2V, rb/2V, CL, CDo, bank, elevation, heading, Mach, velocity, density, grav.acc., turn_rad.                              
  	load_fac., X_cg, Y_cg, Z_cg, mass, Ixx, Iyy, Izz, Ixy, Iyz, Izx, visc CL_a, visc CL_u, visc CM_a, visc CM_u 	....]
 
-
-
-
 '''
+
+import os
+import sys
 
 class AVL():
 	""" Main AVL running class """
@@ -85,8 +85,14 @@ class AVL():
 
 		# Change directories into AVL folder
 
-		os.system('cd AVL')
 		# Remove previous system files
+		os.system('cd AVL')
+		if os.path.exists(str(self.name)+'_total_forces.txt'):
+			os.remove(str(self.name)+'_total_forces.txt')
+		if os.path.exists(str(self.name)+'_force_elements.txt'):
+			os.remove(str(self.name)+'_force_elements.txt')
+		os.system('cd ..')
+		
 
 
 		with open('avl_commands.run', 'w') as w:
