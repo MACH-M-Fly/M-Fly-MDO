@@ -277,9 +277,7 @@ Enter filename, or <return> for screen output   s>
                                VM  strip shear,moment    
 
  .OPER (case 1/1)   c>  
-Enter filename, or <return> for screen output   s>  
- File exists.  Append/Overwrite/Cancel  (A/O/C)?  C
- * Data not written
+ * Option not recognized
 
  Operation of run case 1/1:   -unnamed-                              
  ==========================================================
@@ -319,5 +317,4 @@ Enter filename, or <return> for screen output   s>
                                VM  strip shear,moment    
 
  .OPER (case 1/1)   c>  
- AVL   c>  
  AVL   c>  

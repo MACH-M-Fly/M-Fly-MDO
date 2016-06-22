@@ -5,12 +5,9 @@ A
 10
 X
 FT
-supergee_forces.txt
-
+supergee_total_forces.txt
 FE
-supergee_forces.txt
-
-
+supergee_force_elements.txt
 
 QUIT
 
