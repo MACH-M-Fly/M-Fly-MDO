@@ -30,9 +30,12 @@ class AGP_MDO(Group):
 	def __init__(self):
 		# add parameter
 		super(AGP_MDO,self).__init__()
-		# Initial guesses for parameters
-		self.add('b_wing', IndepVarcomp('b_wing', 2.0)) # Wing Span 
-		self.add('taper', IndepVarcomp('taper', 1.0)) # taper ratio
+
+		
+		# Design variables
+		#self.add('b_wing', IndepVarcomp('b_wing', 2.0)) # Wing Span 
+		self.add('taper', IndepVarComp('taper', 1.0)) # taper ratio
+		self.add('CL', IndepVarComp('CL', 0.0))
 
 		# Add components
 		self.add('aero_AVL', aero_AVL());
@@ -44,8 +47,48 @@ class AGP_MDO(Group):
 		# self.add('sim_score', sim_score());
 		# self.add('propulsion', propulsion());
 
-		# self.add('')
+		# Add Connections
+
+		# Add Objective
+		self.add('obj_comp', ExecComp('obj = CL') ) 
+
+		# Add constraints
+		self.add('1', ExecComp('taper <'))
 
 # Main routine
 if __name __ == "__main__":
+
+	# Initialize the problem
+	top = Problem()
+	
+	top.root = AGP_MDO()
+	top.driver = ScipyOptimizer()
+	top.driver.options['optimizer'] = 'SLSQP'
+	top.root.fd_options['force_fd'] = True	
+
+	# Design variables
+	top.driver.add_desvar('taper', lower=0.01, upper=1.0)
+
+	# Objective
+	top.driver.add_objective('obj')
+
+	# Add constraints
+
+	# Add Recorder
+	
+
+	# Setup
+	top.setup()
+	time_start = time.time()
+
+	# Initial values (either set default in each individual libraries or set them here)
+
+	# Run 
+	top.run()
+
+
+
+
+
+
 

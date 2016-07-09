@@ -247,6 +247,7 @@ class AVL():
 
 	# FUTURE FUNCTIONS
 	def read_geometry_file(filename):
+		
 	def read_force_elements_results():
 	def read_stability_results():
 	def run_avl_stability():
