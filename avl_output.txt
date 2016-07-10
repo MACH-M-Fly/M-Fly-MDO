@@ -27,10 +27,12 @@
    NAME s  Specify new configuration name
 
  AVL   c>  
- ** Open error on file: M-8_Wing.avl
-    Trying alternative: M-8_Wing.avl.avl
+ Reading file: M-8_Wing.avl  ...
 
- ** Open error on file: M-8_Wing.avl.avl
+ Configuration: M-8_Wing                                                    
+
+ ** Read error on line    5 ...
+ 0.0	0.0	0.0
  ** File not processed. Current geometry may be corrupted.
 
  AVL   c>  

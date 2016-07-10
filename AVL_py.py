@@ -75,8 +75,9 @@ class AVL():
 	def __init__(self,  geometry_config, geometry):
 		self.name = geometry_config[0]
 		self.geometry = {}
-		self.geometry_config = self.parse_geometry_config(geometry_config, geometry) #Dictionary of geometry config values
+		self.geometry_config = self.parse_geometry_config(geometry_config, geometry, self.geometry) #Dictionary of geometry config values
 		# self.geometry = parse_geoemtry_surfaces(geometry) # Dictionary of all surface properties
+		print(self.geometry)
 		self.create_geometry_file()
 		self.run_avl_AoA(0) # Initialy runs at an angle of attack of to give AoA = 0 properties
 		self.coeffs = self.read_aero_file()
@@ -129,7 +130,7 @@ class AVL():
 
 		os.system('./avl < avl_commands.run > avl_output.txt' )
 	
-	def parse_geometry_config(self, geometry_config, geometry):
+	def parse_geometry_config(self, geometry_config, geometry, section_geometry):
 		'''
 		Reads AVL configuration array into a much more usable dictionary for processing purposes
 		'''
@@ -180,20 +181,20 @@ class AVL():
 
 			section_num = section_num + geometry_config[26+(i-1)*16]*6
 
-		self.geometry = geo_section
+		section_geometry = geo_section
 
 		return geo_config_dict
 
 	# All Geometry file related 
 	
 	def create_geometry_file(self):
-		with open(str(self.name)+'_AVL.avl', 'w') as geo:
+		with open(str(self.name)+'.avl', 'w') as geo:
 
 			# title
 			geo.write(str(self.name))
 
 			#Initial first 4 lines
-			geo.write('#Mach\n')
+			geo.write('\n#Mach\n')
 			geo.write(str(self.geometry_config['Mach'])+'\n')
 			geo.write('#IYsym\tIZsym\tZsym\n')
 			geo.write(str(self.geometry_config['IYsym'])+'\t'+str(self.geometry_config['IZsym'])+'\t'+str(self.geometry_config['Zsym']) + '\n\n')
@@ -220,12 +221,12 @@ class AVL():
 				geo.write('TRANSLATE\n')
 				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_TranslateX'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_TranslateY'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_TranslateZ'])+'\n')
 
-				for j in range(self.geometry['surface_'+str(surface_num)+'_section_num']):
+				for j in range(self.geometry_config['surface_'+str(surface_num)+'_section_num']):
 					geo.write('SECTION\n')
 					geo.write('#Xle\tYle\tZle\tChord\tAinc\tNspanwise\tSspace\n')
-					geo.write(str(self.geometry_config['section_'+str(j)+'_Xle'])+'\t'+str(self.geometry_config['section_'+str(j)+'_Yle'])+'\t'+str(self.geometry_config['section_'+str(j)+'_Zle'])+'\t'+str(self.geometry_config['section_'+str(j)+'Chord'])+'\t'+str(self.geometry_config['section_'+str(j)+'_Ainc'])+'\n')
+					geo.write(str(self.geometry['section_'+str(j)+'_Xle'])+'\t'+str(self.geometry['section_'+str(j)+'_Yle'])+'\t'+str(self.geometry['section_'+str(j)+'_Zle'])+'\t'+str(self.geometry['section_'+str(j)+'Chord'])+'\t'+str(self.geometry['section_'+str(j)+'_Ainc'])+'\n')
 					geo.write('AFILE\n')
-					geo.write(str(self.geometry_config['section_'+str(j)+'_AFILE'])+'\n\n')
+					geo.write(str(self.geometry['section_'+str(j)+'_AFILE'])+'\n\n')
 
 		return	
 
