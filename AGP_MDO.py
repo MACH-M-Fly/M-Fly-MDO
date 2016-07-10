@@ -16,7 +16,7 @@
 
 # Imported from OpenMDAO Library
 from __future__ import print_function
-from openmdao.api import Component, Group, Problem, IndepVarComp
+from openmdao.api import ExecComp, Component, Group, Problem, IndepVarComp, ScipyOptimizer
 
 # Imported from Python standard
 import sys
@@ -35,11 +35,10 @@ class AGP_MDO(Group):
 		
 		# Design variables
 		#self.add('b_wing', IndepVarcomp('b_wing', 2.0)) # Wing Span 
-		self.add('taper', IndepVarComp('taper', 1.0)) # taper ratio
-		self.add('CL', IndepVarComp('CL', 0.0))
-
+		self.add('taper', IndepVarComp('taper', 1.0), promotes=['*']) # taper ratio
+		
 		# Add components
-		self.add('aero_AVL', aero_AVL());
+		self.add('aero_AVL', aero_AVL(), promotes=['*']);
 		# self.add('aero_CFD', aero_CFD());
 		# self.add('struct_FEA', struct_FEA());
 		# self.add('struct_LF', struct_LF());
@@ -51,10 +50,10 @@ class AGP_MDO(Group):
 		# Add Connections
 
 		# Add Objective
-		self.add('obj_comp', ExecComp('obj = CL') ) 
+		self.add('obj_comp', ExecComp('obj = CL'), promotes=['*'] ) 
 
 		# Add constraints
-		self.add('1', ExecComp('taper <'))
+		# self.add('1', ExecComp('taper <'))
 
 # Main routine
 if __name__ == "__main__":
