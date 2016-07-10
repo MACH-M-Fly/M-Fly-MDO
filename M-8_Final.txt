@@ -1,0 +1,177 @@
+M-8 Final Configuration
+#Aircraft For M-Fly 2015-2016 Regular Class Team
+
+#AVL File Created Using M-Fly's Optimization Code
+
+#====================
+# Geometry File
+#====================
+#AVL Conventions
+#English System Used (ft),slugs, etc
+#Mach
+0.0
+
+#Iysym      IZsym       Zsym
+0              0         0
+#Sref (Planform Wing area)  Cref (cbar)    Bref(wing span)
+14.00      1.60      8.75
+#Xcg       Ycg      Zcg
+0.296        0        0
+
+#CDp (Parasitic Drag)
+0.019
+
+
+
+#===============
+#    Main Wing   
+#================
+SURFACE
+Main Wing
+#Nchordwise Cspace Nspanwise Sspace
+10    1.0      30      -2.0
+YDUPLICATE
+0.0
+#Xscale Yscale Zscale
+SCALE
+1.0     1.0       1.0
+
+
+
+#--------------------WING ROOT-----------------------------
+SECTION
+#Xle   Yle      Zle   Chord  Ainc 
+0.0     0.0     0.0  1.6    2
+AFILE
+e420.dat
+
+#--------------------AILERON START-----------------------------
+Section
+#Xle   Yle      Zle   Chord  Ainc 
+0.0     2.62    0.0  1.6    2
+AFILE
+e420.dat
+
+Control
+# surface	gain	xhinge	hvec	SgnDup
+ Aileron        -1.00   .75    0. 0. 0. -2.0
+
+
+
+
+
+#--------------------AILERON END-----------------------------
+Section
+#Xle   Yle      Zle   Chord  Ainc 
+0    4.37     0.0  1.6   2
+AFILE
+e420.dat
+
+Control
+# surface	gain	xhinge	hvec	SgnDup
+ Aileron        -1.00   .75    0. 0. 0. -2.0
+
+
+
+#------------------------WING TIP----------------------------
+SECTION
+#Xle   Yle      Zle   Chord  Ainc  
+0   4.375    0.0    1.6    2
+AFILE
+e420.dat
+
+
+
+#===========================
+#    Horizontal Tail   
+#==========================
+SURFACE
+Horizontal Tail
+10     1.0      20     2.0
+YDUPLICATE
+0.0
+#Xscale Yscale Zscale
+SCALE
+1.0     1.0       1.0
+
+ANGLE
+-1.0
+
+TRANSLATE
+ 0.0   0.0    0.0
+ 
+INDEX
+2
+
+
+#-------------------Tail ROOT/ELEVATOR------------------------
+SECTION
+#Xle   Yle      Zle   Chord  Ainc
+2.97     0.0     0    0.75     -2.0
+NACA
+0012
+CLAF
+1.1078
+
+CONTROL
+#surface	gain	xhinge	hvec	SgnDup
+Elevator     -1.00   0.5  0 1 0       1.00
+
+
+#-------------------TAIL TIP/ELEVATOR---------------------------
+SECTION
+#Xle   Yle      Zle   Chord  Ainc 
+2.97    1.75    0     0.75     -2.0  
+NACA
+0012
+CLAF
+1.1078
+
+CONTROL
+#surface	gain	xhinge	hvec	SgnDup
+Elevator     -1.00   0.5  0 1 0        1.00
+
+#===========================
+#    Vertical Tail   
+#===========================
+SURFACE
+Vertical Tail
+#Nchordwise Cspace Nspanwise Sspace
+10     1.0      15      1.0
+YDUPLICATE
+0.0
+#Xscale Yscale Zscale
+SCALE
+1.0     1.0       1.0
+TRANSLATE
+0   0.0    0.0
+INDEX
+2
+
+#----------------------ROOT/RUDDER---------------------------
+SECTION
+#Xle   Yle      Zle   Chord  Ainc  
+2.97    1.75     -.324     0.75     0     
+NACA
+0012
+CLAF
+1.1078
+
+CONTROL
+#surface	gain	xhinge	hvec	SgnDup
+Rudder       1.00     0.5    0 0 1    -1.00
+
+
+#-----------------------TIP/RUDDER-----------------------------
+SECTION
+#Xle   Yle      Zle   Chord  Ainc
+2.97   1.75    .324  0.75    0     
+NACA
+0012
+CLAF
+1.1078
+
+CONTROL
+#surface	gain	xhinge	hvec	SgnDup
+Rudder      1.00     0.5    0 0 1     -1.00
+
