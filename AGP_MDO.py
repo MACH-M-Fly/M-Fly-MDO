@@ -56,7 +56,7 @@ class AGP_MDO(Group):
 		self.add('1', ExecComp('taper <'))
 
 # Main routine
-if __name __ == "__main__":
+if __name__ == "__main__":
 
 	# Initialize the problem
 	top = Problem()
@@ -75,7 +75,7 @@ if __name __ == "__main__":
 	# Add constraints
 
 	# Add Recorder
-	
+
 
 	# Setup
 	top.setup()

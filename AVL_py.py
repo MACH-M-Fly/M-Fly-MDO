@@ -74,8 +74,9 @@ class AVL():
 
 	def __init__(self,  geometry_config, geometry):
 		self.name = geometry_config[0]
+		self.geometry = {}
 		self.geometry_config = parse_geometry_config(geometry_config) #Dictionary of geometry config values
-		self.geometry = parse_geoemtry_surfaces(geometry) # Dictionary of all surface properties
+		# self.geometry = parse_geoemtry_surfaces(geometry) # Dictionary of all surface properties
 		self.run_avl_AoA(0) # Initialy runs at an angle of attack of to give AoA = 0 properties
 		self.coeffs = read_aero_file()
 
@@ -177,6 +178,8 @@ class AVL():
 			geo_config_dict['surface_'+str(surface_num)+'_section_data'] = geo_section
 
 			section_num = section_num + geometry_config[26+(i-1)*16]*6
+
+		self.geometry = geo_section
 
 		return geo_config_dict
 
