@@ -16,7 +16,7 @@ class aero_AVL(Component):
 		super(aero_AVL, self).__init__(geometry, surface)
 
 		self.add_param('taper', val=0.0) # taper ratio
-		self.add_param('CL', val=0.0)
+		self.add_param('CL', val=0.0)8
 
 
 		# ==================================================================
@@ -28,11 +28,13 @@ class aero_AVL(Component):
 		geometry = []
 		sections = []
 		if geometry_file_available == 0:
+
+			goemetry.append('M-8_Wing')
 			geometry.append(0.0) # Mach
 			geometry.append(0.0) # Iysm
 			geometry.append(0.0) # IZsym
 			geometry.append(0.0) # Zsym
-			geometry.append( 14) # Sref (Planform Wing area)
+			geometry.append(14) # Sref (Planform Wing area)
 			geometry.append(1.60) # Cref
 			geometry.append(8.75) # Bref (wing span)
 			geometry.append(0.296) #Xcg
@@ -103,6 +105,15 @@ class aero_AVL(Component):
 		print('Taper ratio: ')
 		print(params['taper'])
 		print('\n')
+
+		# Modify taper
+		section_num = aircraft.geometry_config['surface_1_section_num']
+		wingspan = aircraft.geometry['section_'+section_num+'_Yle']
+		root_chord = aircraft.goemetry['section_0_Chord']
+
+		for num in range(section_num):
+			section_location = aircraft.geometry['section_'+str(num)+'_Yle']
+			aircraft.geometry['section_'+str(num)+'_Chord'] = root_chord * (params['taper']-1)/ wingspan * section_location
 
 		aircraft.update_geometry_results(geometry, sections)
 		#=========================================
