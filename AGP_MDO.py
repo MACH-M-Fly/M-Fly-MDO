@@ -24,6 +24,7 @@ import os
 import time
 import math
 import numpy
+from aero_AVL import aero_AVL
 
 class AGP_MDO(Group):
 

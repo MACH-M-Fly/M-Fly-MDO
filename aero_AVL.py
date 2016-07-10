@@ -7,16 +7,16 @@ import os
 import time
 import math
 import numpy
-import AVL_py
+from  AVL_py import AVL
 
 class aero_AVL(Component):
 	""" Makes the appropriate run file and outputs the computed numbers """
-	def __init__(geometry, surface):
+	def __init__(self):
 
-		super(aero_AVL, self).__init__(geometry, surface)
+		super(aero_AVL, self).__init__()
 
 		self.add_param('taper', val=0.0) # taper ratio
-		self.add_param('CL', val=0.0)8
+		self.add_param('CL', val=0.0)
 
 
 		# ==================================================================
@@ -29,7 +29,7 @@ class aero_AVL(Component):
 		sections = []
 		if geometry_file_available == 0:
 
-			goemetry.append('M-8_Wing')
+			geometry.append('M-8_Wing')
 			geometry.append(0.0) # Mach
 			geometry.append(0.0) # Iysm
 			geometry.append(0.0) # IZsym
@@ -62,7 +62,7 @@ class aero_AVL(Component):
 			sections.append(0.0) # Zle
 			sections.append(1.6) # Chord
 			sections.append(2) # Ainc
-			sections.append('e420.dat') # AFILE
+			sections.append('ht22.dat') # AFILE
 			# Aileron Start
 			sections.append(4) # Number of sections for this surface
 			sections.append(0.0) # Xle
@@ -70,7 +70,7 @@ class aero_AVL(Component):
 			sections.append(0.0) # Zle
 			sections.append(1.6) # Chord
 			sections.append(2) # Ainc
-			sections.append('e420.dat') # AFILE
+			sections.append('ht22.dat') # AFILE
 			# Aileron End
 			sections.append(4) # Number of sections for this surface
 			sections.append(0.0) # Xle
@@ -78,7 +78,7 @@ class aero_AVL(Component):
 			sections.append(0.0) # Zle
 			sections.append(1.6) # Chord
 			sections.append(2) # Ainc
-			sections.append('e420.dat') # AFILE
+			sections.append('ht22.dat') # AFILE
 			# Wing Tip
 			sections.append(4) # Number of sections for this surface
 			sections.append(0.0) # Xle
@@ -86,9 +86,9 @@ class aero_AVL(Component):
 			sections.append(0.0) # Zle
 			sections.append(1.6) # Chord
 			sections.append(2) # Ainc
-			sections.append('e420.dat') # AFILE
+			sections.append('ht22.dat') # AFILE
 
-		else
+	#	else:
 			# geometry_and_sections = read_geo()
 
 
@@ -123,6 +123,6 @@ class aero_AVL(Component):
 		aircraft.run_avl_AoA(0)
 		aircraft.read_aero_file()
 
-		unknowns['CL'] = aircraft.coeff['Cltot']
+		unknowns['CL'] = aircraft.coeffs['Cltot']
 
 		

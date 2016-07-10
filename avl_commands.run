@@ -1,14 +1,14 @@
-LOAD supergee
+LOAD M-8_Wing.avl
 OPER
 A
 A
-10
+0
 X
 FT
-supergee_total_forces.txt
+M-8_Wing_total_forces.txt
+
 FE
-supergee_force_elements.txt
+M-8_Wing_force_elements.txt
+
 
 QUIT
-
-

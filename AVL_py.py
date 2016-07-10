@@ -75,24 +75,25 @@ class AVL():
 	def __init__(self,  geometry_config, geometry):
 		self.name = geometry_config[0]
 		self.geometry = {}
-		self.geometry_config = parse_geometry_config(geometry_config) #Dictionary of geometry config values
+		self.geometry_config = self.parse_geometry_config(geometry_config, geometry) #Dictionary of geometry config values
 		# self.geometry = parse_geoemtry_surfaces(geometry) # Dictionary of all surface properties
+		self.create_geometry_file()
 		self.run_avl_AoA(0) # Initialy runs at an angle of attack of to give AoA = 0 properties
-		self.coeffs = read_aero_file()
+		self.coeffs = self.read_aero_file()
 
-	def run_avl_AoA(AoA):
+	def run_avl_AoA(self, AoA):
 		''' Runs AVL at a certain angle of attack and saves output into avl_output.txt'''
 		# Need to change to a command file
 
 		# Change directories into AVL folder
 
 		# Remove previous system files
-		os.system('cd AVL')
-		if os.path.exists(str(self.name)+'_total_forces.txt'):
-			os.remove(str(self.name)+'_total_forces.txt')
-		if os.path.exists(str(self.name)+'_force_elements.txt'):
-			os.remove(str(self.name)+'_force_elements.txt')
-		os.system('cd ..')
+		#os.system('cd AVL')
+		#if os.path.exists(str(self.name)+'_total_forces.txt'):
+		#	os.remove(str(self.name)+'_total_forces.txt')
+		#if os.path.exists(str(self.name)+'_force_elements.txt'):
+		#	os.remove(str(self.name)+'_force_elements.txt')
+		#os.system('cd ..')
 		
 
 
@@ -109,12 +110,12 @@ class AVL():
 			# Run run case
 			w.write('X\n')
 			# Produce Total Forces file
-			w.write('FT')
+			w.write('FT\n')
 			w.write(str(self.name)+'_total_forces.txt'+'\n')
 			w.write('\n')
 
 			#Produce force element file
-			w.write('FE')
+			w.write('FE\n')
 			w.write(str(self.name)+'_force_elements.txt'+'\n')
 			w.write('\n')
 
@@ -128,12 +129,12 @@ class AVL():
 
 		os.system('./avl < avl_commands.run > avl_output.txt' )
 	
-	def parse_geometry_config(geometry_config, geometry):
+	def parse_geometry_config(self, geometry_config, geometry):
 		'''
 		Reads AVL configuration array into a much more usable dictionary for processing purposes
 		'''
 		geo_config_dict = {'Name': geometry_config[0]}
-		geo_config_dict['Mach'] = geometry_config[1]}
+		geo_config_dict['Mach'] = geometry_config[1]
 		geo_config_dict['IYsym'] = geometry_config[2]
 		geo_config_dict['IZsym'] = geometry_config[3]
 		geo_config_dict['Zsym'] = geometry_config[4]
@@ -147,7 +148,7 @@ class AVL():
 
 		section_num = 1;
 		#Iterate through the number of surfaces present
-		for i in range(geo_config_dict['Num_surfaces']):
+		for i in range(geo_config_dict['Num_Surfaces']):
 			surface_num = i 
 			geo_config_dict['surface_'+str(surface_num)+'_name'] = geometry_config[12+(i-1)*16]
 			geo_config_dict['surface_'+str(surface_num)+'_Nchordwise'] = geometry_config[13+(i-1)*16]
@@ -166,7 +167,7 @@ class AVL():
 			geo_config_dict['surface_'+str(surface_num)+'_section_num'] = geometry_config[26+(i-1)*16]
 			geo_section = dict()
 
-			for i in range(geo_config_dict['surface_'+str(surface_num)+'_section_num']):
+			for j in range(geo_config_dict['surface_'+str(surface_num)+'_section_num']):
 				geo_section['section_'+str(i)+'_Xle'] = geometry[0+(i-1)*6+(section_num-1)*6]
 				geo_section['section_'+str(i)+'_Yle'] = geometry[1+(i-1)*6+(section_num-1)*6]
 				geo_section['section_'+str(i)+'_Zle'] = geometry[2+(i-1)*6+(section_num-1)*6]
@@ -185,8 +186,8 @@ class AVL():
 
 	# All Geometry file related 
 	
-	def create_geometry_file():
-		with open(str(self.name)+'_AVL.avl') as geo:
+	def create_geometry_file(self):
+		with open(str(self.name)+'_AVL.avl', 'w') as geo:
 
 			# title
 			geo.write(str(self.name))
@@ -203,6 +204,7 @@ class AVL():
 			geo.write('#---------------------------------------------------------\n')
 
 			for i in range(self.geometry_config['Num_Surfaces']):
+				surface_num = i
 				geo.write('SURFACE\n')
 				geo.write('')
 				geo.write('!Nchordwise\tCspace\tNspanwise\tSspace\n')
@@ -218,29 +220,31 @@ class AVL():
 				geo.write('TRANSLATE\n')
 				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_TranslateX'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_TranslateY'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_TranslateZ'])+'\n')
 
-				for i in range(geo_config_dict['surface_'+str(surface_num)+'_section_num'])
+				for j in range(self.geometry['surface_'+str(surface_num)+'_section_num']):
 					geo.write('SECTION\n')
 					geo.write('#Xle\tYle\tZle\tChord\tAinc\tNspanwise\tSspace\n')
-					geo.write(str(self.geometry_config['section_'+str(i)+'_Xle'])+'\t'+str(self.geometry_config['section_'+str(i)+'_Yle'])+'\t'+str(self.geometry_config['section_'+str(i)+'_Zle'])+'\t'+str(self.geometry_config['section_'+str(i)+'Chord'])+'\t'+str(self.geometry_config['section_'+str(i)+'_Ainc'])+'\n')
+					geo.write(str(self.geometry_config['section_'+str(j)+'_Xle'])+'\t'+str(self.geometry_config['section_'+str(j)+'_Yle'])+'\t'+str(self.geometry_config['section_'+str(j)+'_Zle'])+'\t'+str(self.geometry_config['section_'+str(j)+'Chord'])+'\t'+str(self.geometry_config['section_'+str(j)+'_Ainc'])+'\n')
 					geo.write('AFILE\n')
-					geo.write(str(self.geometry_config['section_'+str(i)+'_AFILE'])+'\n\n')
+					geo.write(str(self.geometry_config['section_'+str(j)+'_AFILE'])+'\n\n')
 
 		return	
 
 
-	def read_aero_file():
+	def read_aero_file(self):
 		# with open(str(name)++'_total_forces.txt') as read_force_file:
 		# 	line = ''
 		# 	while True:
-		aero_init = open(str(name)+'_total_forces.txt').read().split()
+		
+		aero_init = open(str(self.name)+'_total_forces.txt').read().split()
 		length_aero = len(aero_nit)
 		coeff_dict = dict()
 
 		for i in range(length_aero):
 			if aero_init[i] == '=':
 				coeff_dict[aero_init[i-1]] = coeff_dict[aero_init[i+1]]
+		return coeff_dict
 
-	def update_geometry_results(geometry_config, geometry):
+	def update_geometry_results(self, geometry_config, geometry):
 		''' Updates all data with new geometry and aerdynamic results'''
 		self.name = geometry_config[0]
 		self.geometry_config = parse_geometry_config(geometry_config) #Dictionary of geometry config values
@@ -249,12 +253,12 @@ class AVL():
 		self.coeffs = read_aero_file()
 
 	# FUTURE FUNCTIONS
-	def read_geometry_file(filename):
+#	def read_geometry_file(filename):
 		
-	def read_force_elements_results():
-	def read_stability_results():
-	def run_avl_stability():
-	def add_section(surface, starting_section, ending_section):
+#	def read_force_elements_results():
+#	def read_stability_results():
+#	def run_avl_stability():
+#	def add_section(surface, starting_section, ending_section):
 
 
 
