@@ -31,9 +31,9 @@ class aero_AVL(Component):
 
 			geometry.append('M-8_Wing')
 			geometry.append(0.0) # Mach
-			geometry.append(0.0) # Iysm
-			geometry.append(0.0) # IZsym
-			geometry.append(0.0) # Zsym
+			geometry.append(0) # Iysm
+			geometry.append(0) # IZsym
+			geometry.append(0) # Zsym
 			geometry.append(14) # Sref (Planform Wing area)
 			geometry.append(1.60) # Cref
 			geometry.append(8.75) # Bref (wing span)
@@ -56,7 +56,6 @@ class aero_AVL(Component):
 
 			## Surface Section (copy and paste and modify as many times as necessary)
 			# Wing root
-			sections.append(4) # Number of sections for this surface
 			sections.append(0.0) # Xle
 			sections.append(0.0) # Yle
 			sections.append(0.0) # Zle
@@ -64,7 +63,6 @@ class aero_AVL(Component):
 			sections.append(2) # Ainc
 			sections.append('ht22.dat') # AFILE
 			# Aileron Start
-			sections.append(4) # Number of sections for this surface
 			sections.append(0.0) # Xle
 			sections.append(2.62) # Yle
 			sections.append(0.0) # Zle
@@ -72,7 +70,6 @@ class aero_AVL(Component):
 			sections.append(2) # Ainc
 			sections.append('ht22.dat') # AFILE
 			# Aileron End
-			sections.append(4) # Number of sections for this surface
 			sections.append(0.0) # Xle
 			sections.append(4.37) # Yle
 			sections.append(0.0) # Zle
@@ -80,7 +77,6 @@ class aero_AVL(Component):
 			sections.append(2) # Ainc
 			sections.append('ht22.dat') # AFILE
 			# Wing Tip
-			sections.append(4) # Number of sections for this surface
 			sections.append(0.0) # Xle
 			sections.append(4.375) # Yle
 			sections.append(0.0) # Zle
@@ -107,17 +103,18 @@ class aero_AVL(Component):
 		print('\n')
 
 		# Modify taper
-		section_num = aircraft.geometry_config['surface_1_section_num']
-		wingspan = aircraft.geometry['section_'+section_num+'_Yle']
-		root_chord = aircraft.goemetry['section_0_Chord']
+		section_num = aircraft.geometry_config['surface_0_section_num']
+		wingspan = aircraft.geometry_config['section_0_section_data']['section_'+section_num+'_Yle']
+		root_chord = aircraft.goemetry_config['section_0_section_data']['section_0_Chord']
 
 		for num in range(section_num):
-			section_location = aircraft.geometry['section_'+str(num)+'_Yle']
-			aircraft.geometry['section_'+str(num)+'_Chord'] = root_chord * (params['taper']-1)/ wingspan * section_location
+			section_location = aircraft.geometry_config['section_0_section_data']['section_'+str(num)+'_Yle']
+			aircraft.geometry_config['section_0_section_data']['section_'+str(num)+'_Chord'] = root_chord * (params['taper']-1)/ wingspan * section_location
 
 		aircraft.update_geometry_results(geometry, sections)
+		
 		#=========================================
-		# Run AVL with specified AoA
+		# Rerun AVL with specified AoA
 		#=========================================
 		aircraft.create_geometry_file()
 		aircraft.run_avl_AoA(0)
