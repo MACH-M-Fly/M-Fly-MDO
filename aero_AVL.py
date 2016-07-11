@@ -20,6 +20,14 @@ class aero_AVL(Component):
 		self.add_output('CL', val=0.0)
 
 
+		
+
+	def solve_nonlinear(self, params, unknowns, resids):
+
+		#=========================================
+		# Initialize AVL Object
+		#=========================================
+
 		# ==================================================================
 		# Define starting geometry: (Change here depending on what you want)
 		# ==================================================================
@@ -96,9 +104,8 @@ class aero_AVL(Component):
 
 		
 		# Initializes an AVL object
-		self.aircraft = AVL(geometry, sections)
+		aircraft = AVL(geometry, sections)
 
-	def solve_nonlinear(self, params, unknowns, resids):
 		#=========================================
 		# Modify starting geometry according to taper, twist, dihedral, etc.
 		#=========================================
@@ -109,21 +116,21 @@ class aero_AVL(Component):
 		print('\n')
 
 		# Modify taper
-		section_num = self.aircraft.geometry_config['surface_0_section_num']
-		wingspan = self.aircraft.geometry_config['surface_0_section_data']['section_'+str(section_num-1)+'_Yle']
-		root_chord = self.aircraft.geometry_config['surface_0_section_data']['section_0_Chord']
+		section_num = aircraft.geometry_config['surface_0_section_num']
+		wingspan = aircraft.geometry_config['surface_0_section_data']['section_'+str(section_num-1)+'_Yle']
+		root_chord = aircraft.geometry_config['surface_0_section_data']['section_0_Chord']
 
 		for num in range(section_num):
-			section_location = self.aircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Yle']
-			self.aircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Chord'] = root_chord * (params['taper']-1)/ wingspan * section_location
+			section_location = aircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Yle']
+			saircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Chord'] = root_chord * (params['taper']-1)/ wingspan * section_location
 
 		#=========================================
 		# Rerun AVL with specified AoA
 		#=========================================
-		self.aircraft.create_geometry_file()
-		self.aircraft.run_avl_AoA(0)
-		self.aircraft.read_aero_file()
+		aircraft.create_geometry_file()
+		aircraft.run_avl_AoA(0)
+		aircraft.read_aero_file()
 
-		unknowns['CL'] = self.aircraft.coeffs['CLtot']
+		unknowns['CL'] = aircraft.coeffs['CLtot']
 
 		
