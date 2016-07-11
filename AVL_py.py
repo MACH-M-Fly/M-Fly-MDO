@@ -238,7 +238,7 @@ class AVL():
 		# 	while True:
 		
 		aero_init = open(str(self.name)+'_total_forces.txt').read().split()
-		print(aero_init)
+		#print(aero_init)
 		length_aero = len(aero_init)
 		coeff_dict = dict()
 
