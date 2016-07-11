@@ -16,8 +16,7 @@
 
 # Imported from OpenMDAO Library
 from __future__ import print_function
-from openmdao.api import ExecComp, Component, Group, Problem, IndepVarComp, ScipyOptimizer
-
+from openmdao.api import ExecComp, Component, Group, Problem, IndepVarComp, ScipyOptimizer, NLGaussSeidel, Newton
 # Imported from Python standard
 import sys
 import os
@@ -35,7 +34,7 @@ class AGP_MDO(Group):
 		
 		# Design variables
 		#self.add('b_wing', IndepVarcomp('b_wing', 2.0)) # Wing Span 
-		self.add('taper', IndepVarComp('taper', 1.0), promotes=['*']) # taper ratio
+		self.add('taper', IndepVarComp('taper', 0.25), promotes=['*']) # taper ratio
 		
 		# Add components
 		self.add('aero_AVL', aero_AVL(), promotes=['*']);
@@ -50,7 +49,12 @@ class AGP_MDO(Group):
 		# Add Connections
 
 		# Add Objective
-		self.add('obj_comp', ExecComp('obj = CL'), promotes=['*'] ) 
+		self.add('obj_comp', ExecComp('obj = CL'), promotes=['*'] )
+		# self.nl_solver = Newton()
+		# self.nl_solver.options['alpha'] = 10000000.0
+		# self.nl_solver.iprint = 1
+
+		#self.ln_solver = ScipyGMRES()
 
 		# Add constraints
 		# self.add('1', ExecComp('taper <'))
@@ -67,7 +71,7 @@ if __name__ == "__main__":
 	top.root.fd_options['force_fd'] = True	
 
 	# Design variables
-	top.driver.add_desvar('taper', lower=0.01, upper=1.0)
+	top.driver.add_desvar('taper', lower=0.01, upper=0.5)
 
 	# Objective
 	top.driver.add_objective('obj')

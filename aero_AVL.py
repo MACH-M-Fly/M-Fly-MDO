@@ -111,26 +111,33 @@ class aero_AVL(Component):
 		#=========================================
 
 		#TODO
-		print('Taper ratio: ')
-		print(params['taper'])
-		print('\n')
+		# print('Taper ratio: ')
+		# print(params['taper'])
+		# print('\n')
 
 		# Modify taper
 		section_num = aircraft.geometry_config['surface_0_section_num']
+		
 		wingspan = aircraft.geometry_config['surface_0_section_data']['section_'+str(section_num-1)+'_Yle']
+		
 		root_chord = aircraft.geometry_config['surface_0_section_data']['section_0_Chord']
 
 		for num in range(section_num):
+		
 			section_location = aircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Yle']
-			saircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Chord'] = root_chord * (params['taper']-1)/ wingspan * section_location
+			aircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Chord'] = root_chord * (params['taper']-1)/ wingspan * section_location + root_chord
 
 		#=========================================
 		# Rerun AVL with specified AoA
 		#=========================================
 		aircraft.create_geometry_file()
+		
 		aircraft.run_avl_AoA(0)
+		
 		aircraft.read_aero_file()
-
+		
 		unknowns['CL'] = aircraft.coeffs['CLtot']
-
+		#print(aircraft.coeffs['CLtot'])
+		print('\n')
+	
 		

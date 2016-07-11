@@ -77,7 +77,7 @@ class AVL():
 		self.geometry_config = self.parse_geometry_config(geometry_config, geometry) #Dictionary of geometry config values
 		# self.geometry = parse_geoemtry_surfaces(geometry) # Dictionary of all surface properties
 		self.create_geometry_file()
-		self.run_avl_AoA(0) # Initialy runs at an angle of attack of to give AoA = 0 properties
+		# self.run_avl_AoA(0) # Initialy runs at an angle of attack of to give AoA = 0 properties
 		self.coeffs = self.read_aero_file()
 
 	def run_avl_AoA(self, AoA):
@@ -88,10 +88,10 @@ class AVL():
 
 		# Remove previous system files
 		#os.system('cd AVL')
-		#if os.path.exists(str(self.name)+'_total_forces.txt'):
-		#	os.remove(str(self.name)+'_total_forces.txt')
-		#if os.path.exists(str(self.name)+'_force_elements.txt'):
-		#	os.remove(str(self.name)+'_force_elements.txt')
+		if os.path.exists(str(self.name)+'_total_forces.txt'):
+			os.remove(str(self.name)+'_total_forces.txt')
+		if os.path.exists(str(self.name)+'_force_elements.txt'):
+			os.remove(str(self.name)+'_force_elements.txt')
 		#os.system('cd ..')
 		
 
@@ -99,35 +99,38 @@ class AVL():
 		with open('avl_commands.run', 'w') as w:
 			
 			# LOAD avl geometry file
-			w.write('LOAD '+str(self.name) + '.avl\n')
+			w.write('LOAD '+str(self.name) + '.avl\r\n')
 			# enter OPER mode
-			w.write('OPER\n')
+			w.write('OPER\r\n')
 			# Modify run case
-			w.write('A\n')
-			w.write('A\n')
-			w.write(str(AoA)+'\n')
+			w.write('A\r\n')
+			w.write('A\r\n')
+			w.write(str(AoA)+'\r\n')
 			# Run run case
-			w.write('X\n')
+			w.write('X\r\n')
 			# Produce Total Forces file
-			w.write('FT\n')
-			w.write(str(self.name)+'_total_forces.txt'+'\n')
-			w.write('\n')
+			w.write('FT\r\n')
+			w.write(str(self.name)+'_total_forces.txt'+'\r\n')
+			
 
 			#Produce force element file
-			w.write('FE\n')
-			w.write(str(self.name)+'_force_elements.txt'+'\n')
-			w.write('\n')
+			w.write('FE\r\n')
+			w.write(str(self.name)+'_force_elements.txt'+'\r\n')
+			w.write('\r\n')
 
 			#Exit
-			w.write('\n')
+			w.write('\r\n')
 			w.write('QUIT')
 
+			w.close()
 
 
-		
+
+		# print('Running AVL\r\n')
 
 		os.system('./avl < avl_commands.run > avl_output.txt' )
-	
+		# print('Done Running AVL\r\n')
+
 	def parse_geometry_config(self, geometry_config, geometry):
 		'''
 		Reads AVL configuration array into a much more usable dictionary for processing purposes
@@ -193,41 +196,41 @@ class AVL():
 			geo.write(str(self.name))
 
 			#Initial first 4 lines
-			geo.write('\n#Mach\n')
-			geo.write(str(self.geometry_config['Mach'])+'\n')
-			geo.write('#IYsym\tIZsym\tZsym\n')
-			geo.write(str(self.geometry_config['IYsym'])+' '+str(self.geometry_config['IZsym'])+' '+str(self.geometry_config['Zsym']) + '\n\n')
-			geo.write('#Sref\tCref\tBref\n')
-			geo.write(str(self.geometry_config['Sref'])+' '+str(self.geometry_config['Yref'])+' '+str(self.geometry_config['Bref']) + '\n\n')
-			geo.write('#Xref\tYref\tZref\n')
-			geo.write(str(self.geometry_config['Xref'])+' '+str(self.geometry_config['Yref'])+' '+str(self.geometry_config['Zref'])+'\n\n')
-			geo.write('#---------------------------------------------------------\n')
+			geo.write('\r\n#Mach\r\n')
+			geo.write(str(self.geometry_config['Mach'])+'\r\n')
+			geo.write('#IYsym\tIZsym\tZsym\r\n')
+			geo.write(str(self.geometry_config['IYsym'])+' '+str(self.geometry_config['IZsym'])+' '+str(self.geometry_config['Zsym']) + '\r\n\r\n')
+			geo.write('#Sref\tCref\tBref\r\n')
+			geo.write(str(self.geometry_config['Sref'])+' '+str(self.geometry_config['Yref'])+' '+str(self.geometry_config['Bref']) + '\r\n\r\n')
+			geo.write('#Xref\tYref\tZref\r\n')
+			geo.write(str(self.geometry_config['Xref'])+' '+str(self.geometry_config['Yref'])+' '+str(self.geometry_config['Zref'])+'\r\n\r\n')
+			geo.write('#---------------------------------------------------------\r\n')
 
 			for i in range(self.geometry_config['Num_Surfaces']):
 				surface_num = i
-				geo.write('SURFACE\n')
+				geo.write('SURFACE\r\n')
 				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_name']))
-				geo.write('\n')
-				geo.write('#Nchordwise\tCspace\tNspanwise\tSspace\n')
-				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_Nchordwise'])+' '+str(self.geometry_config['surface_'+str(surface_num)+'_Cspace'])+' '+str(self.geometry_config['surface_'+str(surface_num)+'_Nspanwise'])+' '+str(self.geometry_config['surface_'+str(surface_num)+'_Sspace'])+'\n')
-				geo.write('COMPONENT\n')
-				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_Component'])+'\n')
-				geo.write('YDUPLICATE\n')
-				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_YDuplicate'])+'\n')
-				geo.write('ANGLE\n')
-				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_Angle'])+'\n')
-				geo.write('SCALE\n')
-				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_ScaleX'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_ScaleY'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_ScaleZ'])+'\n')
-				geo.write('TRANSLATE\n')
-				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_TranslateX'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_TranslateY'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_TranslateZ'])+'\n')
+				geo.write('\r\n')
+				geo.write('#Nchordwise\tCspace\tNspanwise\tSspace\r\n')
+				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_Nchordwise'])+' '+str(self.geometry_config['surface_'+str(surface_num)+'_Cspace'])+' '+str(self.geometry_config['surface_'+str(surface_num)+'_Nspanwise'])+' '+str(self.geometry_config['surface_'+str(surface_num)+'_Sspace'])+'\r\n')
+				geo.write('COMPONENT\r\n')
+				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_Component'])+'\r\n')
+				geo.write('YDUPLICATE\r\n')
+				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_YDuplicate'])+'\r\n')
+				geo.write('ANGLE\r\n')
+				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_Angle'])+'\r\n')
+				geo.write('SCALE\r\n')
+				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_ScaleX'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_ScaleY'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_ScaleZ'])+'\r\n')
+				geo.write('TRANSLATE\r\n')
+				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_TranslateX'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_TranslateY'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_TranslateZ'])+'\r\n')
 
 				for j in range(self.geometry_config['surface_'+str(surface_num)+'_section_num']):
 					section_data = self.geometry_config['surface_'+str(surface_num)+'_section_data']
-					geo.write('SECTION\n')
-					geo.write('#Xle\tYle\tZle\tChord\tAinc\tNspanwise\tSspace\n')
-					geo.write(str(section_data['section_'+str(j)+'_Xle'])+' '+str(section_data['section_'+str(j)+'_Yle'])+' '+str(section_data['section_'+str(j)+'_Zle'])+' '+str(section_data['section_'+str(j)+'_Chord'])+' '+str(section_data['section_'+str(j)+'_Ainc'])+'\n')
-					geo.write('AFILE\n')
-					geo.write(str(section_data['section_'+str(j)+'_AFILE'])+'\n\n')
+					geo.write('SECTION\r\n')
+					geo.write('#Xle\tYle\tZle\tChord\tAinc\tNspanwise\tSspace\r\n')
+					geo.write(str(section_data['section_'+str(j)+'_Xle'])+' '+str(section_data['section_'+str(j)+'_Yle'])+' '+str(section_data['section_'+str(j)+'_Zle'])+' '+str(section_data['section_'+str(j)+'_Chord'])+' '+str(section_data['section_'+str(j)+'_Ainc'])+'\r\n')
+					geo.write('AFILE\r\n')
+					geo.write(str(section_data['section_'+str(j)+'_AFILE'])+'\r\n\r\n')
 
 		return	
 
@@ -245,6 +248,9 @@ class AVL():
 		for i in range(length_aero):
 			if aero_init[i] == '=':
 				coeff_dict[aero_init[i-1]] = aero_init[i+1]
+				# if aero_init[i-1] == 'CLtot':
+				# 	print(aero_init[i+1])
+				# 	print('\n')
 		
 		return coeff_dict
 

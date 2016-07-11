@@ -27,25 +27,25 @@ TRANSLATE
 0.0	0.0	0.0
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-0.0 0.0 0.0 0.0 2
+0.0 0.0 0.0 1.6 2
 AFILE
 ht22.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-0.0 2.62 0.0 0.0 2
+0.0 2.62 0.0 0.881372386743 2
 AFILE
 ht22.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-0.0 4.37 0.0 0.0 2
+0.0 4.37 0.0 0.401373026743 2
 AFILE
 ht22.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-0.0 4.375 0.0 0.0 2
+0.0 4.375 0.0 0.4000016 2
 AFILE
 ht22.dat
 

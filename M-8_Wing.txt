@@ -1,0 +1,53 @@
+M-8_Wing
+#Mach
+0.0
+#IYsym	IZsym	Zsym
+0 0 0
+
+#Sref	Cref	Bref
+14 0 8.75
+
+#Xref	Yref	Zref
+0.296 0 0
+
+#---------------------------------------------------------
+SURFACE
+Wing
+#Nchordwise	Cspace	Nspanwise	Sspace
+10 1.0 30 -2.0
+
+YDUPLICATE
+0.0
+
+ANGLE
+0.0
+
+SCALE
+1.0	1.0	1.0
+
+TRANSLATE
+0.0	0.0	0.0
+
+SECTION
+#Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
+0.0 0.0 0.0 0.0 2
+AFILE
+hte22.dat
+
+SECTION
+#Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
+0.0 2.62 0.0 0.0 2
+AFILE
+hte22.dat
+
+SECTION
+#Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
+0.0 4.37 0.0 0.0 2
+AFILE
+hte22.dat
+
+SECTION
+#Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
+0.0 4.375 0.0 0.0 2
+AFILE
+hte22.dat
