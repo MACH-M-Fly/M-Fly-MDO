@@ -23,7 +23,10 @@ import os
 import time
 import math
 import numpy
+
+# Modules
 from aero_AVL import aero_AVL
+from aero_MTOW import aero_MTOW
 
 class AGP_MDO(Group):
 
@@ -37,7 +40,8 @@ class AGP_MDO(Group):
 		self.add('taper', IndepVarComp('taper', 0.25), promotes=['*']) # taper ratio
 		
 		# Add components
-		self.add('aero_AVL', aero_AVL(), promotes=['*']);
+		self.add('aero_AVL', aero_AVL(), promotes=['*'])
+		self.add('aero_MTOW', aero_MTOW(), promotes=['*'])
 		# self.add('aero_CFD', aero_CFD());
 		# self.add('struct_FEA', struct_FEA());
 		# self.add('struct_LF', struct_LF());
@@ -49,7 +53,7 @@ class AGP_MDO(Group):
 		# Add Connections
 
 		# Add Objective
-		self.add('obj_comp', ExecComp('obj = CL'), promotes=['*'] )
+		self.add('obj_comp', ExecComp('obj = MTOW'), promotes=['*'] )
 		# self.nl_solver = Newton()
 		# self.nl_solver.options['alpha'] = 10000000.0
 		# self.nl_solver.iprint = 1

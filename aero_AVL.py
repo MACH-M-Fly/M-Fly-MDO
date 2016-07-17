@@ -1,3 +1,17 @@
+'''
+aero_AVL: Modifies the aircraft geometry and runs AVL to determine aerodynamic properties
+
+0.2 Produces CL, CD, Sref
+
+
+
+
+
+
+
+
+'''
+
 from __future__ import print_function
 from openmdao.api import Component, Group, Problem
 
@@ -18,6 +32,10 @@ class aero_AVL(Component):
 		self.add_param('taper', val=0.0) # taper ratio
 
 		self.add_output('CL', val=0.0)
+		self.add_output('CD', val=0.0)
+		self.add_output('Sref', val = 0.0)
+		self.add_output('oswald', val = 0.0)
+		self.add_output('B_w', val = 0.0)
 
 
 		
@@ -33,6 +51,9 @@ class aero_AVL(Component):
 		# ==================================================================
 		# You can either parse a geometry file (future) or specify here
 		# Array definition
+		root_chord = 1.6
+		wing_span = 8.75
+		Sref = (root_chord + (root_chord * params['taper'])) * (wing_span / 2) / 2
 		geometry_file_available = 0
 		geometry = []
 		sections = []
@@ -43,9 +64,9 @@ class aero_AVL(Component):
 			geometry.append(0) # Iysm
 			geometry.append(0) # IZsym
 			geometry.append(0) # Zsym
-			geometry.append(14) # Sref (Planform Wing area)
-			geometry.append(1.60) # Cref
-			geometry.append(8.75) # Bref (wing span)
+			geometry.append(Sref) # Sref (Planform Wing area)
+			geometry.append(root_chord) # Cref
+			geometry.append(wing_span) # Bref (wing span)
 			geometry.append(0.296) #Xcg
 			geometry.append(0) # Ycg
 			geometry.append(0) #Zcy
@@ -135,8 +156,18 @@ class aero_AVL(Component):
 		aircraft.run_avl_AoA(0)
 		
 		aircraft.read_aero_file()
+
+		#=========================================
+		# Send aero parameters back
+		#=========================================
 		
 		unknowns['CL'] = aircraft.coeffs['CLtot']
+		unknowns['CD'] = aircraft.coeffs['CDtot']
+		unknowns['Sref'] = aircraft.coeffs['Sref']
+		unknowns['oswald'] = aircraft.coeffs['e']
+		unknwons['B_w'] = aircraft.coeffs['Bref']
+
+	
 		#print(aircraft.coeffs['CLtot'])
 		print('\n')
 	

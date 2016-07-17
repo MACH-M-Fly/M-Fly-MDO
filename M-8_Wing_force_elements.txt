@@ -8,10 +8,10 @@
   Surface # 1     Wing                                    
      # Chordwise  = 10   # Spanwise = 30   First strip  =  1
      Surface area =    4.374123       Ave. chord =    0.999800
-     CLsurf  =   0.07162     Clsurf  =  -0.01453
-     CYsurf  =   0.00021     Cmsurf  =  -0.00146
-     CDsurf  =   0.00061     Cnsurf  =   0.00011
-     CDisurf =   0.00061     CDvsurf =   0.00000
+     CLsurf  =   0.22918     Clsurf  =  -0.04649
+     CYsurf  =   0.00066     Cmsurf  =  -0.00467
+     CDsurf  =   0.00194     Cnsurf  =   0.00035
+     CDisurf =   0.00194     CDvsurf =   0.00000
 
   Forces referred to Ssurf, Cave about hinge axis thru LE
      CLsurf  =   0.22923     CDsurf  =   0.00194
@@ -651,10 +651,10 @@
   Surface # 2     Wing (YDUP)                             
      # Chordwise  = 10   # Spanwise = 30   First strip  = 31
      Surface area =    4.374123       Ave. chord =    0.999800
-     CLsurf  =   0.07162     Clsurf  =   0.01453
-     CYsurf  =  -0.00021     Cmsurf  =  -0.00146
-     CDsurf  =   0.00061     Cnsurf  =  -0.00011
-     CDisurf =   0.00061     CDvsurf =   0.00000
+     CLsurf  =   0.22918     Clsurf  =   0.04649
+     CYsurf  =  -0.00066     Cmsurf  =  -0.00467
+     CDsurf  =   0.00194     Cnsurf  =  -0.00035
+     CDisurf =   0.00194     CDvsurf =   0.00000
 
   Forces referred to Ssurf, Cave about hinge axis thru LE
      CLsurf  =   0.22923     CDsurf  =   0.00194
