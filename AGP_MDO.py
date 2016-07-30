@@ -50,7 +50,16 @@ class AGP_MDO(Group):
 		# self.add('sim_score', sim_score());
 		# self.add('propulsion', propulsion());
 
+		#=========================
 		# Add Connections
+		#=========================
+
+		# aero_AVL
+		self.connect('aero_AVL.CL', 'aero_MTOW.CL')
+		self.connect('aero_AVL.CD', 'aero_MTOW.CD')
+		self.connect('aero_AVL.Sref', 'aero_MTOW.Sref')
+		self.connect('aero_AVL.B_w', 'aero_MTOW.b')
+
 
 		# Add Objective
 		self.add('obj_comp', ExecComp('obj = MTOW'), promotes=['*'] )
