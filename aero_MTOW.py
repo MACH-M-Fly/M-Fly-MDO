@@ -103,15 +103,15 @@ class aero_MTOW(Component):
 			 # ALL VARIABLES HAVE TO BE IMPERIAL UNITS
 			 # Newton's method step varying mass and getting runway length
 
-			 position = [0, 0] 	#[ft] X, Y
-			 velocity = [0, 0] 	#[ft/s] X, Y
-			 force = [] 		#[lbf] X, Y
-			 time = 0 			#[s]
-			 dt = 0.001
+			position = [0, 0] 	#[ft] X, Y
+			velocity = [0, 0] 	#[ft/s] X, Y
+			force = [] 		#[lbf] X, Y
+			time = 0 			#[s]
+			dt = 0.001
 
-			 while position[0] < runway_length || position[1] > 0:
+			while position[0] < runway_length || position[1] > 0:
 
-			 	position[0] = position[0] + velocity[0] * dt
+				position[0] = position[0] + velocity[0] * dt
 			 	position[1] = position[1] + velocity[1] * dt
 
 			 	force = calc_total_force(v, CL, CD, Sref, T_coef, 0)
@@ -121,8 +121,8 @@ class aero_MTOW(Component):
 
 			 	time = time + dt
 
-			 set_all = {'time': time, 'length':position[0], 'vel_X':velocity[0]}
-			 return set_all
+			set_all = {'time': time, 'length':position[0], 'vel_X':velocity[0]}
+			return set_all
 
 		# End of function declaring
 		
