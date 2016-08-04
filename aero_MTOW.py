@@ -45,9 +45,9 @@ class aero_MTOW(Component):
 		# self.add_param('T4', val = 0.0)
 
 		self.add_output('MTOW', val = 0.0)
-		self.add_output('TO-time', val = 0.0)
-		self.add_output('TO-length', val = 0.0)
-		self.add_output('TO-vel', val = 0.0)
+		self.add_output('TO_time', val = 0.0)
+		self.add_output('TO_length', val = 0.0)
+		self.add_output('TO_vel', val = 0.0)
 
 		
 
@@ -70,24 +70,24 @@ class aero_MTOW(Component):
 			T3 = T_coeff[3]
 			T4 = T_coeff[4]
 
-			Ft = (T0 + T1 * v + T2 * v^2 + T3 * v^3 + T4 * v ^ 4)
+			Ft = (T0 + T1 * v + T2 * v ** 2 + T3 * v ** 3 + T4 * v ** 4)
 			if  Ft < 0:
 				Ft = 0
 
 			# Lift	
-			Fl = 0.5 * rho * v[0] ^ 2 * Sref * CL
+			Fl = 0.5 * rho * v ** 2 * Sref * CL
 
 			# Drag 
-			Fd = 0.5 * rho * v[0] ^ 2 * Sref * CD
+			Fd = 0.5 * rho * v ** 2 * Sref * CD
 
 			# Wheel Friction
-			Fw = mu * ( mass * g - Fl - Ft * sin(radians(alpha)))
+			Fw = mu * ( mass * g - Fl - Ft *math.sin(math.radians(alpha)))
 			if Fw < 0:
 				Fw = 0
 
 
 			F = []
-			F.append(Ft * sin(radians(alpha)) - Fw - Fd)
+			F.append(Ft *math.sin(math.radians(alpha)) - Fw - Fd)
 			Fy = Fl - mass * g
 			if Fy < 0:
 				F.append(0)
@@ -96,7 +96,7 @@ class aero_MTOW(Component):
 
 			return F
 
-		def calc_momentum_buildup(runway_length, mass, CL, CD, Sref, T_coef, T, b):
+		def calc_momentum_buildup(runway_length, mass, CL, CD, Sref, T_coef,T,  b):
 			''' Calculates the runway length of the aircraft w/ specified properties '''
 			 # Mass is independent variable
 			 # Runway length is dependent variable
@@ -109,12 +109,12 @@ class aero_MTOW(Component):
 			time = 0 			#[s]
 			dt = 0.001
 
-			while position[0] < runway_length || position[1] > 0:
+			while position[0] < runway_length or position[1] > 0:
 
 				position[0] = position[0] + velocity[0] * dt
 			 	position[1] = position[1] + velocity[1] * dt
 
-			 	force = calc_total_force(v, CL, CD, Sref, T_coef, 0)
+			 	force = calc_total_force(velocity[0], CL, CD,mass, Sref, T_coef, 0)
 
 			 	velocity[0] = velocity[0] + force[0] * dt / mass
 			 	velocity[1] = velocity[1] + force[1] * dt / mass
@@ -131,16 +131,16 @@ class aero_MTOW(Component):
 		starting_payload = 5.0 	# [lbs]
 
 		total_mass = empty_mass + starting_payload
-		starting_1 = calc_momentum_buildup(runway_length, total_mass, params['CL'], param['CD'], param['Sref'], T_coeff, T0, param['b'])
+		starting_1 = calc_momentum_buildup(runway_length, total_mass, params['CL'], params['CD'], params['Sref'], T_coeff, T0, params['b'])
 		total_mass = total_mass + 1
-		starting_2 = calc_momentum_buildup(runway_length, total_mass, params['CL'], param['CD'], param['Sref'], T_coeff, T0, param['b'])
+		starting_2 = calc_momentum_buildup(runway_length, total_mass, params['CL'], params['CD'], params['Sref'], T_coeff, T0, params['b'])
 		
 		tol_MTOW = starting_2['length'] - starting_1['length'] 
 		deriv = starting_2['length'] - starting_1['length']
 		prev_mass = total_mass
 		previous = starting_2
 
-		while tol_MTOW > 0.01  
+		while tol_MTOW > 0.01:  
 			
 			next_mass = prev_mass - previous['length']/deriv
 			next_total = calc_momentum_buildup(runway_length, next_mass, params['CL'], param['CD'], param['Sref'], T_coeff, T0, param['b'])
@@ -150,10 +150,10 @@ class aero_MTOW(Component):
 			prev_mass = next_mass
 			previous = next_total
 
-		unknown['MTOW'] = prev_mass
-		unknown['TO-time'] = previous['time']
-		unknown['TO-length'] = previous['length']
-		unknown['TO-vel'] = previous['vel_X']
+		unknowns['MTOW'] = prev_mass
+		unknowns['TO_time'] = previous['time']
+		unknowns['TO_length'] = previous['length']
+		unknowns['TO_vel'] = previous['vel_X']
 
 		
 

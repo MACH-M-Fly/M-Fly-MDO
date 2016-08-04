@@ -165,7 +165,7 @@ class aero_AVL(Component):
 		unknowns['CD'] = aircraft.coeffs['CDtot']
 		unknowns['Sref'] = aircraft.coeffs['Sref']
 		unknowns['oswald'] = aircraft.coeffs['e']
-		unknwons['B_w'] = aircraft.coeffs['Bref']
+		unknowns['B_w'] = aircraft.coeffs['Bref']
 
 	
 		#print(aircraft.coeffs['CLtot'])

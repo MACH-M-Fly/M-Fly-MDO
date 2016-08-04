@@ -16,7 +16,8 @@
 
 # Imported from OpenMDAO Library
 from __future__ import print_function
-from openmdao.api import ExecComp, Component, Group, Problem, IndepVarComp, ScipyOptimizer, NLGaussSeidel, Newton
+from openmdao.api import ExecComp, Component, Group, Problem, IndepVarComp
+from openmdao.drivers.pyoptsparse_driver import pyOptSparseDriver
 # Imported from Python standard
 import sys
 import os
@@ -55,10 +56,10 @@ class AGP_MDO(Group):
 		#=========================
 
 		# aero_AVL
-		self.connect('aero_AVL.CL', 'aero_MTOW.CL')
-		self.connect('aero_AVL.CD', 'aero_MTOW.CD')
-		self.connect('aero_AVL.Sref', 'aero_MTOW.Sref')
-		self.connect('aero_AVL.B_w', 'aero_MTOW.b')
+		#self.connect('aero_MTOW.CL', 'aero_AVL.CL')
+		#self.connect('aero_AVL.CD', 'aero_MTOW.CD')
+		#self.connect('aero_AVL.Sref', 'aero_MTOW.Sref')
+		#self.connect('aero_AVL.B_w', 'aero_MTOW.b')
 
 
 		# Add Objective
@@ -79,8 +80,8 @@ if __name__ == "__main__":
 	top = Problem()
 	
 	top.root = AGP_MDO()
-	top.driver = ScipyOptimizer()
-	top.driver.options['optimizer'] = 'SLSQP'
+	top.driver = pyOptSparseDriver()
+	top.driver.options['optimizer'] = 'ALPSO'
 	top.root.fd_options['force_fd'] = True	
 
 	# Design variables
