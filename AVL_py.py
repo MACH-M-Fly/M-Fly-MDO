@@ -78,7 +78,7 @@ class AVL():
 		# self.geometry = parse_geoemtry_surfaces(geometry) # Dictionary of all surface properties
 		self.create_geometry_file()
 		# self.run_avl_AoA(0) # Initialy runs at an angle of attack of to give AoA = 0 properties
-		self.coeffs = self.read_aero_file()
+		self.coeffs = {}# self.read_aero_file()
 
 	def run_avl_AoA(self, AoA):
 		''' Runs AVL at a certain angle of attack and saves output into avl_output.txt'''
@@ -251,8 +251,8 @@ class AVL():
 				# if aero_init[i-1] == 'CLtot':
 				# 	print(aero_init[i+1])
 				# 	print('\n')
-		
-		return coeff_dict
+		self.coeffs = coeff_dict
+		return 
 
 	def update_geometry_results(self, geometry_config, geometry):
 		''' Updates all data with new geometry and aerdynamic results'''

@@ -82,7 +82,7 @@ class aero_MTOW(Component):
 			Fd = 0.5 * rho * (v ** 2) * Sref * CD
 
 			# Wheel Friction
-			Fw = mu * ( mass * g - Fl) * 0.224
+			Fw = mu * ( mass * g - Fl) 
 			if Fw < 0:
 				Fw = 0
 
