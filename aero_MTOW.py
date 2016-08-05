@@ -124,7 +124,9 @@ class aero_MTOW(Component):
 			set_all = {'time': time, 'length':position[0], 'vel_X':velocity[0]}
 			return set_all
 
+		#=================================
 		# End of function declaring
+		#=================================
 		
 		# Newton's Method
 		empty_mass = 10.0 		# [lbs]
@@ -149,6 +151,7 @@ class aero_MTOW(Component):
 			tol_MTOW = (next_total['length'] - previous['length'])
 			prev_mass = next_mass
 			previous = next_total
+			print('Takeoff mass '+str(prev_mass) + '\n')
 
 		unknowns['MTOW'] = prev_mass
 		unknowns['TO_time'] = previous['time']
