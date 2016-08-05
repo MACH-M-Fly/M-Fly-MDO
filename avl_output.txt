@@ -32,10 +32,10 @@
  Configuration: M-8_Wing                                                    
 
    Building surface: Wing                                    
-     Reading airfoil from file: ht22.dat
-     Reading airfoil from file: ht22.dat
-     Reading airfoil from file: ht22.dat
-     Reading airfoil from file: ht22.dat
+     Reading airfoil from file: e420.dat
+     Reading airfoil from file: e420.dat
+     Reading airfoil from file: e420.dat
+     Reading airfoil from file: e420.dat
   
    Building duplicate image-surface: Wing (YDUP)                             
 
@@ -144,7 +144,7 @@
      # Strips   =  60
      # Vortices = 600
 
-  Sref =  4.7250       Cref =  1.0000       Bref =  8.7500    
+  Sref =  5.2528       Cref =  1.0000       Bref =  8.7500    
   Xref = 0.29600       Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
@@ -155,15 +155,15 @@
   Beta  =   0.00000     qc/2V =   0.00000
   Mach  =     0.000     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =  -0.00402     Cltot =  -0.00000     Cl'tot =  -0.00000
-  CYtot =   0.00000     Cmtot =  -0.01649
-  CZtot =  -0.45082     Cntot =   0.00000     Cn'tot =   0.00000
+  CXtot =  -0.11342     Cltot =  -0.00000     Cl'tot =  -0.00000
+  CYtot =   0.00000     Cmtot =  -0.73145
+  CZtot =  -2.24574     Cntot =   0.00000     Cn'tot =   0.00000
 
-  CLtot =   0.45082
-  CDtot =   0.00402
-  CDvis =   0.00000     CDind =   0.00402
-  CLff  =   0.45082     CDff  =   0.00402    | Trefftz
-  CYff  =   0.00000         e =    0.9924    | Plane  
+  CLtot =   2.24574
+  CDtot =   0.11342
+  CDvis =   0.00000     CDind =   0.11342
+  CLff  =   2.24574     CDff  =   0.11100    | Trefftz
+  CYff  =   0.00000         e =    0.9922    | Plane  
 
 
  ---------------------------------------------------------------

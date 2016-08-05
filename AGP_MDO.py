@@ -38,7 +38,7 @@ class AGP_MDO(Group):
 		
 		# Design variables
 		#self.add('b_wing', IndepVarcomp('b_wing', 2.0)) # Wing Span 
-		self.add('taper', IndepVarComp('taper', 0.35), promotes=['*']) # taper ratio
+		self.add('taper', IndepVarComp('taper', 0.5), promotes=['*']) # taper ratio
 		
 		# Add components
 		self.add('aero_AVL', aero_AVL())
@@ -50,6 +50,7 @@ class AGP_MDO(Group):
 		# self.add('stability', stability());
 		# self.add('sim_score', sim_score());
 		# self.add('propulsion', propulsion());
+		# self.add('struct_weight', weight())
 
 		#=========================
 		# Add Connections
@@ -89,7 +90,7 @@ if __name__ == "__main__":
 	top.root.fd_options['force_fd'] = True	
 
 	# Design variables
-	top.driver.add_desvar('taper', lower=0.01, upper=0.5)
+	top.driver.add_desvar('taper', lower=0.01, upper=1)
 
 	# Objective
 	top.driver.add_objective('obj')

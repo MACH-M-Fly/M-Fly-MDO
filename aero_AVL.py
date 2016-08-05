@@ -96,28 +96,28 @@ class aero_AVL(Component):
 			sections.append(0.0) # Zle
 			sections.append(1.6) # Chord
 			sections.append(2) # Ainc
-			sections.append('ht22.dat') # AFILE
+			sections.append('e420.dat') # AFILE
 			# Aileron Start
 			sections.append(0.0) # Xle
 			sections.append(2.62) # Yle
 			sections.append(0.0) # Zle
 			sections.append(1.6) # Chord
 			sections.append(2) # Ainc
-			sections.append('ht22.dat') # AFILE
+			sections.append('e420.dat') # AFILE
 			# Aileron End
 			sections.append(0.0) # Xle
 			sections.append(4.37) # Yle
 			sections.append(0.0) # Zle
 			sections.append(1.6) # Chord
 			sections.append(2) # Ainc
-			sections.append('ht22.dat') # AFILE
+			sections.append('e420.dat') # AFILE
 			# Wing Tip
 			sections.append(0.0) # Xle
 			sections.append(4.375) # Yle
 			sections.append(0.0) # Zle
 			sections.append(1.6) # Chord
 			sections.append(2) # Ainc
-			sections.append('ht22.dat') # AFILE
+			sections.append('e420.dat') # AFILE
 
 	#	else:
 			# geometry_and_sections = read_geo()
