@@ -23,6 +23,8 @@ import math
 import numpy
 from  AVL_py import AVL
 
+num_sections = 4 # DO NOT CHANGE UNLESS YOU CHANGE GEOMETRY
+
 class aero_AVL(Component):
 	""" Makes the appropriate run file and outputs the computed numbers """
 	def __init__(self):
@@ -30,12 +32,13 @@ class aero_AVL(Component):
 		super(aero_AVL, self).__init__()
 
 		self.add_param('taper', val=0.0) # taper ratio
+		self.add_param('b_w', val = 1.0) # Wingspan
 
 		self.add_output('CL', val=0.0)
 		self.add_output('CD', val=0.0)
 		self.add_output('Sref', val = 0.0)
 		self.add_output('oswald', val = 0.0)
-		self.add_output('B_w', val = 0.0)
+
 
 
 		
@@ -52,7 +55,7 @@ class aero_AVL(Component):
 		# You can either parse a geometry file (future) or specify here
 		# Array definition
 		root_chord = 1.6
-		wing_span = 8.75
+		wing_span = params['b_w'] / 2
 		Sref = (root_chord + (root_chord * params['taper'])) * (wing_span / 2) / 2
 		geometry_file_available = 0
 		geometry = []
@@ -99,21 +102,21 @@ class aero_AVL(Component):
 			sections.append('e420.dat') # AFILE
 			# Aileron Start
 			sections.append(0.0) # Xle
-			sections.append(2.62) # Yle
+			sections.append(wingspan / (num_sections-1)) # Yle
 			sections.append(0.0) # Zle
 			sections.append(1.6) # Chord
 			sections.append(2) # Ainc
 			sections.append('e420.dat') # AFILE
 			# Aileron End
 			sections.append(0.0) # Xle
-			sections.append(4.37) # Yle
+			sections.append(wingspan / (num_sections- 1) * 2 ) # Yle
 			sections.append(0.0) # Zle
 			sections.append(1.6) # Chord
 			sections.append(2) # Ainc
 			sections.append('e420.dat') # AFILE
 			# Wing Tip
 			sections.append(0.0) # Xle
-			sections.append(4.375) # Yle
+			sections.append(wingspan) # Yle
 			sections.append(0.0) # Zle
 			sections.append(1.6) # Chord
 			sections.append(2) # Ainc
@@ -127,16 +130,19 @@ class aero_AVL(Component):
 		# Initializes an AVL object
 		aircraft = AVL(geometry, sections)
 
-		#=========================================
+		#===================================================================
 		# Modify starting geometry according to taper, twist, dihedral, etc.
-		#=========================================
+		#===================================================================
 
 		#TODO
 		# print('Taper ratio: ')
 		# print(params['taper'])
 		# print('\n')
 
+		#=============================
 		# Modify taper
+		#=============================
+
 		section_num = aircraft.geometry_config['surface_0_section_num']
 		
 		wingspan = aircraft.geometry_config['surface_0_section_data']['section_'+str(section_num-1)+'_Yle']
@@ -147,6 +153,14 @@ class aero_AVL(Component):
 		
 			section_location = aircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Yle']
 			aircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Chord'] = root_chord * (params['taper']-1)/ wingspan * section_location + root_chord
+
+		#==============================
+		# Modify wingspan
+		#==============================
+		# for num in range(section_num):
+		
+		# 	section_location = aircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Yle']
+		# 	aircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Yle'] = num / (num_sections-1) * wing
 
 		#=========================================
 		# Rerun AVL with specified AoA
@@ -165,7 +179,7 @@ class aero_AVL(Component):
 		unknowns['CD'] = aircraft.coeffs['CDtot']
 		unknowns['Sref'] = aircraft.coeffs['Sref']
 		unknowns['oswald'] = aircraft.coeffs['e']
-		unknowns['B_w'] = aircraft.coeffs['Bref']
+		
 
 	
 		#print(aircraft.coeffs['CLtot'])

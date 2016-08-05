@@ -36,8 +36,7 @@ class aero_MTOW(Component):
 		self.add_param('CD', val = 0.0);
 		#self.add_param('friction-coeff', val = 0.0)
 		self.add_param('Sref', val = 0.0)
-		self.add_param('b', val = 0.0)
-		#self.add_param('EW', val = 10.0); # lbs
+		self.add_param('EW', val = 2.0); # lbs
 		# self.add_param('T0', val = 0.0)
 		# self.add_param('T1', val = 0.0)
 		# self.add_param('T2', val = 0.0)
@@ -48,6 +47,7 @@ class aero_MTOW(Component):
 		self.add_output('TO_time', val = 0.0)
 		self.add_output('TO_length', val = 0.0)
 		self.add_output('TO_vel', val = 0.0)
+		self.add_output('PAYLOAD', val = 0.0)
 
 		
 
@@ -146,7 +146,7 @@ class aero_MTOW(Component):
 		#=================================
 		
 		# Newton's Method
-		empty_mass = 2 		# [lbs]
+		empty_mass = 2		# [lbs]
 		starting_payload = 2 	# [lbs]
 
 		total_mass = empty_mass + starting_payload
@@ -174,10 +174,13 @@ class aero_MTOW(Component):
 			previous = next_total
 			print('Takeoff mass '+str(prev_mass) + '\n')
 
+		payload = prev_mass - params['EW']
+		
 		unknowns['MTOW'] = prev_mass
 		unknowns['TO_time'] = previous['time']
 		unknowns['TO_length'] = previous['length']
 		unknowns['TO_vel'] = previous['vel_X']
+		unknowns['PAYLOAD'] = payload
 
 		
 

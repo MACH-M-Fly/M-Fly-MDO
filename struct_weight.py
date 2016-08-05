@@ -21,6 +21,7 @@ import math
 import numpy
 from  AVL_py import AVL
 
+density = #FILL IN
 
 class struct_weight(Component):
 	""" Calculates the empty weight of the aircraft """
@@ -28,6 +29,10 @@ class struct_weight(Component):
 
 		super(struct_weight, self).__init__()
 
+		self.add_param('taper', val=0.0)
+		self.add_param('b_w', val=1.0)
+
+		self.add_output('EW', val = 0.0)
 		
 		
 

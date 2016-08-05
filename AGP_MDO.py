@@ -37,12 +37,12 @@ class AGP_MDO(Group):
 
 		
 		# Design variables
-		#self.add('b_wing', IndepVarcomp('b_wing', 2.0)) # Wing Span 
+		self.add('b_w', IndepVarcomp('b_w', 2.0), promotes=['*']) # Wing Span 
 		self.add('taper', IndepVarComp('taper', 0.5), promotes=['*']) # taper ratio
 		
 		# Add components
 		self.add('aero_AVL', aero_AVL())
-		self.add('aero_MTOW', aero_MTOW(), promotes = ['MTOW'])
+		self.add('aero_MTOW', aero_MTOW(), promotes = ['PAYLOAD'])
 		# self.add('aero_CFD', aero_CFD());
 		# self.add('struct_FEA', struct_FEA());
 		# self.add('struct_LF', struct_LF());
@@ -50,7 +50,7 @@ class AGP_MDO(Group):
 		# self.add('stability', stability());
 		# self.add('sim_score', sim_score());
 		# self.add('propulsion', propulsion());
-		# self.add('struct_weight', weight())
+		self.add('struct_weight', weight())
 
 		#=========================
 		# Add Connections
@@ -58,17 +58,22 @@ class AGP_MDO(Group):
 		# (unknown, parameter)
 
 		#Design variables
-		self.connect('taper', 'aero_AVL.taper')
+		self.connect('taper', ['aero_AVL.taper', 'struct_weight.taper'])
+		self.connect('b_w', ['aero_AVL.b_w', 'struct_weight.b_w'])
+
 
 		# aero_AVL
 		self.connect('aero_AVL.CL', 'aero_MTOW.CL')
 		self.connect('aero_AVL.CD', 'aero_MTOW.CD')
 		self.connect('aero_AVL.Sref', 'aero_MTOW.Sref')
-		self.connect('aero_AVL.B_w', 'aero_MTOW.b')
+
+		# aero_MTOW
+		self.connect('struct_weight.EW', 'aero_MTOW.EW')
+
 		
 
 		# Add Objective
-		self.add('obj_comp', ExecComp('obj = MTOW'), promotes=['*'] )
+		self.add('obj_comp', ExecComp('obj = PAYLOAD'), promotes=['*'] )
 		# self.nl_solver = Newton()
 		# self.nl_solver.options['alpha'] = 10000000.0
 		# self.nl_solver.iprint = 1
@@ -91,6 +96,7 @@ if __name__ == "__main__":
 
 	# Design variables
 	top.driver.add_desvar('taper', lower=0.01, upper=1)
+	top.driver.add_desvar('b_w', lower=0.01, upper=10 ) # Feet
 
 	# Objective
 	top.driver.add_objective('obj')
