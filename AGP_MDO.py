@@ -38,11 +38,11 @@ class AGP_MDO(Group):
 		
 		# Design variables
 		#self.add('b_wing', IndepVarcomp('b_wing', 2.0)) # Wing Span 
-		self.add('taper', IndepVarComp('taper', 0.25), promotes=['*']) # taper ratio
+		self.add('taper', IndepVarComp('taper', 0.35), promotes=['*']) # taper ratio
 		
 		# Add components
-		self.add('aero_AVL', aero_AVL(), promotes=['*'])
-		self.add('aero_MTOW', aero_MTOW(), promotes=['*'])
+		self.add('aero_AVL', aero_AVL())
+		self.add('aero_MTOW', aero_MTOW(), promotes = ['MTOW'])
 		# self.add('aero_CFD', aero_CFD());
 		# self.add('struct_FEA', struct_FEA());
 		# self.add('struct_LF', struct_LF());
@@ -54,16 +54,17 @@ class AGP_MDO(Group):
 		#=========================
 		# Add Connections
 		#=========================
+		# (unknown, parameter)
 
 		#Design variables
-		self.connect('taper.taper', 'aero_AVL.taper')
+		self.connect('taper', 'aero_AVL.taper')
 
 		# aero_AVL
-		#self.connect('aero_MTOW.CL', 'aero_AVL.CL')
-		#self.connect('aero_AVL.CD', 'aero_MTOW.CD')
-		#self.connect('aero_AVL.Sref', 'aero_MTOW.Sref')
-		#self.connect('aero_AVL.B_w', 'aero_MTOW.b')
-
+		self.connect('aero_AVL.CL', 'aero_MTOW.CL')
+		self.connect('aero_AVL.CD', 'aero_MTOW.CD')
+		self.connect('aero_AVL.Sref', 'aero_MTOW.Sref')
+		self.connect('aero_AVL.B_w', 'aero_MTOW.b')
+		
 
 		# Add Objective
 		self.add('obj_comp', ExecComp('obj = MTOW'), promotes=['*'] )
