@@ -24,7 +24,7 @@ from  AVL_py import AVL
 runway_length = 200 	#[ft]
 rho = 0.0765 			#[lbm/ft^3]
 g = 9.81 * 3.28 		#[ft/s^2]
-mu = 0.015
+mu = 0.005
 
 class aero_MTOW(Component):
 	""" Makes the appropriate run file and outputs the computed numbers """
@@ -85,13 +85,18 @@ class aero_MTOW(Component):
 
 			# Wheel Friction
 			Fw = mu * ( mass * g - Fl) * 0.225
-			if Fw < 0:
+			if Fw <= 0:
 				Fw = 0
 
-			#print('Ft: ' + str(Ft) + ' Fl: ' + str(Fl) + ' Fd: ' + str(Fd) + ' Fw: '+str(Fw) + '\n')
+
+			# print('Ft: ' + str(Ft) + ' Fl: ' + str(Fl) + ' Fd: ' + str(Fd) + ' Fw: '+str(Fw) + '\n')
  
 			F = []
-			F.append(Ft - Fw - Fd)
+			if Fw > (Ft + Fd):
+				F.append(0)
+			else:
+				F.append(Ft - Fw - Fd)
+			
 			Fy = Fl - mass * g
 
 			# print(str(Fl) + ' ' + str(mass*g))
@@ -103,7 +108,7 @@ class aero_MTOW(Component):
 			# print('F: ' + str(F) + '\n')
 			return F
 
-		def calc_momentum_buildup(runway_length, mass, CL, CD, Sref, T_coef,T,  b):
+		def calc_momentum_buildup(runway_length, mass, CL, CD, Sref, T_coef,T):
 			''' Calculates the runway length of the aircraft w/ specified properties '''
 			 # Mass is independent variable
 			 # Runway length is dependent variable
@@ -116,7 +121,7 @@ class aero_MTOW(Component):
 			time = 0 			#[s]
 			dt = 0.0001
 
-			while  position[1] == 0 and time < 500:
+			while  position[1] == 0 and time < 300:
 
 				# print('Time: ' + str(time) + ' Position: ' + str(position) + ' Velocity: ' + str(velocity) + '\n')
 				prev_velo = velocity
@@ -145,34 +150,46 @@ class aero_MTOW(Component):
 		# End of function declaring
 		#=================================
 		
-		# Newton's Method
+		# Secant
 		empty_mass = 2		# [lbs]
-		starting_payload = 2 	# [lbs]
+		starting_payload = 2	# [lbs]
 
 		total_mass = empty_mass + starting_payload
-		starting_1 = calc_momentum_buildup(runway_length, total_mass, params['CL'], params['CD'], params['Sref'], T_coeff, T0, params['b'])
-		total_mass = total_mass + 1
-		starting_2 = calc_momentum_buildup(runway_length, total_mass, params['CL'], params['CD'], params['Sref'], T_coeff, T0, params['b'])
+		starting_1 = calc_momentum_buildup(runway_length, total_mass, params['CL'], params['CD'], params['Sref'], T_coeff, T0)
+		total_mass = total_mass + 0.001
+		starting_2 = calc_momentum_buildup(runway_length, total_mass, params['CL'], params['CD'], params['Sref'], T_coeff, T0)
 		
 		tol_MTOW = starting_2['length'] - runway_length 
-		deriv = starting_2['length'] - starting_1['length']
+		deriv = starting_2['length'] - starting_1['length'] / 0.001
 		prev_mass = total_mass
 		previous = starting_2
 		# print('tol: ' + str(tol_MTOW) + '\n')
 
-		while abs(tol_MTOW) >  0.001:  
-			if previous['time'] >= 500:
-				next_mass = 1
+		while abs(tol_MTOW) >  0.01:  
+			if previous['time'] >= 300:
+				next_mass = 0.001
+			# elif prev_mass == 0.001:
+			#  	next_mass = 0.002
+			# elif prev_mass == 0.0001:
+			# 	next_mass = 0.0002
 			else:
-				next_mass = prev_mass - (previous['length']-runway_length)/deriv
+				next_mass = prev_mass - (previous['length'] - runway_length)/deriv
+
+			if next_mass < 0:
+				next_mass = 0.01
 			# print(str(next_mass) + '\n')
-			next_total = calc_momentum_buildup(runway_length, next_mass, params['CL'], params['CD'], params['Sref'], T_coeff, T0, params['b'])
+			next_total = calc_momentum_buildup(runway_length, next_mass, params['CL'], params['CD'], params['Sref'], T_coeff, T0)
 
 			deriv = (next_total['length'] - previous['length'])/(next_mass - prev_mass)
 			tol_MTOW = (next_total['length'] - runway_length)
 			prev_mass = next_mass
 			previous = next_total
 			print('Takeoff mass '+str(prev_mass) + '\n')
+		# while previous < 200:
+		# 	prev_mass = prev_mass + 0.001
+		# 	next_total = calc_momentum_buildup(runway_length, prev_mass, params['CL'], params['CD'], params['Sref'], T_coeff, T0)
+		# 	previous = next_total['length']
+		# 	# print(previous)
 
 		payload = prev_mass - params['EW']
 		

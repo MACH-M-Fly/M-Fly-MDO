@@ -1,0 +1,7 @@
+# Aircraft property
+
+Lunit = 0.3048 m
+Munit = 0.453592 kg
+Tunit = 1.0 s
+g = 32.1768 
+rho = 0.0765

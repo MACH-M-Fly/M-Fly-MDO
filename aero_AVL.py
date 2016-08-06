@@ -33,6 +33,7 @@ class aero_AVL(Component):
 
 		self.add_param('taper', val=0.0) # taper ratio
 		self.add_param('b_w', val = 1.0) # Wingspan
+		self.add_param('chord_w', val = 1.6)
 
 		self.add_output('CL', val=0.0)
 		self.add_output('CD', val=0.0)
@@ -54,9 +55,12 @@ class aero_AVL(Component):
 		# ==================================================================
 		# You can either parse a geometry file (future) or specify here
 		# Array definition
-		root_chord = 1.6
+
+		root_chord = params['chord_w']
 		wing_span = params['b_w'] / 2
-		Sref = (root_chord + (root_chord * params['taper'])) * (wing_span / 2) / 2
+		Sref = (root_chord + (root_chord * params['taper'])) * (wing_span / 2) 
+
+
 		geometry_file_available = 0
 		geometry = []
 		sections = []
@@ -97,26 +101,26 @@ class aero_AVL(Component):
 			sections.append(0.0) # Xle
 			sections.append(0.0) # Yle
 			sections.append(0.0) # Zle
-			sections.append(1.6) # Chord
+			sections.append(root_chord) # Chord
 			sections.append(2) # Ainc
 			sections.append('e420.dat') # AFILE
 			# Aileron Start
 			sections.append(0.0) # Xle
-			sections.append(wingspan / (num_sections-1)) # Yle
+			sections.append(wing_span / (num_sections-1)) # Yle
 			sections.append(0.0) # Zle
-			sections.append(1.6) # Chord
+			sections.append(root_chord) # Chord
 			sections.append(2) # Ainc
 			sections.append('e420.dat') # AFILE
 			# Aileron End
 			sections.append(0.0) # Xle
-			sections.append(wingspan / (num_sections- 1) * 2 ) # Yle
+			sections.append(wing_span / (num_sections- 1) * 2 ) # Yle
 			sections.append(0.0) # Zle
-			sections.append(1.6) # Chord
+			sections.append(root_chord) # Chord
 			sections.append(2) # Ainc
 			sections.append('e420.dat') # AFILE
 			# Wing Tip
 			sections.append(0.0) # Xle
-			sections.append(wingspan) # Yle
+			sections.append(wing_span) # Yle
 			sections.append(0.0) # Zle
 			sections.append(1.6) # Chord
 			sections.append(2) # Ainc
