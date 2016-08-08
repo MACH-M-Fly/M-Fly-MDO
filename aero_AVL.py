@@ -172,7 +172,7 @@ class aero_AVL(Component):
 		aircraft.create_geometry_file()
 		
 		aircraft.run_avl_AoA(0)
-		print(params['taper'])
+		print('Taper: ' + str(params['taper']) + ' Wing-span: ' + str(params['b_w']) + ' Chord: ' + str(params['chord_w']) + '\n') 
 		aircraft.read_aero_file()
 
 		#=========================================

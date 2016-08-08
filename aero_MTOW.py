@@ -200,7 +200,7 @@ class aero_MTOW(Component):
 		# Binary Search
 		#=========================
 
-		beg = 0.01
+		beg = 0.0001
 		end = 20.0
 		interval = end - beg
 
@@ -211,7 +211,7 @@ class aero_MTOW(Component):
 		tol_1 = start_m['length'] - runway_length
 		# tol_2 = start2['length'] - runway_length
 
-		while abs(tol_1) > 0.001:
+		while abs(tol_1) > 0.01:
 			if start_m['length'] < 200:
 				beg = beg + interval / 2.0
 				# start1 = calc_momentum_buildup(runway_length, beg, params['CL'], params['CD'], params['Sref'], T_coeff, T0)
