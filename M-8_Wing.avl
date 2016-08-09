@@ -5,7 +5,7 @@ M-8_Wing
 0 0 0
 
 #Sref	Cref	Bref
-5.17411887779 0 3.99507117149
+3.375 0 2.5
 
 #Xref	Yref	Zref
 0.296 0 0
@@ -27,25 +27,25 @@ TRANSLATE
 0.0	0.0	0.0
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-0.0 0.0 0.0 1.29696997216 2
+0.0 0.0 0.0 2.0 2
 AFILE
 e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-0.0 1.3316903905 0.0 1.295740379 2
+0.0 0.833333333333 0.0 1.56666666667 2
 AFILE
 e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-0.0 2.66338078099 0.0 1.29451078584 2
+0.0 1.66666666667 0.0 1.13333333333 2
 AFILE
 e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-0.0 3.99507117149 0.0 1.29328119269 2
+0.0 2.5 0.0 0.7 2
 AFILE
 e420.dat
 

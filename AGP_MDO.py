@@ -16,9 +16,9 @@
 
 # Imported from OpenMDAO Library
 from __future__ import print_function
-from openmdao.api import ExecComp, Component, Group, Problem, IndepVarComp, ScipyOptimizer
+from openmdao.api import ExecComp, Component, Group, Problem, IndepVarComp, ScipyOptimizer, ScipyGMRES
 from openmdao.recorders.csv_recorder import CsvRecorder
-#from openmdao.drivers.pyoptsparse_driver import pyOptSparseDriver
+from openmdao.drivers.pyoptsparse_driver import pyOptSparseDriver
 # Imported from Python standard
 import sys
 import os
@@ -39,9 +39,9 @@ class AGP_MDO(Group):
 
 		
 		# Design variables
-		self.add('b_w', IndepVarComp('b_w', 8.0), promotes=['*']) # Wing Span 
-		self.add('chord_w', IndepVarComp('chord_w',1.3), promotes=['*'])
-		self.add('taper', IndepVarComp('taper', 1.0), promotes=['*']) # taper ratio
+		self.add('b_w', IndepVarComp('b_w', 5.0), promotes=['*']) # Wing Span 
+		self.add('chord_w', IndepVarComp('chord_w',2.0), promotes=['*'])
+		self.add('taper', IndepVarComp('taper', 0.35), promotes=['*']) # taper ratio
 		
 		# Add components
 		self.add('aero_AVL', aero_AVL())
@@ -82,7 +82,7 @@ class AGP_MDO(Group):
 		# self.nl_solver.options['alpha'] = 10000000.0
 		# self.nl_solver.iprint = 1
 
-		#self.ln_solver = ScipyGMRES()
+		self.ln_solver = ScipyGMRES()
 
 		# Add constraints
 		#self.add('1', ExecComp('taper < 1'))
@@ -94,9 +94,9 @@ if __name__ == "__main__":
 	top = Problem()
 	
 	top.root = AGP_MDO()
-	top.driver = ScipyOptimizer()
-	top.driver.options['optimizer'] = 'SLSQP'
-	top.root.fd_options['force_fd'] = True	
+	top.driver = pyOptSparseDriver()
+	top.driver.options['optimizer'] = 'ALPSO'
+	#top.root.fd_options['force_fd'] = True	
 
 	# Design variables
 	top.driver.add_desvar('taper', lower=0.01, upper=1.0)
@@ -109,10 +109,10 @@ if __name__ == "__main__":
 	# Add constraints
 
 	# Add Recorder
-	recorder = CsvRecorder('AGP')
-	recorder.options['record_params'] = True
-	recorder.options['record_metadata'] = False
-	top.driver.add_recorder(recorder)
+	#recorder = CsvRecorder('AGP_CG')
+	#recorder.options['record_params'] = True
+	#recorder.options['record_metadata'] = False
+	#top.driver.add_recorder(recorder)
 
 
 	# Setup

@@ -45,10 +45,11 @@ class struct_weight(Component):
 
 		top = params['chord_w']
 		end = params['chord_w'] * params['taper']
-		airfoil_CS = params['chord_w'] * (2/12)
+		airfoil_CS = params['chord_w'] * (2.0/12.0)
 
-		volume = (top + end) * (params['b_w'] / 2) * airfoil_CS
+		volume = (top + end) * (params['b_w'] / 2.0) * airfoil_CS
 		mass = volume * density
+		print('Mass: '+str(mass))
 		unknowns['EW'] = mass
 		
 

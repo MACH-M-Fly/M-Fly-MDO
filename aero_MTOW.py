@@ -230,6 +230,9 @@ class aero_MTOW(Component):
 			tol_1 = start_m['length'] - runway_length
 			
 		prev_mass = (beg + end)/2.0
+		log_A = open('AGP_Part.csv', 'a')
+		log_A.write(str(params['taper']) + ',' + str(params['chord_w']) + ',' + str(params['b_w']) + ',' + str(params['prev_mass']) + '\n' )
+		log_A.close()
 		previous = start_m
 		# if abs(tol_1) > 0.001:
 		# 	prev_mass = beg
