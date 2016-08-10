@@ -1,5 +1,5 @@
 '''
-aero_MTOW.py: Runs takeoff simulation to determine MTOW
+struct_weight.py: Currently only returns the weight of the wing based on past wing density
 
 
 
@@ -19,7 +19,7 @@ import os
 import time
 import math
 import numpy
-from  AVL_py import AVL
+
 
 density = 1.5/28#FILL IN
 

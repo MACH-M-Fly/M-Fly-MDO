@@ -1,7 +1,7 @@
 '''
 aero_AVL: Modifies the aircraft geometry and runs AVL to determine aerodynamic properties
 
-0.2 Produces CL, CD, Sref
+0.2 Produces CL, CD, Sref, oswald
 
 
 

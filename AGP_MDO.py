@@ -1,18 +1,33 @@
-# Aircraft Geometry and Performance Optimzer (AGPO)
-#
-# Multi-disciplinary Optimization (MDO) program developed for M-Fly that does low-fidelity aerostructural, power systems, and thrust optimization
-# as well as geometric shape optimization for wing
-#
-# written by Beldon Lin - Advanced Class Chief Engineer, M-Fly 2016-2017
-# beldon@umich.edu
-#
-#	Version 0.1 
-#		- Integrated AVL
-#		- Optimized taper ratio for given airfoil
-#
-#
-#
-#
+'''
+Aircraft Geometry and Performance Optimzer (AGPO)
+
+Multi-disciplinary Optimization (MDO) program developed for M-Fly that does low-fidelity aerostructural, power systems, and thrust optimization
+as well as geometric shape optimization for wing
+
+written by Beldon Lin - Advanced Class Chief Engineer, M-Fly 2016-2017
+beldon@umich.edu
+
+	Version 0.1 (done)
+		- Integrated AVL
+		- Optimized taper ratio for given airfoil
+
+	Version 0.2 (current)
+		- Integrated MTOW
+		- Integrated struct_weight
+		- Integrated py-opt sparse
+		- Integrated wingspan modification
+
+	Version 0.3 (in progress)
+		- Integrating airfoil optimization
+		- Integrating control surface
+		- Full Lagrangian/Hamiltonian redo of MTOW
+		- Finer taper optimization
+		- Post processing
+		- File IO for main aircraft config
+
+	See Readme for more details on plan
+'''
+
 
 # Imported from OpenMDAO Library
 from __future__ import print_function
@@ -82,7 +97,7 @@ class AGP_MDO(Group):
 		# self.nl_solver.options['alpha'] = 10000000.0
 		# self.nl_solver.iprint = 1
 
-		self.ln_solver = ScipyGMRES()
+		#self.ln_solver = ScipyGMRES()
 
 		# Add constraints
 		#self.add('1', ExecComp('taper < 1'))
@@ -95,7 +110,7 @@ if __name__ == "__main__":
 	
 	top.root = AGP_MDO()
 	top.driver = pyOptSparseDriver()
-	top.driver.options['optimizer'] = 'ALPSO'
+	top.driver.options['optimizer'] = 'NOMAD'
 	#top.root.fd_options['force_fd'] = True	
 
 	# Design variables

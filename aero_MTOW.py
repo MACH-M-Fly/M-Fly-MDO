@@ -3,7 +3,8 @@ aero_MTOW.py: Runs takeoff simulation to determine MTOW
 
 
 
-
+Still undershooting by A LOT (max payload around 5 lbs), but behaves normally
+Think some units are wrong somewhere
 
 
 
