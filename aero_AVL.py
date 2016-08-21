@@ -22,8 +22,9 @@ import time
 import math
 import numpy
 from  AVL_py import AVL
+from AC_Config import AC
 
-num_sections = 4 # DO NOT CHANGE UNLESS YOU CHANGE GEOMETRY
+import settings
 
 class aero_AVL(Component):
 	""" Makes the appropriate run file and outputs the computed numbers """
@@ -31,9 +32,48 @@ class aero_AVL(Component):
 
 		super(aero_AVL, self).__init__()
 
-		self.add_param('taper', val=0.0) # taper ratio
-		self.add_param('b_w', val = 1.0) # Wingspan
-		self.add_param('chord_w', val = 1.6)
+		# self.add_param('taper', val=[1.0, 1.0, 1.0]) # taper ratio
+		# self.add_param('b_w', val = 1.0) # Wingspan
+		# self.add_param('chord_w', val = 1.6)
+
+		# ----Wing Design Variables-----------
+		for i in WING:
+			key_start = 'wing_' + str(i+1) + '_'
+			self.add_param(key_start+'chord', val = W['W' + str(i+1)][2])
+			self.add_param(key_start+'b', val = key_start+'b', W['W' + str(i+1)][3])
+			for j in range(W['W' + str(i+1)][4]-1):
+				self.add_param(key_start+'taper_'+str(j+1), val = TAPER_INIT_WING[j])
+				self.add_param(key_start+'angle_'+str(j+1), val = ANGLE_INIT_WING[j])
+				self.add_param(key_start+'dihedral_'+str(j+1), val = DIHEDRAL_INIT_WING[j])
+				self.add_param(key_start+'x_offset_'+str(j+1), val = X_OFFSET_INIT_WING[j])
+
+		# ----H tail Design Variables---------
+		for i in H_TAIL:
+			key_start = 'h_tail_' + str(i+1) + '_'
+			self.add_param(key_start+'chord', val =  H['H' + str(i+1)][2])
+			self.add_param(key_start+'b', val = H['H' + str(i+1)][3])
+			for j in range(H['H' + str(i+1)][4]-1):
+				self.add_param(key_start+'taper_'+str(j+1), val = TAPER_INIT_H_TAIL[j])
+				self.add_param(key_start+'angle_'+str(j+1), val = ANGLE_INIT_H_TAIL[j])
+				self.add_param(key_start+'dihedral_'+str(j+1), val = DIHEDRAL_INIT_H_TAIL[j])
+				self.add_param(key_start+'x_offset_'+str(j+1), val = X_OFFSET_INIT_H_TAIL[j])
+
+		# ----V tail Design Variables---------
+		for i in V_TAIL:
+			key_start = 'v_tail_' + str(i+1) + '_'
+			self.add_param(key_start+'chord', val = V['V' + str(i+1)][2])
+			self.add_param(key_start+'b', val =  V['V' + str(i+1)][3])
+			for j in range(V['V' + str(i+1)][4]-1):
+				self.add_param(key_start+'taper_'+str(j+1), val = TAPER_INIT_V_TAIL[j])
+				self.add_param(key_start+'angle_'+str(j+1), val = ANGLE_INIT_V_TAIL[j])
+				self.add_param(key_start+'dihedral_'+str(j+1), val = DIHEDRAL_INIT_V_TAIL[j])
+				self.add_param(key_start+'x_offset_'+str(j+1), val = X_OFFSET_INIT_V_TAIL[j])
+
+		# ---- Boom Design variables----------
+		for i in BOOM:
+			key_start = 'boom_'+str(i+1) + '_'
+			self.add_param(key_start+'length', val = B['B'+str(i+1)])	
+
 
 		self.add_output('CL', val=0.0)
 		self.add_output('CD', val=0.0)
@@ -45,148 +85,100 @@ class aero_AVL(Component):
 		
 
 	def solve_nonlinear(self, params, unknowns, resids):
-
-		#=========================================
-		# Initialize AVL Object
-		#=========================================
-
-		# ==================================================================
-		# Define starting geometry: (Change here depending on what you want)
-		# ==================================================================
-		# You can either parse a geometry file (future) or specify here
-		# Array definition
-
-		root_chord = params['chord_w']
-		wing_span = params['b_w'] / 2
-		Sref = (root_chord + (root_chord * params['taper'])) * (wing_span / 2) 
-
-
-		geometry_file_available = 0
-		geometry = []
-		sections = []
-		if geometry_file_available == 0:
-
-			geometry.append('M-8_Wing')
-			geometry.append(0.0) # Mach
-			geometry.append(0) # Iysm
-			geometry.append(0) # IZsym
-			geometry.append(0) # Zsym
-			geometry.append(Sref) # Sref (Planform Wing area)
-			geometry.append(root_chord) # Cref
-			geometry.append(wing_span) # Bref (wing span)
-			geometry.append(0.296) #Xcg
-			geometry.append(0) # Ycg
-			geometry.append(0) #Zcy
-			geometry.append(1) # Num sections
-
-			### SURFACE (copy and paste and modift as many times as necessary)
-			geometry.append('Wing') # Name of surface
-			geometry.append(10) # Nchordwise 
-			geometry.append(1.0) # Cspace
-			geometry.append(30) # Nspanwise
-			geometry.append(-2.0) # Sspace
-			geometry.append(1) # COMPONENT
-			geometry.append(0.0) # YDuplicate
-			geometry.append(0.0) # Angle
-			geometry.append(1.0) # XScale
-			geometry.append(1.0) # YScale
-			geometry.append(1.0) # Zscale
-			geometry.append(0.0) # Translate X
-			geometry.append(0.0) # Translate Y
-			geometry.append(0.0) # Translate Z
-			geometry.append(4) # Number of sections in this surface
-
-			## Surface Section (copy and paste and modify as many times as necessary)
-			# Wing root
-			sections.append(0.0) # Xle
-			sections.append(0.0) # Yle
-			sections.append(0.0) # Zle
-			sections.append(root_chord) # Chord
-			sections.append(2) # Ainc
-			sections.append('e420.dat') # AFILE
-			# Aileron Start
-			sections.append(0.0) # Xle
-			sections.append(wing_span / (num_sections-1)) # Yle
-			sections.append(0.0) # Zle
-			sections.append(root_chord) # Chord
-			sections.append(2) # Ainc
-			sections.append('e420.dat') # AFILE
-			# Aileron End
-			sections.append(0.0) # Xle
-			sections.append(wing_span / (num_sections- 1) * 2 ) # Yle
-			sections.append(0.0) # Zle
-			sections.append(root_chord) # Chord
-			sections.append(2) # Ainc
-			sections.append('e420.dat') # AFILE
-			# Wing Tip
-			sections.append(0.0) # Xle
-			sections.append(wing_span) # Yle
-			sections.append(0.0) # Zle
-			sections.append(1.6) # Chord
-			sections.append(2) # Ainc
-			sections.append('e420.dat') # AFILE
-
-	#	else:
-			# geometry_and_sections = read_geo()
-
+		
+		current_AC_AVL = AVL(AC_0.name)
 
 		
-		# Initializes an AVL object
-		aircraft = AVL(geometry, sections)
+		#------Modify AC geometry----------------
 
-		#===================================================================
-		# Modify starting geometry according to taper, twist, dihedral, etc.
-		#===================================================================
+		# Wing
+		for i in range(AC_0.wing['Num']):
+			key_start = 'Wing' + str(i+1) 
+			key_start2 = 'wing_' + str(i+1) + '_'
+			AC_0.wing[key_start]['root_chord'] = params[key_start2 +'chord']
+			AC_0.wing[key_start]['wingspan'] = params[key_start2 +'b']
 
-		#TODO
-		# print('Taper ratio: ')
-		# print(params['taper'])
-		# print('\n')
+			#-----collect taper, dihedral, x_offset, and angle into one array-------
+			taper_w = []
+			dihedral_w = []
+			x_offset_w = []
+			angle_w = []
+			for j in range(AC_0.wing[key_start]['num_sections']):
+				taper_w.append(params[key_start2+'taper_'+str(j+1)])
+				dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
+				x_offset_w.append(params[key_start2+'x_offset_'+str(j+1)])
+				angle_w.append(params[key_start2+'angle_'+str(j+1)])
 
-		#=============================
-		# Modify taper
-		#=============================
+			AC_0.wing[key_start]['taper'] = taper_w
+			AC_0.wing[key_start]['angle'] = angle_w
+			AC_0.wing[key_start]['X_offset'] = x_offset_w
+			AC_0.wing[key_start]['dihedral'] = dihedral_w
 
-		section_num = aircraft.geometry_config['surface_0_section_num']
-		
-		wingspan = aircraft.geometry_config['surface_0_section_data']['section_'+str(section_num-1)+'_Yle']
-		
-		root_chord = aircraft.geometry_config['surface_0_section_data']['section_0_Chord']
+		# H_tail
+		for i in range(AC_0.h_tail['Num']):
+			key_start = 'H_tail' + str(i+1) 
+			key_start2 = 'h_tail_' + str(i+1) + '_'
+			AC_0.h_tail[key_start]['root_chord'] = params[key_start2 +'chord']
+			AC_0.h_tail[key_start]['wingspan'] = params[key_start2 +'b']
 
-		for num in range(section_num):
-		
-			section_location = aircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Yle']
-			aircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Chord'] = root_chord * (params['taper']-1)/ wingspan * section_location + root_chord
+			#-----collect taper, dihedral, x_offset, and angle into one array-------
+			taper_w = []
+			dihedral_w = []
+			x_offset_w = []
+			angle_w = []
+			for j in range(AC_0.wing[key_start]['num_sections']):
+				taper_w.append(params[key_start2+'taper_'+str(j+1)])
+				dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
+				x_offset_w.append(params[key_start2+'x_offset_'+str(j+1)])
+				angle_w.append(params[key_start2+'angle_'+str(j+1)])
 
-		#==============================
-		# Modify wingspan
-		#==============================
-		# for num in range(section_num):
-		
-		# 	section_location = aircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Yle']
-		# 	aircraft.geometry_config['surface_0_section_data']['section_'+str(num)+'_Yle'] = num / (num_sections-1) * wing
+			AC_0.wing[key_start]['taper'] = taper_w
+			AC_0.wing[key_start]['angle'] = angle_w
+			AC_0.wing[key_start]['X_offset'] = x_offset_w
+			AC_0.wing[key_start]['dihedral'] = dihedral_w
 
-		#=========================================
-		# Rerun AVL with specified AoA
-		#=========================================
-		aircraft.create_geometry_file()
-		
-		aircraft.run_avl_AoA(0)
-		print('Taper: ' + str(params['taper']) + ' Wing-span: ' + str(params['b_w']) + ' Chord: ' + str(params['chord_w']) + '\n') 
-		aircraft.read_aero_file()
+		# V_tail
+		for i in range(AC_0.v_tail['Num']):
+			key_start = 'V_tail' + str(i+1) 
+			key_start2 = 'v_tail_' + str(i+1) + '_'
+			AC_0.h_tail[key_start]['root_chord'] = params[key_start2 +'chord']
+			AC_0.h_tail[key_start]['wingspan'] = params[key_start2 +'b']
 
-		#=========================================
-		# Send aero parameters back
-		#=========================================
-		
-		unknowns['CL'] = aircraft.coeffs['CLtot']
-		unknowns['CD'] = aircraft.coeffs['CDtot']
-		unknowns['Sref'] = aircraft.coeffs['Sref']
-		unknowns['oswald'] = aircraft.coeffs['e']
+			#-----collect taper, dihedral, x_offset, and angle into one array-------
+			taper_w = []
+			dihedral_w = []
+			x_offset_w = []
+			angle_w = []
+			for j in range(AC_0.wing[key_start]['num_sections']):
+				taper_w.append(params[key_start2+'taper_'+str(j+1)])
+				dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
+				x_offset_w.append(params[key_start2+'x_offset_'+str(j+1)])
+				angle_w.append(params[key_start2+'angle_'+str(j+1)])
+
+			AC_0.wing[key_start]['taper'] = taper_w
+			AC_0.wing[key_start]['angle'] = angle_w
+			AC_0.wing[key_start]['X_offset'] = x_offset_w
+			AC_0.wing[key_start]['dihedral'] = dihedral_w
+
+
+		#-------Update Geometry file and run-----------
+		AC_0.update_prop()
+		AC_0.create_AVL_geometry()
+
+		current_AC_AVL.run_avl_AoA(0)
+		current_AC_AVL.read_aero_file()
+
+
+	
+
+		unknowns['CL'] = current_AC_AVL.coeffs['CLtot']
+		unknowns['CD'] = current_AC_AVL.coeffs['CDtot']
+		unknowns['Sref'] = current_AC_AVL.coeffs['Sref']
+		unknowns['oswald'] = current_AC_AVL.coeffs['e']
 		
 
 	
 		#print(aircraft.coeffs['CLtot'])
-		print('\n')
+		# print('\n')
 	
 		

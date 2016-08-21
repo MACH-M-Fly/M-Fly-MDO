@@ -29,10 +29,7 @@ class struct_weight(Component):
 
 		super(struct_weight, self).__init__()
 
-		self.add_param('taper', val=0.0)
-		self.add_param('b_w', val=1.0)
-		self.add_param('chord_w', val=1.6)
-
+	
 		self.add_output('EW', val = 0.0)
 		
 		
@@ -44,7 +41,7 @@ class struct_weight(Component):
 		#====================================
 
 		top = params['chord_w']
-		end = params['chord_w'] * params['taper']
+		end = params['chord_w'] * params['taper'][3]
 		airfoil_CS = params['chord_w'] * (2.0/12.0)
 
 		volume = (top + end) * (params['b_w'] / 2.0) * airfoil_CS

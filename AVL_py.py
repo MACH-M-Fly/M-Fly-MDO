@@ -4,65 +4,6 @@
  AVL Interface Python library
 
  Written for M-Fly MDO/scripting/analysis purposes only 
-------------------------------------------------------------------
-	DEVELOPED BY
-------------------------------------------------------------------
-
-Beldon Lin
-
- 
-------------------------------------------------------------------
-	INPUTS
-------------------------------------------------------------------
-NOTE: All arrays are strings, use float() or int() to convert to values
-
- 
- geometry_config: Array containing information about geometry
- [ Name
-	#Mach
- 	#IYsym IZsym Zsym
-	#Sref Cref Bref
-	#Xref Yref Zref
- 	#Number-of-surface 
-	#S1 Name
-	#!Nchordwse Cspace Nspanwise Sspace
-	#Component
-	#YDuplicate
-	#ANGLE
-	#SCALE
- 	#TRANSLATE
-	Number-of-sections
-	#S2 Name
-	#!Nchordwise Cspace Nspanwise Sspace
-	#Component
-	#YDuplicate
-	#ANGLE
-	#SCALEX
-	#SCALEY
-	#SCALEZ
- 	#TRANSLATEX
- 	#TRANSLATEY
-	#TRANSLATEZ
-	Number-of-sections ......
-	....
-	#Sn Name
-	#!Nchordwse Cspace Nspanwise Sspace
-	#Component
-	#YDuplicate
-	#ANGLE
-	#SCALE
- 	#TRANSLATE
-	Number-of-sections ] 
- 	Note: Keep in this order, the resulting array should be n x 4 where n is any integer
-	
-	geometry: Contains array of information about section information (In the same order as geometry config array lists), 
-	NOTE: all strings
- 	[Xle Yle Zle Chord Ainc AFILE CLaf(not yet)...
-													]
-														
- 	run_parameters: Contains the run parameters for the run file (dictionary)
-	[name, Xcg,  alpha, beta, pb/2V ,qc/2V, rb/2V, camber, aileron, elevator, rudder, alpha (labeled +2), beta, pb/2V, qc/2V, rb/2V, CL, CDo, bank, elevation, heading, Mach, velocity, density, grav.acc., turn_rad.                              
- 	load_fac., X_cg, Y_cg, Z_cg, mass, Ixx, Iyy, Izz, Ixy, Iyz, Izx, visc CL_a, visc CL_u, visc CM_a, visc CM_u 	....]
 
 '''
 
@@ -72,12 +13,12 @@ import sys
 class AVL():
 	""" Main AVL running class """
 
-	def __init__(self,  geometry_config, geometry):
-		self.name = geometry_config[0]
-		self.geometry_config = self.parse_geometry_config(geometry_config, geometry) #Dictionary of geometry config values
-		# self.geometry = parse_geoemtry_surfaces(geometry) # Dictionary of all surface properties
-		self.create_geometry_file()
-		# self.run_avl_AoA(0) # Initialy runs at an angle of attack of to give AoA = 0 properties
+	def __init__(self,  name):
+		self.name = name
+		# self.geometry_config = self.parse_geometry_config(geometry_config, geometry) #Dictionary of geometry config values
+		# # self.geometry = parse_geoemtry_surfaces(geometry) # Dictionary of all surface properties
+		# self.create_geometry_file()
+		# # self.run_avl_AoA(0) # Initialy runs at an angle of attack of to give AoA = 0 properties
 		self.coeffs = {}# self.read_aero_file()
 
 	def run_avl_AoA(self, AoA):
@@ -129,110 +70,6 @@ class AVL():
 		# print('Running AVL\r\n')
 
 		os.system('./avl < avl_commands.run > avl_output.txt' )
-		# print('Done Running AVL\r\n')
-
-	def parse_geometry_config(self, geometry_config, geometry):
-		'''
-		Reads AVL configuration array into a much more usable dictionary for processing purposes
-		'''
-		geo_config_dict = {'Name': geometry_config[0]}
-		geo_config_dict['Mach'] = geometry_config[1]
-		geo_config_dict['IYsym'] = geometry_config[2]
-		geo_config_dict['IZsym'] = geometry_config[3]
-		geo_config_dict['Zsym'] = geometry_config[4]
-		geo_config_dict['Sref'] = geometry_config[5]
-		geo_config_dict['Cref'] = geometry_config[6]
-		geo_config_dict['Bref'] = geometry_config[7]
-		geo_config_dict['Xref'] = geometry_config[8]
-		geo_config_dict['Yref'] = geometry_config[9]
-		geo_config_dict['Zref'] = geometry_config[10]
-		geo_config_dict['Num_Surfaces'] =  geometry_config[11]
-
-		
-		#Iterate through the number of surfaces present
-		for i in range(geo_config_dict['Num_Surfaces']):
-			surface_num = i 
-			geo_config_dict['surface_'+str(surface_num)+'_name'] = geometry_config[12+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_Nchordwise'] = geometry_config[13+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_Cspace'] = geometry_config[14+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_Nspanwise'] = geometry_config[15+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_Sspace'] = geometry_config[16+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_Component'] = geometry_config[17+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_YDuplicate'] = geometry_config[18+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_Angle'] = geometry_config[19+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_ScaleX'] = geometry_config[20+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_ScaleY'] = geometry_config[21+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_ScaleZ'] = geometry_config[22+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_TranslateX'] = geometry_config[23+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_TranslateY'] = geometry_config[24+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_TranslateZ'] = geometry_config[25+(i)*16]
-			geo_config_dict['surface_'+str(surface_num)+'_section_num'] = geometry_config[26+(i)*16]
-			geo_section = dict()
-
-			section_num = 1;
-			for j in range(geo_config_dict['surface_'+str(surface_num)+'_section_num']):
-				geo_section['section_'+str(j)+'_Xle'] = geometry[0+(j)*6]
-				geo_section['section_'+str(j)+'_Yle'] = geometry[1+(j)*6]
-				geo_section['section_'+str(j)+'_Zle'] = geometry[2+(j)*6]
-				geo_section['section_'+str(j)+'_Chord'] = geometry[3+(j)*6]
-				geo_section['section_'+str(j)+'_Ainc'] = geometry[4+(j)*6]
-				geo_section['section_'+str(j)+'_AFILE'] = geometry[5+(j)*6]
-				section_num = section_num + 1
-
-
-
-			geo_config_dict['surface_'+str(surface_num)+'_section_data'] = geo_section
-
-			
-
-		return geo_config_dict
-
-	# All Geometry file related 
-	
-	def create_geometry_file(self):
-		with open(str(self.name)+'.avl', 'w') as geo:
-
-			# title
-			geo.write(str(self.name))
-
-			#Initial first 4 lines
-			geo.write('\r\n#Mach\r\n')
-			geo.write(str(self.geometry_config['Mach'])+'\r\n')
-			geo.write('#IYsym\tIZsym\tZsym\r\n')
-			geo.write(str(self.geometry_config['IYsym'])+' '+str(self.geometry_config['IZsym'])+' '+str(self.geometry_config['Zsym']) + '\r\n\r\n')
-			geo.write('#Sref\tCref\tBref\r\n')
-			geo.write(str(self.geometry_config['Sref'])+' '+str(self.geometry_config['Yref'])+' '+str(self.geometry_config['Bref']) + '\r\n\r\n')
-			geo.write('#Xref\tYref\tZref\r\n')
-			geo.write(str(self.geometry_config['Xref'])+' '+str(self.geometry_config['Yref'])+' '+str(self.geometry_config['Zref'])+'\r\n\r\n')
-			geo.write('#---------------------------------------------------------\r\n')
-
-			for i in range(self.geometry_config['Num_Surfaces']):
-				surface_num = i
-				geo.write('SURFACE\r\n')
-				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_name']))
-				geo.write('\r\n')
-				geo.write('#Nchordwise\tCspace\tNspanwise\tSspace\r\n')
-				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_Nchordwise'])+' '+str(self.geometry_config['surface_'+str(surface_num)+'_Cspace'])+' '+str(self.geometry_config['surface_'+str(surface_num)+'_Nspanwise'])+' '+str(self.geometry_config['surface_'+str(surface_num)+'_Sspace'])+'\r\n')
-				geo.write('COMPONENT\r\n')
-				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_Component'])+'\r\n')
-				geo.write('YDUPLICATE\r\n')
-				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_YDuplicate'])+'\r\n')
-				geo.write('ANGLE\r\n')
-				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_Angle'])+'\r\n')
-				geo.write('SCALE\r\n')
-				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_ScaleX'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_ScaleY'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_ScaleZ'])+'\r\n')
-				geo.write('TRANSLATE\r\n')
-				geo.write(str(self.geometry_config['surface_'+str(surface_num)+'_TranslateX'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_TranslateY'])+'\t'+str(self.geometry_config['surface_'+str(surface_num)+'_TranslateZ'])+'\r\n')
-
-				for j in range(self.geometry_config['surface_'+str(surface_num)+'_section_num']):
-					section_data = self.geometry_config['surface_'+str(surface_num)+'_section_data']
-					geo.write('SECTION\r\n')
-					geo.write('#Xle\tYle\tZle\tChord\tAinc\tNspanwise\tSspace\r\n')
-					geo.write(str(section_data['section_'+str(j)+'_Xle'])+' '+str(section_data['section_'+str(j)+'_Yle'])+' '+str(section_data['section_'+str(j)+'_Zle'])+' '+str(section_data['section_'+str(j)+'_Chord'])+' '+str(section_data['section_'+str(j)+'_Ainc'])+'\r\n')
-					geo.write('AFILE\r\n')
-					geo.write(str(section_data['section_'+str(j)+'_AFILE'])+'\r\n\r\n')
-
-		return	
 
 
 	def read_aero_file(self):
@@ -254,22 +91,13 @@ class AVL():
 		self.coeffs = coeff_dict
 		return 
 
-	def update_geometry_results(self, geometry_config, geometry):
-		''' Updates all data with new geometry and aerdynamic results'''
-		self.name = geometry_config[0]
-		self.geometry_config = parse_geometry_config(geometry_config, geometry) #Dictionary of geometry config values
-		self.run_avl_AoA(0) # Initialy runs at an angle of attack of to give AoA = 0 properties
-		self.coeffs = read_aero_file()
+]
 
-	# FUTURE FUNCTIONS
-#	def read_geometry_file(filename):
-		
+	# FUTURE FUNCTIONS	
 #	def read_force_elements_results():
 #	def read_stability_results():
 #	def run_avl_stability():
-#	def add_section(surface, starting_section, ending_section):
-
-
+#
 
 
 
