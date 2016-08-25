@@ -1,39 +1,17 @@
 '''
 Aircraft Geometry and Performance Optimzer (AGPO)
 
-Multi-disciplinary Optimization (MDO) program developed for M-Fly that does low-fidelity aerostructural, power systems, and thrust optimization
+Multi-disciplinary Optimization (MDO) program developed for M-Fly that does low-fidelity aerostructural
 as well as geometric shape optimization for wing
 
-written by Beldon Lin - Advanced Class Chief Engineer, M-Fly 2016-2017
-beldon@umich.edu
-
-	Version 0.1 (done)
-		- Integrated AVL
-		- Optimized taper ratio for given airfoil
-
-	Version 0.2 (current)
-		- Integrated MTOW
-		- Integrated struct_weight
-		- Integrated py-opt sparse
-		- Integrated wingspan modification
-
-	Version 0.3 (in progress)
-		- Integrating airfoil optimization
-		- Integrating control surface
-		- Full Lagrangian/Hamiltonian redo of MTOW
-		- Finer taper optimization
-		- Post processing
-		- File IO for main aircraft config
-
-	See Readme for more details on plan
 '''
 
 
 # Imported from OpenMDAO Library
 from __future__ import print_function
-from openmdao.api import ExecComp, Component, Group, Problem, IndepVarComp, ScipyOptimizer, ScipyGMRES
+from openmdao.api import ExecComp, Component, Group, Problem, IndepVarComp, ScipyOptimizer#, ScipyGMRES
 from openmdao.recorders.csv_recorder import CsvRecorder
-from openmdao.drivers.pyoptsparse_driver import pyOptSparseDriver
+#from openmdao.drivers.pyoptsparse_driver import pyOptSparseDriver
 # Imported from Python standard
 import sys
 import os
@@ -131,7 +109,42 @@ class AGP_MDO(Group):
 		# self.connect('taper', ['aero_AVL.taper', 'struct_weight.taper'])
 		# self.connect('b_w', ['aero_AVL.b_w', 'struct_weight.b_w'])
 		# self.connect('chord_w', ['aero_AVL.chord_w', 'struct_weight.chord_w'])
+		for i in WING:
+			key_start = 'wing_' + str(i+1) + '_'
+			self.connect(key_start+'chord', 'aero_AVL.'+key_start+'chord')
+			self.connect(key_start+'b', 'aero_AVL.'+key_start+'b')
+			for j in range(W['W' + str(i+1)][4]-1):
+				self.connect(key_start+'taper_'+str(j+1), 'aero_AVL.'+key_start+'taper_'+str(j+1))
+				self.connect(key_start+'angle_'+str(j+1), 'aero_AVL.'+key_start+'angle_'+str(j+1))
+				self.connect(key_start+'dihedral_'+str(j+1), 'aero_AVL.'+key_start+'dihedral_'+str(j+1))
+				self.connect(key_start+'x_offset_'+str(j+1), 'aero_AVL.'+key_start+'x_offset_'+str(j+1))
 
+		# ----H tail Design Variables---------
+		for i in H_TAIL:
+			key_start = 'h_tail_' + str(i+1) + '_'
+			self.connect(key_start+'chord', 'aero_AVL.'+key_start+'chord')
+			self.connect(key_start+'b', 'aero_AVL.'+key_start+'b')
+			for j in range(H['H' + str(i+1)][4]-1):
+				self.connect(key_start+'taper_'+str(j+1), 'aero_AVL.'+key_start+'taper_'+str(j+1))
+				self.connect(key_start+'angle_'+str(j+1), 'aero_AVL.'+key_start+'angle_'+str(j+1))
+				self.connect(key_start+'dihedral_'+str(j+1), 'aero_AVL.'+key_start+'dihedral_'+str(j+1))
+				self.connect(key_start+'x_offset_'+str(j+1), 'aero_AVL.'+key_start+'x_offset_'+str(j+1))
+
+		# ----V tail Design Variables---------
+		for i in V_TAIL:
+			key_start = 'v_tail_' + str(i+1) + '_'
+			self.connect(key_start+'chord', 'aero_AVL.'+key_start+'chord')
+			self.connect(key_start+'b', 'aero_AVL.'+key_start+'b')
+			for j in range(V['V' + str(i+1)][4]-1):
+				self.connect(key_start+'taper_'+str(j+1), 'aero_AVL.'+key_start+'taper_'+str(j+1))
+				self.connect(key_start+'angle_'+str(j+1), 'aero_AVL.'+key_start+'angle_'+str(j+1))
+				self.connect(key_start+'dihedral_'+str(j+1), 'aero_AVL.'+key_start+'dihedral_'+str(j+1))
+				self.connect(key_start+'x_offset_'+str(j+1), 'aero_AVL.'+key_start+'x_offset_'+str(j+1))
+
+		# ---- Boom Design variables----------
+		for i in BOOM:
+			key_start = 'boom_'+str(i+1) + '_'
+			self.connect(key_start+'length', 'aero_AVL.'+key_start+'length')	
 
 
 
@@ -175,7 +188,7 @@ if __name__ == "__main__":
 	# top.driver.add_desvar('b_w', lower=2.0, upper=10.0 ) # Feet
 	# top.driver.add_desvar('chord_w', lower=0.5, upper=4.0)
 
-	
+
 	# ----Wing Design Variables-----------
 	for i in range(WING):
 		key_start = 'wing_' + str(i+1) + '_'

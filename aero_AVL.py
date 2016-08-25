@@ -79,6 +79,7 @@ class aero_AVL(Component):
 		self.add_output('CD', val=0.0)
 		self.add_output('Sref', val = 0.0)
 		self.add_output('oswald', val = 0.0)
+		self.add_output('boom_length', val = 0.0)
 
 
 

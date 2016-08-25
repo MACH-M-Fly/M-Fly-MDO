@@ -16,6 +16,9 @@ def init():
 	# name, airfoil, root chord, wing span, number of sections, X offset
 	W1 = ['Wing1', 'E420.dat', 1.6, 5, WING_SEC, 3]
 
+	#Constraints
+	W1_c = 
+
 	# combine all data
 	W = {'W1' : W1}
 	# Number of horizontal tails
@@ -46,7 +49,14 @@ def init():
 	BOOM = 1
 	B1 = []
 	B = {'B1': B1}
-	
+
+	#-------Overall constraints
+	TAPER_MAX = 1.0
+	TAPER_MIN = 0.001
+	ANGLE_MAX = 10.0
+	ANGLE_MIN = -10.0
+	X_OFFSET_MAX = 
+
 	#=============================================================
 	# Starting points for each surface
 	#=============================================================
@@ -110,7 +120,7 @@ def init():
 		AC_0.add_h_tail(H_tail[0], H_tail[1], H_tail[2], H_tail[3], H_tail[4], H_tail[5])
 	for i in range(V_TAIL):
 		V_tail = V['V'+str(i+1)]
-		AC_0.add_wing(V_tail[0], V_tail[1], V_tail[2], V_tail[3], V_tail[4], V_tail[5])
+		AC_0.add_v_tail(V_tail[0], V_tail[1], V_tail[2], V_tail[3], V_tail[4], V_tail[5])
 	for i in range(BOOM):
 		boom = B['B'+str(i+1)]
 		AC_0.add_boom(boom[0], boom[1])

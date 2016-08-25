@@ -148,6 +148,7 @@ class AC():
 		self.boom['Num'] = self.boom['Num'] + 1
 
 	def add_fuselage():
+		# Treat fuselage as 3 surfaces: Vertical top, vertical bottom, horizontal X-section
 	def add_other_surface():
 
 	def create_AVL_geometry():
@@ -255,4 +256,6 @@ class AC():
 					geo.write('AFILE\r\n')
 					geo.write(str(self.v_tail['v_tail_'+str(i+1)]['airfoil'][j])+'\r\n\r\n'))
 		return
+
+	
 
