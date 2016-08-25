@@ -91,7 +91,7 @@ class AVL():
 		self.coeffs = coeff_dict
 		return 
 
-]
+
 
 	# FUTURE FUNCTIONS	
 #	def read_force_elements_results():

@@ -40,7 +40,7 @@ class aero_AVL(Component):
 		for i in WING:
 			key_start = 'wing_' + str(i+1) + '_'
 			self.add_param(key_start+'chord', val = W['W' + str(i+1)][2])
-			self.add_param(key_start+'b', val = key_start+'b', W['W' + str(i+1)][3])
+			self.add_param(key_start+'b', val = W['W' + str(i+1)][3])
 			for j in range(W['W' + str(i+1)][4]-1):
 				self.add_param(key_start+'taper_'+str(j+1), val = TAPER_INIT_WING[j])
 				self.add_param(key_start+'angle_'+str(j+1), val = ANGLE_INIT_WING[j])
