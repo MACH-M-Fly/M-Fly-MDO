@@ -198,7 +198,7 @@ if __name__ == "__main__":
 			self.add_desvar(key_start+'taper_'+str(j+1), lower = TAPER_MIN, upper = TAPER_MAX)
 			self.add_desvar(key_start+'angle_'+str(j+1), lower = ANGLE_MIN, upper = ANGLE_MAX)
 			self.add_desvar(key_start+'dihedral_'+str(j+1), lower = DIHEDRAL_MIN, upper = DIHEDRAL_MAX)
-			self.add_desvar(key_start+'x_offset_'+str(j+1), , lower = WING_CONSTRAINTS['Wing'+str(i+1)+'Con']['WING'+str(i+1)+'_X_START'], upper = WING_CONSTRAINTS['Wing'+str(i+1)+'Con']['WING'+str(i+1)+'_X_END'])
+			self.add_desvar(key_start+'x_offset_'+str(j+1),  lower = WING_CONSTRAINTS['Wing'+str(i+1)+'Con']['WING'+str(i+1)+'_X_START'], upper = WING_CONSTRAINTS['Wing'+str(i+1)+'Con']['WING'+str(i+1)+'_X_END'])
 
 	# ----H tail Design Variables---------
 	for i in range(H_TAIL):
@@ -209,7 +209,7 @@ if __name__ == "__main__":
 			self.add_desvar(key_start+'taper_'+str(j+1), lower = TAPER_MIN, upper = TAPER_MAX)
 			self.add_desvar(key_start+'angle_'+str(j+1), lower = ANGLE_MIN, upper = ANGLE_MAX)
 			self.add_desvar(key_start+'dihedral_'+str(j+1), lower = DIHEDRAL_MIN, upper = DIHEDRAL_MAX)
-			self.add_desvar(key_start+'x_offset_'+str(j+1), , lower = H_TAIL_CONSTRAINTS['H_TAIL'+str(i+1)+'Con']['H_TAIL'+str(i+1)+'_X_START'], upper = H_TAIL_CONSTRAINTS['H_TAIL'+str(i+1)+'Con']['H_TAIL'+str(i+1)+'_X_END'])
+			self.add_desvar(key_start+'x_offset_'+str(j+1),  lower = H_TAIL_CONSTRAINTS['H_TAIL'+str(i+1)+'Con']['H_TAIL'+str(i+1)+'_X_START'], upper = H_TAIL_CONSTRAINTS['H_TAIL'+str(i+1)+'Con']['H_TAIL'+str(i+1)+'_X_END'])
 
 	# ----V tail Design Variables---------
 	for i in range(V_TAIL):
@@ -220,7 +220,7 @@ if __name__ == "__main__":
 			self.add_desvar(key_start+'taper_'+str(j+1), lower = TAPER_MIN, upper = TAPER_MAX)
 			self.add_desvar(key_start+'angle_'+str(j+1), lower = ANGLE_MIN, upper = ANGLE_MAX)
 			self.add_desvar(key_start+'dihedral_'+str(j+1), lower = DIHEDRAL_MIN, upper = DIHEDRAL_MAX)
-			self.add_desvar(key_start+'x_offset_'+str(j+1), ,lower = V_TAIL_CONSTRAINTS['V_TAIL'+str(i+1)+'Con']['V_TAIL'+str(i+1)+'_X_START'], upper = V_TAIL_CONSTRAINTS['V_TAIL'+str(i+1)+'Con']['V_TAIL'+str(i+1)+'_X_END'])
+			self.add_desvar(key_start+'x_offset_'+str(j+1), lower = V_TAIL_CONSTRAINTS['V_TAIL'+str(i+1)+'Con']['V_TAIL'+str(i+1)+'_X_START'], upper = V_TAIL_CONSTRAINTS['V_TAIL'+str(i+1)+'Con']['V_TAIL'+str(i+1)+'_X_END'])
 
 	# # ---- Boom Design variables----------
 	# for i in range(BOOM):
