@@ -1,5 +1,5 @@
 '''
-struct_weight.py: Currently only returns the weight of the wing based on past wing density
+struct_weight.py: Currently only returns the weight of the aircraft based volume 
 
 
 
@@ -20,7 +20,7 @@ import time
 import math
 import numpy
 
-
+import settings
 density = 1.5/28#FILL IN
 
 class struct_weight(Component):
@@ -40,13 +40,11 @@ class struct_weight(Component):
 		# Trapezoidal shape approximation
 		#====================================
 
-		top = params['chord_w']
-		end = params['chord_w'] * params['taper'][3]
-		airfoil_CS = params['chord_w'] * (2.0/12.0)
-
-		volume = (top + end) * (params['b_w'] / 2.0) * airfoil_CS
+		AC_0.update_prop()
+		Sref = AC_0.proper['Sref']
+		volume = Sref * 1/12 
 		mass = volume * density
-		print('Mass: '+str(mass))
+		#print('Mass: '+str(mass))
 		unknowns['EW'] = mass
 		
 

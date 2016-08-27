@@ -192,40 +192,40 @@ if __name__ == "__main__":
 	# ----Wing Design Variables-----------
 	for i in range(WING):
 		key_start = 'wing_' + str(i+1) + '_'
-		self.add_desvar(key_start+'chord')
-		self.add_desvar(key_start+'b')
+		self.add_desvar(key_start+'chord', lower = WING_CONSTRAINTS['Wing'+str(i+1)+'Con']['WING'+str(i+1)+'_CHORD_MIN'], upper = WING_CONSTRAINTS['Wing'+str(i+1)+'Con']['WING'+str(i+1)+'_CHORD_MAX'])
+		self.add_desvar(key_start+'b' , lower = WING_CONSTRAINTS['Wing'+str(i+1)+'Con']['WING'+str(i+1)+'_WINGSPAN_MIN'], upper = WING_CONSTRAINTS['Wing'+str(i+1)+'Con']['WING'+str(i+1)+'_WINGSPAN_MAX'])
 		for j in range(W['W' + str(i+1)][4]-1):
-			self.add_desvar(key_start+'taper_'+str(j+1))
-			self.add_desvar(key_start+'angle_'+str(j+1))
-			self.add_desvar(key_start+'dihedral_'+str(j+1))
-			self.add_desvar(key_start+'x_offset_'+str(j+1))
+			self.add_desvar(key_start+'taper_'+str(j+1), lower = TAPER_MIN, upper = TAPER_MAX)
+			self.add_desvar(key_start+'angle_'+str(j+1), lower = ANGLE_MIN, upper = ANGLE_MAX)
+			self.add_desvar(key_start+'dihedral_'+str(j+1), lower = DIHEDRAL_MIN, upper = DIHEDRAL_MAX)
+			self.add_desvar(key_start+'x_offset_'+str(j+1), , lower = WING_CONSTRAINTS['Wing'+str(i+1)+'Con']['WING'+str(i+1)+'_X_START'], upper = WING_CONSTRAINTS['Wing'+str(i+1)+'Con']['WING'+str(i+1)+'_X_END'])
 
 	# ----H tail Design Variables---------
 	for i in range(H_TAIL):
 		key_start = 'h_tail_' + str(i+1) + '_'
-		self.add_desvar(key_start+'chord')
-		self.add_desvar(key_start+'b')
+		self.add_desvar(key_start+'chord', lower = H_TAIL_CONSTRAINTS['H_TAIL'+str(i+1)+'Con']['H_TAIL'+str(i+1)+'_CHORD_MIN'], upper = H_TAIL_CONSTRAINTS['H_TAIL'+str(i+1)+'Con']['H_TAIL'+str(i+1)+'_CHORD_MAX'])
+		self.add_desvar(key_start+'b', lower = H_TAIL_CONSTRAINTS['H_TAIL'+str(i+1)+'Con']['H_TAIL'+str(i+1)+'_WINGSPAN_MIN'], upper = H_TAIL_CONSTRAINTS['H_TAIL'+str(i+1)+'Con']['H_TAIL'+str(i+1)+'_WINGSPAN_MAX'])
 		for j in range(H['H' + str(i+1)][4]-1):
-			self.add_desvar(key_start+'taper_'+str(j+1))
-			self.add_desvar(key_start+'angle_'+str(j+1))
-			self.add_desvar(key_start+'dihedral_'+str(j+1))
-			self.add_desvar(key_start+'x_offset_'+str(j+1))
+			self.add_desvar(key_start+'taper_'+str(j+1), lower = TAPER_MIN, upper = TAPER_MAX)
+			self.add_desvar(key_start+'angle_'+str(j+1), lower = ANGLE_MIN, upper = ANGLE_MAX)
+			self.add_desvar(key_start+'dihedral_'+str(j+1), lower = DIHEDRAL_MIN, upper = DIHEDRAL_MAX)
+			self.add_desvar(key_start+'x_offset_'+str(j+1), , lower = H_TAIL_CONSTRAINTS['H_TAIL'+str(i+1)+'Con']['H_TAIL'+str(i+1)+'_X_START'], upper = H_TAIL_CONSTRAINTS['H_TAIL'+str(i+1)+'Con']['H_TAIL'+str(i+1)+'_X_END'])
 
 	# ----V tail Design Variables---------
 	for i in range(V_TAIL):
 		key_start = 'v_tail_' + str(i+1) + '_'
-		self.add_desvar(key_start+'chord')
-		self.add_desvar(key_start+'b')
+		self.add_desvar(key_start+'chord',lower = V_TAIL_CONSTRAINTS['V_TAIL'+str(i+1)+'Con']['V_TAIL'+str(i+1)+'_CHORD_MIN'], upper = V_TAIL_CONSTRAINTS['V_TAIL'+str(i+1)+'Con']['V_TAIL'+str(i+1)+'_CHORD_MAX'])
+		self.add_desvar(key_start+'b',lower = V_TAIL_CONSTRAINTS['V_TAIL'+str(i+1)+'Con']['V_TAIL'+str(i+1)+'_WINGSPAN_MIN'], upper = V_TAIL_CONSTRAINTS['V_TAIL'+str(i+1)+'Con']['V_TAIL'+str(i+1)+'_WINGSPAN_MAX'])
 		for j in range(V['V' + str(i+1)][4]-1):
-			self.add_desvar(key_start+'taper_'+str(j+1))
-			self.add_desvar(key_start+'angle_'+str(j+1))
-			self.add_desvar(key_start+'dihedral_'+str(j+1))
-			self.add_desvar(key_start+'x_offset_'+str(j+1))
+			self.add_desvar(key_start+'taper_'+str(j+1), lower = TAPER_MIN, upper = TAPER_MAX)
+			self.add_desvar(key_start+'angle_'+str(j+1), lower = ANGLE_MIN, upper = ANGLE_MAX)
+			self.add_desvar(key_start+'dihedral_'+str(j+1), lower = DIHEDRAL_MIN, upper = DIHEDRAL_MAX)
+			self.add_desvar(key_start+'x_offset_'+str(j+1), ,lower = V_TAIL_CONSTRAINTS['V_TAIL'+str(i+1)+'Con']['V_TAIL'+str(i+1)+'_X_START'], upper = V_TAIL_CONSTRAINTS['V_TAIL'+str(i+1)+'Con']['V_TAIL'+str(i+1)+'_X_END'])
 
-	# ---- Boom Design variables----------
-	for i in range(BOOM):
-		key_start = 'boom_'+str(i+1) + '_'
-		self.add_desvar(key_start+'length', IndepVarComp(key_start+'length', B['B'+str(i+1)]), promotes['*'])	
+	# # ---- Boom Design variables----------
+	# for i in range(BOOM):
+	# 	key_start = 'boom_'+str(i+1) + '_'
+	# 	self.add_desvar(key_start+'length', IndepVarComp(key_start+'length', B['B'+str(i+1)]), promotes['*'])	
 
 	
 	# Objective

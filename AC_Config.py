@@ -77,7 +77,7 @@ class AC():
 		self.wing['wing_key'] = new_wing
 		self.wing['Num'] = self.wing['Num'] + 1
 
-	def add_h_tail(self, name, airfoil, root_chord, wingspan, num_sections ):
+	def add_h_tail(self, name, airfoil, root_chord, wingspan, num_sections, offset ):
 		''' Assumes symmetric h_tail '''
 		# proper contains the following info in the following order:
 		# Num_sections, Nchordwise, Cspace, Nspanwise, Sspace, COMPONENT, YDUPLICATE, ANGLE, SCALEX, SCALEY, SCALEZ, TRANSX, TRANSY, TRANSZ]
@@ -94,13 +94,16 @@ class AC():
 		if len(airfoil) == 1:
 			for num in range(num_sections-1):
 				size_array_airfoil.append(airfoil)
+		size_array_offset = []
+		for num in range(num_sections-1):
+			size_array_offset.append(offset)
 
 
 		new_wing = {'name' : name}
 		new_wing['num_sections'] = num_sections
 		new_wing['proper'] = [10, 1.0, 30, -2.0, 1, 0, 0, 1, 1, 1, 0, 0, 0]
 		new_wing['root_chord'] = root_chord
-		new_wing['airfoil'] = size_array_airfoil 
+		new_wing['airfoil'] = airfoil
 		new_wing['angle'] = size_array_0
 		new_wing['X_offset'] = size_array_0
 		new_wing['wingspan'] = wingspan
@@ -111,7 +114,7 @@ class AC():
 		self.h_tail['wing_key'] = new_wing
 		self.h_tail['Num'] = self.h_tail['Num'] + 1
 
-	def add_v_tail(self, name, airfoil, root_chord, wingspan, num_sections ):
+	def add_v_tail(self, name, airfoil, root_chord, wingspan, num_sections, offset ):
 		''' Assumes symmetric h_tail '''
 		# proper contains the following info in the following order:
 		# Num_sections, Nchordwise, Cspace, Nspanwise, Sspace, COMPONENT, YDUPLICATE, ANGLE, SCALEX, SCALEY, SCALEZ, TRANSX, TRANSY, TRANSZ]
@@ -125,6 +128,14 @@ class AC():
 		size_array_0 = []
 		for num in range(num_sections-1):
 			size_array_0.append(0)
+		size_array_offset = []
+		for num in range(num_sections-1):
+			size_array_offset.append(offset)
+		size_array_airfoil = []
+		if len(airfoil) == 1:
+			for num in range(num_sections-1):
+				size_array_airfoil.append(airfoil)
+
 
 
 		new_wing = {'name' : name}
@@ -133,7 +144,7 @@ class AC():
 		new_wing['root_chord'] = root_chord
 		new_wing['airfoil'] = airfoil # if constant, only put in one, otherwise put in entire array
 		new_wing['angle'] = size_array_0
-		new_wing['X_offset'] = size_array_0
+		new_wing['X_offset'] = size_array_offset
 		new_wing['wingspan'] = wingspan
 		new_wing['taper'] = size_array_1
 		new_wing['dihedral'] = size_array_0
@@ -147,8 +158,7 @@ class AC():
 		self.boom['Boom_'+str(self.boom['Num']+1)] = {'boom_length' : length, 'density': density}
 		self.boom['Num'] = self.boom['Num'] + 1
 
-#	def add_fuselage():# Treat fuselage as 3 surfaces: Vertical top, vertical bottom, horizontal X-section
-#	def add_other_surface():
+
 	def create_AVL_geometry():
 		with open(str(self.name)+'.avl', 'w') as geo:
 			geo.write(str(self.name))
@@ -254,6 +264,10 @@ class AC():
 					geo.write('AFILE\r\n')
 					geo.write(str(self.v_tail['v_tail_'+str(i+1)]['airfoil'][j])+'\r\n\r\n')
 		return
+
+#	def add_fuselage():# Treat fuselage as 3 surfaces: Vertical top, vertical bottom, horizontal X-section
+#	def add_other_surface():
+
 
 	
 

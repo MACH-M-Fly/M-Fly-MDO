@@ -27,6 +27,8 @@ rho = 0.0765 			#[lbm/ft^3]
 g = 9.81 * 3.28 		#[ft/s^2]
 mu = 0.005
 
+import settings
+
 class aero_MTOW(Component):
 	""" Makes the appropriate run file and outputs the computed numbers """
 	def __init__(self):

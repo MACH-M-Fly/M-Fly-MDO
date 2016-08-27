@@ -22,7 +22,7 @@ import time
 import math
 import numpy
 from  AVL_py import AVL
-from AC_Config import AC
+
 
 import settings
 
