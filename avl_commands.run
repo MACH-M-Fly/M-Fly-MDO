@@ -1,13 +1,13 @@
-LOAD M-8_Wing.avl
+LOAD new_AC.avl
 OPER
 A
 A
 0
 X
 FT
-M-8_Wing_total_forces.txt
+new_AC_total_forces.txt
 FE
-M-8_Wing_force_elements.txt
+new_AC_force_elements.txt
 
 
 QUIT

@@ -36,7 +36,11 @@ def init():
 	global DIHEDRAL_INIT_H_TAIL
 	global X_OFFSET_INIT_H_TAIL
 	global AC_0
-
+	global W
+	global V
+	global H
+	global BOOM
+	global B
 	#================================================================
 	# Aircraft configuration (should become a file reading procedure)
 	#================================================================
@@ -52,7 +56,7 @@ def init():
 
 	# Wing Initial Condition
 	# name, airfoil, root chord, wing span, number of sections, X offset
-	W1 = ['Wing1', 'E420.dat', 1.6, 5, WING_SEC, 3]
+	W1 = ['Wing1', 'e420.dat', 1.6, 5.0, WING_SEC, 3]
 
 	# combine all data
 	W = {'W1' : W1}
@@ -65,7 +69,7 @@ def init():
 	H_SEC = 2
 
 	# Horizontal Tail Initial Condition
-	H1 = ['H_tail1', 'E420.dat', 1, 2, H_SEC]
+	H1 = ['H_tail1', 'e420.dat', 1.0, 2.0, H_SEC]
 
 	H = {'H1': H1}
 
@@ -77,7 +81,7 @@ def init():
 	V_SEC = 2
 
 	# Vertical Tail Initial Conditions
-	V1 = ['V_tail1', 'E420.dat', 0.5,3,V_SEC]
+	V1 = ['V_tail1', 'e420.dat', 0.5,3.0,V_SEC]
 
 	V = {'V1': V1}
 
@@ -105,12 +109,12 @@ def init():
 	WING_CONSTRAINTS = {'Num' : WING}
 
 	# Temporary until file parsing function is done
-	WING1_CHORD_MIN = 1
-	WING1_CHORD_MAX = 3
-	WING1_WINGSPAN_MIN = 4
-	WING1_WINGSPAN_MAX = 20
-	WING1_X_START = 0
-	WING1_X_END = 2
+	WING1_CHORD_MIN = 1.0
+	WING1_CHORD_MAX = 3.0
+	WING1_WINGSPAN_MIN = 4.0
+	WING1_WINGSPAN_MAX = 20.0
+	WING1_X_START = 0.0
+	WING1_X_END = 2.0
 
 	#Assemble into dictionary
 	Wing1Con = {}
@@ -127,11 +131,11 @@ def init():
 
 	# Temporary until file parsing function is done
 	H_TAIL1_CHORD_MIN = 0.2
-	H_TAIL1_CHORD_MAX = 2
+	H_TAIL1_CHORD_MAX = 2.0
 	H_TAIL1_WINGSPAN_MIN = 0.1
-	H_TAIL1_WINGSPAN_MAX = 3
-	H_TAIL1_X_START = 6
-	H_TAIL1_X_END = 10
+	H_TAIL1_WINGSPAN_MAX = 3.0
+	H_TAIL1_X_START = 6.0
+	H_TAIL1_X_END = 10.0
 
 	#Assemble into dictionary
 	H_TAIL1Con = {}
@@ -148,11 +152,11 @@ def init():
 
 	# Temporary until file parsing function is done
 	V_TAIL1_CHORD_MIN = 0.1
-	V_TAIL1_CHORD_MAX = 2
+	V_TAIL1_CHORD_MAX = 2.0
 	V_TAIL1_WINGSPAN_MAX = 0.1
-	V_TAIL1_WINGSPAN_MIN = 3
-	V_TAIL1_X_START = 6
-	V_TAIL1_X_END = 10
+	V_TAIL1_WINGSPAN_MIN = 3.0
+	V_TAIL1_X_START = 6.0
+	V_TAIL1_X_END = 10.0
 
 	#Assemble into dictionary
 	V_TAIL1Con = {}
@@ -177,43 +181,43 @@ def init():
 	#=============================================================
 
 	TAPER_INIT_WING = []
-	for num in range(WING_SEC-1):
-		TAPER_INIT_WING.append(1)
+	for num in range(WING_SEC):
+		TAPER_INIT_WING.append(1.0)
 	ANGLE_INIT_WING = []
-	for num in range(WING_SEC-1):
-		ANGLE_INIT_WING.append(1)
+	for num in range(WING_SEC):
+		ANGLE_INIT_WING.append(1.0)
 	DIHEDRAL_INIT_WING = []
-	for num in range(WING_SEC-1):
-		DIHEDRAL_INIT_WING.append(1)
+	for num in range(WING_SEC):
+		DIHEDRAL_INIT_WING.append(1.0)
 	X_OFFSET_INIT_WING = []
-	for num in range(WING_SEC-1):
-		X_OFFSET_INIT_WING.append(1)
+	for num in range(WING_SEC):
+		X_OFFSET_INIT_WING.append(1.0)
 
 	TAPER_INIT_V_TAIL = []
-	for num in range(V_SEC-1):
-		TAPER_INIT_V_TAIL.append(1)
+	for num in range(V_SEC):
+		TAPER_INIT_V_TAIL.append(1.0)
 	ANGLE_INIT_V_TAIL = []
-	for num in range(V_SEC-1):
-		ANGLE_INIT_V_TAIL.append(1)
+	for num in range(V_SEC):
+		ANGLE_INIT_V_TAIL.append(1.0)
 	DIHEDRAL_INIT_V_TAIL = []
-	for num in range(V_SEC-1):
-		DIHEDRAL_INIT_V_TAIL.append(1)
+	for num in range(V_SEC):
+		DIHEDRAL_INIT_V_TAIL.append(1.0)
 	X_OFFSET_INIT_V_TAIL = []
-	for num in range(V_SEC-1):
-		X_OFFSET_INIT_V_TAIL.append(1)
+	for num in range(V_SEC):
+		X_OFFSET_INIT_V_TAIL.append(1.0)
 	
 	TAPER_INIT_H_TAIL = []
-	for num in range(H_SEC-1):
-		TAPER_INIT_H_TAIL.append(1)
+	for num in range(H_SEC):
+		TAPER_INIT_H_TAIL.append(1.0)
 	ANGLE_INIT_H_TAIL = []
-	for num in range(H_SEC-1):
-		ANGLE_INIT_H_TAIL.append(1)
+	for num in range(H_SEC):
+		ANGLE_INIT_H_TAIL.append(1.0)
 	DIHEDRAL_INIT_H_TAIL = []
-	for num in range(H_SEC-1):
-		DIHEDRAL_INIT_H_TAIL.append(1)
+	for num in range(H_SEC):
+		DIHEDRAL_INIT_H_TAIL.append(1.0)
 	X_OFFSET_INIT_H_TAIL = []
-	for num in range(H_SEC-1):
-		X_OFFSET_INIT_H_TAIL.append(1)
+	for num in range(H_SEC):
+		X_OFFSET_INIT_H_TAIL.append(1.0)
 	
 	#=============================================================
 	# Setting Geometry conditions
@@ -221,11 +225,6 @@ def init():
 
 	# Object initialization
 	AC_0 = AC(AIRCRAFT_NAME)
-
-	AC_0.wing['Num'] = WING
-	AC_0.h_tail['Num'] = H_TAIL
-	AC_0.v_tail['Num'] = V_TAIL
-	AC_0.boom['Num'] = BOOM
 
 	for i in range(WING):
 		Wing = W['W'+str(i+1)]

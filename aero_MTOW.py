@@ -57,9 +57,9 @@ class aero_MTOW(Component):
 	def solve_nonlinear(self, params, unknowns, resids):
 		T0 = 12.756 
 		T1 = -0.0941 * 3.28  
-		T2 = 0.0023  * 3.28 ** 2
-		T3 = -7*(10**-5) * 3.28 ** 3
-		T4 = 4*(10**-7) * 3.28 ** 4
+		T2 = 0.0023  *( 3.28 ** 2)
+		T3 = -7*(10**-5) *( 3.28 ** 3)
+		T4 = 4*(10**-7) * (3.28 ** 4)
 		T_coeff = [T0, T1, T2, T3, T4] # All lbf
 
 		#================================================
@@ -233,9 +233,9 @@ class aero_MTOW(Component):
 			tol_1 = start_m['length'] - runway_length
 			
 		prev_mass = (beg + end)/2.0
-		log_A = open('AGP_Part.csv', 'a')
-		log_A.write(str(params['taper']) + ',' + str(params['chord_w']) + ',' + str(params['b_w']) + ',' + str(params['prev_mass']) + '\n' )
-		log_A.close()
+#		log_A = open('AGP_Part.csv', 'a')
+#		log_A.write(str(params['taper']) + ',' + str(params['chord_w']) + ',' + str(params['b_w']) + ',' + str(params['prev_mass']) + '\n' )
+#		log_A.close()
 		previous = start_m
 		# if abs(tol_1) > 0.001:
 		# 	prev_mass = beg

@@ -21,7 +21,7 @@ import math
 import numpy
 
 import settings
-density = 1.5/28#FILL IN
+density = 1.5/28.0#FILL IN
 
 class struct_weight(Component):
 	""" Calculates the empty weight of the aircraft """
@@ -39,10 +39,11 @@ class struct_weight(Component):
 		#====================================
 		# Trapezoidal shape approximation
 		#====================================
-
+		AC_0 = settings.AC_0
+		print(AC_0.wing)
 		AC_0.update_prop()
 		Sref = AC_0.proper['Sref']
-		volume = Sref * 1/12 
+		volume = Sref * 1.0/12.0 
 		mass = volume * density
 		#print('Mass: '+str(mass))
 		unknowns['EW'] = mass
