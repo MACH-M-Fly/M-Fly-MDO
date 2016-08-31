@@ -1,13 +1,13 @@
-LOAD new_AC.avl
+LOAD Output/new_AC.avl
 OPER
 A
 A
 0
 X
 FT
-new_AC_total_forces.txt
+Output/new_AC_total_forces.txt
 FE
-new_AC_force_elements.txt
+Output/new_AC_force_elements.txt
 
 
 QUIT

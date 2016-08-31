@@ -37,7 +37,7 @@ class AGP_MDO(Group):
 		# AC Config Library setup
 		#=====================================
 		
-		settings.init('Input/tube-wing-test.txt')
+		settings.init('tube-wing-test.txt')
 
 		
 		#=====================================
@@ -49,7 +49,7 @@ class AGP_MDO(Group):
 		
 		# ----Wing Design Variables-----------
 		for i in range(settings.WING):
-			if W['W'+str(i+1)][6]:
+			if settings.W['W'+str(i+1)][6]:
 				key_start = 'wing_' + str(i+1) + '_'
 				self.add(key_start+'chord', IndepVarComp(key_start+'chord', settings.W['W' + str(i+1)][2]), promotes=['*'])
 				self.add(key_start+'b', IndepVarComp(key_start+'b', settings.W['W' + str(i+1)][3]), promotes=['*'])
@@ -61,7 +61,7 @@ class AGP_MDO(Group):
 
 		# ----H tail Design Variables---------
 		for i in range(settings.H_TAIL):
-			if H['H'+str(i+1)][6]:
+			if settings.H['H'+str(i+1)][6]:
 				key_start = 'h_tail_' + str(i+1) + '_'
 				self.add(key_start+'chord', IndepVarComp(key_start+'chord', settings.H['H' + str(i+1)][2]), promotes=['*'])
 				self.add(key_start+'b', IndepVarComp(key_start+'b', settings.H['H' + str(i+1)][3]), promotes=['*'])
@@ -73,7 +73,7 @@ class AGP_MDO(Group):
 
 		# ----V tail Design Variables---------
 		for i in range(settings.V_TAIL):
-			if V['V'+str(i+1)][7]:
+			if settings.V['V'+str(i+1)][7]:
 				key_start = 'v_tail_' + str(i+1) + '_'
 				self.add(key_start+'chord', IndepVarComp(key_start+'chord', settings.V['V' + str(i+1)][2]), promotes=['*'])
 				self.add(key_start+'b', IndepVarComp(key_start+'b', settings.V['V' + str(i+1)][3]), promotes=['*'])
@@ -114,7 +114,7 @@ class AGP_MDO(Group):
 		# self.connect('b_w', ['aero_AVL.b_w', 'struct_weight.b_w'])
 		# self.connect('chord_w', ['aero_AVL.chord_w', 'struct_weight.chord_w'])
 		for i in range(settings.WING):
-			if W['W'+str(i+1)][6]:
+			if settings.W['W'+str(i+1)][6]:
 				key_start = 'wing_' + str(i+1) + '_'
 				self.connect(key_start+'chord', 'aero_AVL.'+key_start+'chord')
 				self.connect(key_start+'b', 'aero_AVL.'+key_start+'b')
@@ -126,7 +126,7 @@ class AGP_MDO(Group):
 
 		# ----H tail Design Variables---------
 		for i in range(settings.H_TAIL):
-			if H['H'+str(i+1)][6]:
+			if settings.H['H'+str(i+1)][6]:
 				key_start = 'h_tail_' + str(i+1) + '_'
 				self.connect(key_start+'chord', 'aero_AVL.'+key_start+'chord')
 				self.connect(key_start+'b', 'aero_AVL.'+key_start+'b')
@@ -138,7 +138,7 @@ class AGP_MDO(Group):
 
 		# ----V tail Design Variables---------
 		for i in range(settings.V_TAIL):
-			if V['V'+str(i+1)][7]:
+			if settings.V['V'+str(i+1)][7]:
 				key_start = 'v_tail_' + str(i+1) + '_'
 				self.connect(key_start+'chord', 'aero_AVL.'+key_start+'chord')
 				self.connect(key_start+'b', 'aero_AVL.'+key_start+'b')
@@ -198,43 +198,43 @@ if __name__ == "__main__":
 
 	# ----Wing Design Variables-----------
 	for i in range(settings.WING):
-		if W['W'+str(i+1)][6]:
+		if settings.W['W'+str(i+1)][6]:
 			key_start = 'wing_' + str(i+1) + '_'
 			key_start_2 = 'W'+str(i+1) + 'c'
 			top.driver.add_desvar(key_start+'chord', lower = settings.W[key_start_2]['WING'+str(i+1)+'_CHORD_MIN'], upper = settings.W[key_start_2]['WING'+str(i+1)+'_CHORD_MAX'])
-			top.driver.add_desvar(key_start+'b' , lower = settings.W[key_start_2]'WING'+str(i+1)+'_WINGSPAN_MIN'], upper = settings.W[key_start_2]['WING'+str(i+1)+'_WINGSPAN_MAX'])
+			top.driver.add_desvar(key_start+'b' , lower = settings.W[key_start_2]['WING'+str(i+1)+'_WINGSPAN_MIN'], upper = settings.W[key_start_2]['WING'+str(i+1)+'_WINGSPAN_MAX'])
 			for j in range(settings.W['W' + str(i+1)][4]-1):
 				top.driver.add_desvar(key_start+'taper_'+str(j+1), lower = settings.W[key_start_2]['WING'+str(i+1)+'_TAPER_MIN'], upper = settings.W[key_start_2]['WING'+str(i+1)+'_TAPER_MAX'])
 				top.driver.add_desvar(key_start+'angle_'+str(j+1), lower = settings.W[key_start_2]['WING'+str(i+1)+'_ANGLE_MIN'], upper = settings.W[key_start_2]['WING'+str(i+1)+'_ANGLE_MAX'])
 				top.driver.add_desvar(key_start+'dihedral_'+str(j+1), lower = settings.W[key_start_2]['WING'+str(i+1)+'_DIHEDRAL_MIN'], upper = settings.W[key_start_2]['WING'+str(i+1)+'_DIHEDRAL_MAX'])
-				top.driver.add_desvar(key_start+'x_offset_'+str(j+1),  lower = settings.W[key_start_2]['WING'+str(i+1)+'_X_MIN'], upper = settings.W[key_start_2]['WING'+str(i+1)+'_X_MAX'])
+				top.driver.add_desvar(key_start+'x_offset_'+str(j+1),  lower = settings.W[key_start_2]['WING'+str(i+1)+'_X_OFFSET_MIN'], upper = settings.W[key_start_2]['WING'+str(i+1)+'_X_OFFSET_MAX'])
 
 	# ----H tail Design Variables---------
 	for i in range(settings.H_TAIL):
-		if H['H'+str(i+1)][6]:
+		if settings.H['H'+str(i+1)][6]:
 			key_start = 'h_tail_' + str(i+1) + '_'
 			key_start_2 = 'H'+str(i+1) + 'c'
 			top.driver.add_desvar(key_start+'chord', lower = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_CHORD_MIN'], upper = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_CHORD_MAX'])
-			top.driver.add_desvar(key_start+'b' , lower = settings.H[key_start_2]'H_TAIL'+str(i+1)+'_WINGSPAN_MIN'], upper = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_WINGSPAN_MAX'])
-			for j in range(settings.W['H' + str(i+1)][4]-1):
+			top.driver.add_desvar(key_start+'b' , lower = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_WINGSPAN_MIN'], upper = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_WINGSPAN_MAX'])
+			for j in range(settings.H['H' + str(i+1)][4]-1):
 				top.driver.add_desvar(key_start+'taper_'+str(j+1), lower = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_TAPER_MIN'], upper = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_TAPER_MAX'])
 				top.driver.add_desvar(key_start+'angle_'+str(j+1), lower = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_ANGLE_MIN'], upper = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_ANGLE_MAX'])
 				top.driver.add_desvar(key_start+'dihedral_'+str(j+1), lower = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_DIHEDRAL_MIN'], upper = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_DIHEDRAL_MAX'])
-				top.driver.add_desvar(key_start+'x_offset_'+str(j+1),  lower = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_X_MIN'], upper = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_X_MAX'])
+				top.driver.add_desvar(key_start+'x_offset_'+str(j+1),  lower = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_X_OFFSET_MIN'], upper = settings.H[key_start_2]['H_TAIL'+str(i+1)+'_X_OFFSET_MAX'])
 
 	# ----V tail Design Variables---------
 	for i in range(settings.V_TAIL):
-		if V['V'+str(i+1)][7]:
+		if settings.V['V'+str(i+1)][7]:
 			key_start = 'v_tail_' + str(i+1) + '_'
 			key_start_2 = 'V'+str(i+1) + 'c'
 			top.driver.add_desvar(key_start+'chord', lower = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_CHORD_MIN'], upper = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_CHORD_MAX'])
-			top.driver.add_desvar(key_start+'b' , lower = settings.V[key_start_2]'V_TAIL'+str(i+1)+'_WINGSPAN_MIN'], upper = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_WINGSPAN_MAX'])
-			for j in range(settings.W['V' + str(i+1)][4]-1):
+			top.driver.add_desvar(key_start+'b' , lower = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_WINGSPAN_MIN'], upper = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_WINGSPAN_MAX'])
+			for j in range(settings.V['V' + str(i+1)][4]-1):
 				top.driver.add_desvar(key_start+'taper_'+str(j+1), lower = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_TAPER_MIN'], upper = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_TAPER_MAX'])
 				top.driver.add_desvar(key_start+'angle_'+str(j+1), lower = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_ANGLE_MIN'], upper = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_ANGLE_MAX'])
 				top.driver.add_desvar(key_start+'dihedral_'+str(j+1), lower = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_DIHEDRAL_MIN'], upper = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_DIHEDRAL_MAX'])
-				top.driver.add_desvar(key_start+'x_offset_'+str(j+1),  lower = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_X_MIN'], upper = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_X_MAX'])
-				top.driver.add_desvar(key_start+'y_offset_'+str(j+1),  lower = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_Y_MIN'], upper = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_Y_MAX'])
+				top.driver.add_desvar(key_start+'x_offset_'+str(j+1),  lower = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_X_OFFSET_MIN'], upper = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_X_OFFSET_MAX'])
+				top.driver.add_desvar(key_start+'y_offset_'+str(j+1),  lower = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_Y_OFFSET_MIN'], upper = settings.V[key_start_2]['V_TAIL'+str(i+1)+'_Y_OFFSET_MAX'])
 	# # ---- Boom Design variables----------
 	# for i in range(settings.BOOM):
 	# 	key_start = 'boom_'+str(i+1) + '_'

@@ -5,7 +5,7 @@ new_AC
 0 0 0
 
 #Sref	Cref	Bref
-17.1863149788 0 7.27924056305
+16.0 0 5.0
 
 #Xref	Yref	Zref
 0 0 0
@@ -30,69 +30,69 @@ TRANSLATE
 0	0	0
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-0.289973308882 0.0 -0.347343001828 0.808272652404 3.66045490317
+0.0 0.0 0.0 1.6 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-0.944412455089 0.808804507006 0.706351744711 0.774044658131 0.168685514802
+0.0 0.555555555556 0.0 1.6 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-0.672550541806 1.61760901401 0.301443137132 1.46011900173 1.82924772571
+0.0 1.11111111111 0.0 1.6 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-1.56459038905 2.42641352102 -0.0910072392954 0.019369912183 3.2377591574
+0.0 1.66666666667 0.0 1.6 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-1.51039991191 3.23521802802 0.808783503423 1.48717920394 7.90539789444
+0.0 2.22222222222 0.0 1.6 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-1.9807514234 4.04402253503 -0.753765076932 1.19516732709 2.30543969578
+0.0 2.77777777778 0.0 1.6 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-1.72621308693 4.85282704204 -0.684405862833 1.65000417757 7.68760005032
+0.0 3.33333333333 0.0 1.6 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-0.449463454971 5.66163154904 0.743134853201 1.18442090344 -4.08969759035
+0.0 3.88888888889 0.0 1.6 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-1.59981258346 6.47043605605 0.479508038894 1.6013975264 1.33426100616
+0.0 4.44444444444 0.0 1.6 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-1.0 7.27924056305 0.680585525027 1.69735655728 1.0
+0.0 5.0 0.0 1.6 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
 
 #---------------------------------------------------------
  Horizontal Tail(s)                                                    
 #---------------------------------------------------------
 SURFACE
-H_tail1
+H_TAIL1
 #Nchordwise	Cspace	Nspanwise	Sspace
 10 1.0 30 -2.0
 COMPONENT
@@ -107,21 +107,27 @@ TRANSLATE
 0	0	0
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-7.4953996216 0.0 -1.99340278705 0.393374215832 -0.844667224339
+0.0 0.0 0.0 1.0 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-1.0 2.54321401158 2.1400407989 1.03534365898 1.0
+0.0 1.0 0.0 1.0 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
+
+SECTION
+#Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
+0.0 2.0 0.0 1.0 0.0
+AFILE
+Airfoil/e420.dat
 
 #---------------------------------------------------------
  Vertical Tail(s)                                                    
 #---------------------------------------------------------
 SURFACE
-V_tail1
+V_TAIL1
 #Nchordwise	Cspace	Nspanwise	Sspace
 10 1.0 10 -2.0
 COMPONENT
@@ -136,13 +142,19 @@ TRANSLATE
 0	0	0
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-8.54913562622 -0.368799224603 0.0 0.350579497258 -9.00862952142
+0.0 0.0 0.0 1.0 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
 
 SECTION
 #Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
-1.0 0.332079752334 0.394641952402 0.422157611417 1.0
+0.0 0.0 1.0 1.0 0.0
 AFILE
-e420.dat
+Airfoil/e420.dat
+
+SECTION
+#Xle	Yle	Zle	Chord	Ainc	Nspanwise	Sspace
+0.0 0.0 2.0 1.0 0.0
+AFILE
+Airfoil/e420.dat
 

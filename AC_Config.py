@@ -194,7 +194,7 @@ class AC():
 
 
 	def create_AVL_geometry(self):
-		with open('/Output/'+str(self.name)+'.avl', 'w') as geo:
+		with open('Output/'+str(self.name)+'.avl', 'w') as geo:
 			geo.write(str(self.name))
 
 			#Initial first 4 lines
@@ -233,7 +233,7 @@ class AC():
 				num_sections = self.wing['wing_'+str(i+1)]['num_sections']
 				for j in range(num_sections):
 					taper_sec = 1.0
-					for k in range(j)
+					for k in range(j):
 						taper_sec = taper_sec * self.wing['wing_'+str(i+1)]['taper'][k]
 
 					geo.write('SECTION\r\n')
@@ -298,7 +298,7 @@ class AC():
 				for j in range(num_sections):
 					geo.write('SECTION\r\n')
 					geo.write('#Xle\tYle\tZle\tChord\tAinc\tNspanwise\tSspace\r\n')
-					geo.write(str(self.v_tail['v_tail_'+str(i+1)]['X_offset'][j])+' '+str(self.v_tail['v_tail_'+str(i+1)]['Y_offset'][j]]) +' '+str(wingspan* j / (num_sections - 1))+' '+str(self.v_tail['v_tail_'+str(i+1)]['taper'][j] * self.v_tail['v_tail_'+str(i+1)]['root_chord'])+' '+str(self.v_tail['v_tail_'+str(i+1)]['angle'][j])+'\r\n')
+					geo.write(str(self.v_tail['v_tail_'+str(i+1)]['X_offset'][j])+' '+str(self.v_tail['v_tail_'+str(i+1)]['Y_offset'][j]) +' '+str(wingspan* j / (num_sections - 1))+' '+str(self.v_tail['v_tail_'+str(i+1)]['taper'][j] * self.v_tail['v_tail_'+str(i+1)]['root_chord'])+' '+str(self.v_tail['v_tail_'+str(i+1)]['angle'][j])+'\r\n')
 					geo.write('AFILE\r\n')
 					geo.write('Airfoil/'+str(self.v_tail['v_tail_'+str(i+1)]['airfoil'][j])+'\r\n\r\n')
 		return

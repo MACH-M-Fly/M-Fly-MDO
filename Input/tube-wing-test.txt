@@ -27,7 +27,7 @@ Initial starting point: ALL CAP Characteristic + 'INIT' + surface name + number 
 
 ------------------------------------------# Wing-----------------------------------
 -- Characterisitics --
-WING1_OPTIMIZE = TRUE
+WING1_Optimize = TRUE
 WING1_Num_Sections = 10
 WING1_Name = Wing1
 

@@ -38,7 +38,7 @@ class aero_AVL(Component):
 
 		# ----Wing Design Variables-----------
 		for i in range(settings.WING):
-			if W['W'+str(i+1)][6]:
+			if settings.W['W'+str(i+1)][6]:
 				key_start = 'wing_' + str(i+1) + '_'
 				self.add_param(key_start+'chord', val = settings.W['W' + str(i+1)][2])
 				self.add_param(key_start+'b', val = settings.W['W' + str(i+1)][3])
@@ -50,7 +50,7 @@ class aero_AVL(Component):
 
 		# ----H tail Design Variables---------
 		for i in range(settings.H_TAIL):
-			if H['H'+str(i+1)][6]:
+			if settings.H['H'+str(i+1)][6]:
 				key_start = 'h_tail_' + str(i+1) + '_'
 				self.add_param(key_start+'chord', val =  settings.H['H' + str(i+1)][2])
 				self.add_param(key_start+'b', val = settings.H['H' + str(i+1)][3])
@@ -62,7 +62,7 @@ class aero_AVL(Component):
 
 		# ----V tail Design Variables---------
 		for i in range(settings.V_TAIL):
-			if V['V'+str(i+1)][7]:
+			if settings.V['V'+str(i+1)][7]:
 				key_start = 'v_tail_' + str(i+1) + '_'
 				self.add_param(key_start+'chord', val = settings.V['V' + str(i+1)][2])
 				self.add_param(key_start+'b', val =  settings.V['V' + str(i+1)][3])
@@ -98,7 +98,7 @@ class aero_AVL(Component):
 
 		# Wing
 		for i in range(AC_0.wing['Num']):
-			if W['W'+str(i+1)][6]:
+			if settings.W['W'+str(i+1)][6]:
 				key_start = 'wing_' + str(i+1) 
 				key_start2 = 'wing_' + str(i+1) + '_'
 				AC_0.wing[key_start]['root_chord'] = params[key_start2 +'chord']
@@ -122,7 +122,7 @@ class aero_AVL(Component):
 
 		# H_tail
 		for i in range(AC_0.h_tail['Num']):
-			if H['H'+str(i+1)][6]:
+			if settings.H['H'+str(i+1)][6]:
 				key_start = 'h_tail_' + str(i+1) 
 				key_start2 = 'h_tail_' + str(i+1) + '_'
 				AC_0.h_tail[key_start]['root_chord'] = params[key_start2 +'chord']
@@ -146,7 +146,7 @@ class aero_AVL(Component):
 
 		# V_tail
 		for i in range(AC_0.v_tail['Num']):
-			if V['V'+str(i+1)][7]:
+			if settings.V['V'+str(i+1)][7]:
 				key_start = 'v_tail_' + str(i+1) 
 				key_start2 = 'v_tail_' + str(i+1) + '_'
 				AC_0.v_tail[key_start]['root_chord'] = params[key_start2 +'chord']

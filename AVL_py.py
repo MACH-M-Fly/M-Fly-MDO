@@ -69,7 +69,7 @@ class AVL():
 
 		# print('Running AVL\r\n')
 
-		os.system('./AVL/avl < avl_commands.run > avl_output.txt' )
+		os.system('./AVL/avl < AVL/avl_commands.run > AVL/avl_output.txt' )
 
 
 	def read_aero_file(self):
