@@ -29,18 +29,18 @@ class AVL():
 
 		# Remove previous system files
 		#os.system('cd AVL')
-		if os.path.exists(str(self.name)+'_total_forces.txt'):
-			os.remove(str(self.name)+'_total_forces.txt')
-		if os.path.exists(str(self.name)+'_force_elements.txt'):
-			os.remove(str(self.name)+'_force_elements.txt')
+		if os.path.exists('Output/'+str(self.name)+'_total_forces.txt'):
+			os.remove('Output/'+str(self.name)+'_total_forces.txt')
+		if os.path.exists('Output/'+str(self.name)+'_force_elements.txt'):
+			os.remove('Output/'+str(self.name)+'_force_elements.txt')
 		#os.system('cd ..')
 		
 
 
-		with open('avl_commands.run', 'w') as w:
+		with open('AVL/avl_commands.run', 'w') as w:
 			
 			# LOAD avl geometry file
-			w.write('LOAD '+str(self.name) + '.avl\r\n')
+			w.write('LOAD Output/'+str(self.name) + '.avl\r\n')
 			# enter OPER mode
 			w.write('OPER\r\n')
 			# Modify run case
@@ -51,12 +51,12 @@ class AVL():
 			w.write('X\r\n')
 			# Produce Total Forces file
 			w.write('FT\r\n')
-			w.write(str(self.name)+'_total_forces.txt'+'\r\n')
+			w.write('Output/'+str(self.name)+'_total_forces.txt'+'\r\n')
 			
 
 			#Produce force element file
 			w.write('FE\r\n')
-			w.write(str(self.name)+'_force_elements.txt'+'\r\n')
+			w.write('Output/'+str(self.name)+'_force_elements.txt'+'\r\n')
 			w.write('\r\n')
 
 			#Exit
@@ -69,7 +69,7 @@ class AVL():
 
 		# print('Running AVL\r\n')
 
-		os.system('./avl < avl_commands.run > avl_output.txt' )
+		os.system('./AVL/avl < avl_commands.run > avl_output.txt' )
 
 
 	def read_aero_file(self):
@@ -77,7 +77,7 @@ class AVL():
 		# 	line = ''
 		# 	while True:
 		
-		aero_init = open(str(self.name)+'_total_forces.txt').read().split()
+		aero_init = open('Output/'+str(self.name)+'_total_forces.txt').read().split()
 		#print(aero_init)
 		length_aero = len(aero_init)
 		coeff_dict = dict()

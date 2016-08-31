@@ -1,229 +1,179 @@
 # Main aircraft configuration File
 # This file is where the aircraft configuration is interpreted and modified
 # 
+'''
+Work that still needs to be done:
+
+- Fueselage (slender body)
+- Fueselage (collection of surfaces)
+- Component surfaces
+- Control surfaces
+- Mass declaration
+
+
+
+
+
+
+
+
+
+
+'''
 from AC_Config import AC
 
-def init():
-	# GLOBAL DECLARATION
+def init(filename):
+
+	#------Read configuration file----------------
+	geo_init = open('/Input/' + str(filename)).read().split()
+	length_aero = len(geo_init)
+	coeff_dict = dict()
+	for i in range(length_aero):
+			if aero_init[i] == '=':
+				coeff_dict[aero_init[i-1]] = aero_init[i+1]
+	
+	#-----------Configuration details--------------
+
 	global AIRCRAFT_NAME
+	AIRCRAFT_NAME = coeff_dict['AIRCRAFT_NAME']
+
 	global WING
-	global WING_SEC
+	WING = coeff_dict['WING']
+
 	global H_TAIL
-	global H_SEC
+	H_TAIL = coeff_dict['H_TAIL']
+
 	global V_TAIL
-	global V_SEC
-	global AC_CONFIG
-	global AC_SEC_NUM
-	global TAPER_MAX 
-	global TAPER_MIN 
-	global ANGLE_MAX
-	global ANGLE_MIN
-	global DIHEDRAL_MAX 
-	global DIHEDRAL_MIN
-	global WING_CONSTRAINTS
-	global H_TAIL_CONSTRAINTS
-	global V_TAIL_CONSTRAINTS 
-	global TAPER_INIT_WING 
-	global ANGLE_INIT_WING
-	global DIHEDRAL_INIT_WING
-	global X_OFFSET_INIT_WING
-	global TAPER_INIT_V_TAIL
-	global ANGLE_INIT_V_TAIL
-	global DIHEDRAL_INIT_V_TAIL
-	global X_OFFSET_INIT_V_TAIL
-	global TAPER_INIT_H_TAIL
-	global ANGLE_INIT_H_TAIL
-	global DIHEDRAL_INIT_H_TAIL
-	global X_OFFSET_INIT_H_TAIL
-	global AC_0
-	global W
-	global V
-	global H
+	V_TAIL = coeff_dict['V_TAIL']
+
 	global BOOM
+	BOOM = coeff_dict['BOOM']
+
+	#-------- Wing ----------------------------
+	global W
+	for i in range(WING):
+		key_start = 'WING'+str(i+1)
+		W = {}
+
+		#Initial starting points
+		W_0 = []
+		W_0.append(coeff_dict[key_start+'_Name'])
+		W_0.append(coeff_dict['AIRFOIL_INIT_'+key_start])
+		W_0.append(coeff_dict['ROOT_CHORD_INIT_'+key_start])
+		W_0.append(coeff_dict['WINGSPAN_INIT_'+key_start])
+		W_0.append(coeff_dict[key_start+'_Num_Sections'])
+		W_0.append(coeff_dict['X_OFFSET_INIT'+key_start])
+		W_0.append(coeff_dict[key_start + 'Optimize'])
+		W['W'+str(i+1)] = W_0
+
+		# Constraints
+		W_c = {}
+		W_c[key_start+'_TAPER_MAX'] = coeff_dict[key_start+'_TAPER_MAX']
+		W_c[key_start+'_TAPER_MIN'] = coeff_dict[key_start+'_TAPER_MIN']
+		W_c[key_start+'_ANGLE_MAX'] = coeff_dict[key_start+'_ANGLE_MAX']
+		W_c[key_start+'_ANGLE_MIN'] = coeff_dict[key_start+'_ANGLE_MIN']
+		W_c[key_start+'_DIHEDRAL_MAX'] = coeff_dict[key_start+'_DIHEDRAL_MAX']
+		W_c[key_start+'_DIHEDRAL_MIN'] = coeff_dict[key_start+'_DIHEDRAL_MIN']
+		W_c[key_start+'_X_OFFSET_MAX'] = coeff_dict[key_start+'_X_OFFSET_MAX']
+		W_c[key_start+'_X_OFFSET_MIN'] = coeff_dict[key_start+'_X_OFFSET_MIN']
+		W_c[key_start+'_CHORD_MIN'] = coeff_dict[key_start+'_CHORD_MIN'] 
+		W_c[key_start+'_CHORD_MAX'] = coeff_dict[key_start+'_CHORD_MAX']
+		W_c[key_start+'_WINGSPAN_MIN'] = coeff_dict[key_start+'_WINGSPAN_MIN']
+		W_c[key_start+'_WINGSPAN_MAX'] = coeff_dict[key_start+'_WINGSPAN_MAX']
+		W['W'+str(i+w)+'c'] = W_c
+
+
+	#-------- Vertical Tail -------------------
+	global V
+	for i in range(V_TAIL):
+		key_start = 'V_TAIL'+str(i+1)
+		V = {}
+
+		#Initial starting points
+		V_0 = []
+		V_0.append(coeff_dict[key_start+'_Name'])
+		V_0.append(coeff_dict['AIRFOIL_INIT_'+key_start])
+		V_0.append(coeff_dict['ROOT_CHORD_INIT_'+key_start])
+		V_0.append(coeff_dict['WINGSPAN_INIT_'+key_start])
+		V_0.append(coeff_dict[key_start+'_Num_Sections'])
+		V_0.append(coeff_dict['X_OFFSET_INIT'+key_start])
+		V_0.append(coeff_dict['Z_OFFSET_INIT'+key_start])
+		V_0.append(coeff_dict[key_start + 'Optimize'])
+
+		V['V'+str(i+1)] = V_0
+
+		# Constraints
+		V_c = {}
+		V_c[key_start+'_TAPER_MAX'] = coeff_dict[key_start+'_TAPER_MAX']
+		V_c[key_start+'_TAPER_MIN'] = coeff_dict[key_start+'_TAPER_MIN']
+		V_c[key_start+'_ANGLE_MAX'] = coeff_dict[key_start+'_ANGLE_MAX']
+		V_c[key_start+'_ANGLE_MIN'] = coeff_dict[key_start+'_ANGLE_MIN']
+		V_c[key_start+'_DIHEDRAL_MAX'] = coeff_dict[key_start+'_DIHEDRAL_MAX']
+		V_c[key_start+'_DIHEDRAL_MIN'] = coeff_dict[key_start+'_DIHEDRAL_MIN']
+		V_c[key_start+'_X_OFFSET_MAX'] = coeff_dict[key_start+'_X_OFFSET_MAX']
+		V_c[key_start+'_X_OFFSET_MIN'] = coeff_dict[key_start+'_X_OFFSET_MIN']
+		V_c[key_start+'_Y_OFFSET_MAX'] = coeff_dict[key_start+'_Y_OFFSET_MAX']
+		V_c[key_start+'_Y_OFFSET_MIN'] = coeff_dict[key_start+'_Y_OFFSET_MIN']
+		V_c[key_start+'_CHORD_MIN'] = coeff_dict[key_start+'_CHORD_MIN'] 
+		V_c[key_start+'_CHORD_MAX'] = coeff_dict[key_start+'_CHORD_MAX']
+		V_c[key_start+'_WINGSPAN_MIN'] = coeff_dict[key_start+'_WINGSPAN_MIN']
+		V_c[key_start+'_WINGSPAN_MAX'] = coeff_dict[key_start+'_WINGSPAN_MAX']
+		V['V'+str(i+w)+'c'] = W_c	
+	#-------- Horizontal Tail -----------------
+	global H
+	for i in range(H_TAIL):
+		key_start = 'H_TAIL'+str(i+1)
+		H = {}
+
+		#Initial starting points
+		H_0 = []
+		H_0.append(coeff_dict[key_start+'_Name'])
+		H_0.append(coeff_dict['AIRFOIL_INIT_'+key_start])
+		H_0.append(coeff_dict['ROOT_CHORD_INIT_'+key_start])
+		H_0.append(coeff_dict['WINGSPAN_INIT_'+key_start])
+		H_0.append(coeff_dict[key_start+'_Num_Sections'])
+		H_0.append(coeff_dict['X_OFFSET_INIT'+key_start])
+		H_0.append(coeff_dict[key_start + 'Optimize'])
+
+		H['H'+str(i+1)] = H_0
+
+		# Constraints
+		H_c = {}
+		H_c[key_start+'_TAPER_MAX'] = coeff_dict[key_start+'_TAPER_MAX']
+		H_c[key_start+'_TAPER_MIN'] = coeff_dict[key_start+'_TAPER_MIN']
+		H_c[key_start+'_ANGLE_MAX'] = coeff_dict[key_start+'_ANGLE_MAX']
+		H_c[key_start+'_ANGLE_MIN'] = coeff_dict[key_start+'_ANGLE_MIN']
+		H_c[key_start+'_DIHEDRAL_MAX'] = coeff_dict[key_start+'_DIHEDRAL_MAX']
+		H_c[key_start+'_DIHEDRAL_MIN'] = coeff_dict[key_start+'_DIHEDRAL_MIN']
+		H_c[key_start+'_X_OFFSET_MAX'] = coeff_dict[key_start+'_X_OFFSET_MAX']
+		H_c[key_start+'_X_OFFSET_MIN'] = coeff_dict[key_start+'_X_OFFSET_MIN']
+		H_c[key_start+'_CHORD_MIN'] = coeff_dict[key_start+'_CHORD_MIN'] 
+		H_c[key_start+'_CHORD_MAX'] = coeff_dict[key_start+'_CHORD_MAX']
+		H_c[key_start+'_WINGSPAN_MIN'] = coeff_dict[key_start+'_WINGSPAN_MIN']
+		H_c[key_start+'_WINGSPAN_MAX'] = coeff_dict[key_start+'_WINGSPAN_MAX']
+		H['H'+str(i+1)+'c'] = H_c	
+
+	#-------- Boom ----------------------------
 	global B
-	#================================================================
-	# Aircraft configuration (should become a file reading procedure)
-	#================================================================
+	for i in range(BOOM):
+		key_start = 'BOOM'+str(i+1)
+		B = {}
 
-	AIRCRAFT_NAME = 'new_AC'
+		B_0 = []
+		B_0.append(coeff_dict['DENSITY_INIT_'+key_start])
+		B_0.append(coeff_dict['LENGTH_INIT_'+key_start])
 
-	#----------------- Wing(s) --------------------------------------
-	# Number of wings
-	WING = 1 
+		B['B'+str(i+1)] = B_0
 
-	# Number of wing sections
-	WING_SEC = 10
+		B_c = {}
+		B_c[key_start+'_DENSITY_MAX'] = coeff_dict[key_start+'_DENSITY_MAX']
+		B_c[key_start+'_DENSITY_MIN'] = coeff_dict[key_start+'_DENSITY_MIN']
+		B_c[key_start+'_LENGTH_MAX'] = coeff_dict[key_start+'_LENGTH_MAX']
+		B_c[key_start+'_LENGTH_MIN'] = coeff_dict[key_start+'_LENGTH_MIN']
+		B['B'+str(i+1)+'c'] = B_c
+		
 
-	# Wing Initial Condition
-	# name, airfoil, root chord, wing span, number of sections, X offset
-	W1 = ['Wing1', 'e420.dat', 1.6, 5.0, WING_SEC, 3]
-
-	# combine all data
-	W = {'W1' : W1}
-
-	#----------------- H-Tail (s) -----------------------------------
-	# Number of horizontal tails
-	H_TAIL = 1
-
-	# Number of sections
-	H_SEC = 2
-
-	# Horizontal Tail Initial Condition
-	H1 = ['H_tail1', 'e420.dat', 1.0, 2.0, H_SEC]
-
-	H = {'H1': H1}
-
-	#----------------- V-Tail (s) -----------------------------------
-	# Number of vertical tails
-	V_TAIL = 1
-
-	# Number of vertical tail sections
-	V_SEC = 2
-
-	# Vertical Tail Initial Conditions
-	V1 = ['V_tail1', 'e420.dat', 0.5,3.0,V_SEC]
-
-	V = {'V1': V1}
-
-	AC_CONFIG = [WING, H_TAIL, V_TAIL]
-	AC_SEC_NUM = [WING_SEC, H_SEC, V_SEC]
-
-	#---------------- Boom (s) --------------------------------------
-	BOOM = 1
-	B1 = [1, 3]
-	B = {'B1': B1}
-
-	#=============================================================
-	# Constraints
-	#=============================================================
-
-	#-------Overall constraints-----------------------------------
-	TAPER_MAX = 1.0
-	TAPER_MIN = 0.001
-	ANGLE_MAX = 10.0
-	ANGLE_MIN = -10.0
-	DIHEDRAL_MAX = 10.0
-	DIHEDRAL_MIN = -10.0
-
-	#-------Wing--------------------------------------------------
-	WING_CONSTRAINTS = {'Num' : WING}
-
-	# Temporary until file parsing function is done
-	WING1_CHORD_MIN = 1.0
-	WING1_CHORD_MAX = 3.0
-	WING1_WINGSPAN_MIN = 4.0
-	WING1_WINGSPAN_MAX = 20.0
-	WING1_X_START = 0.0
-	WING1_X_END = 2.0
-
-	#Assemble into dictionary
-	Wing1Con = {}
-	Wing1Con['WING1_CHORD_MIN'] = WING1_CHORD_MIN
-	Wing1Con['WING1_CHORD_MAX'] = WING1_CHORD_MAX
-	Wing1Con['WING1_WINGSPAN_MIN'] = WING1_WINGSPAN_MIN
-	Wing1Con['WING1_WINGSPAN_MAX'] = WING1_WINGSPAN_MAX
-	Wing1Con['WING1_X_START'] = WING1_X_START
-	Wing1Con['WING1_X_END'] = WING1_X_END
-	WING_CONSTRAINTS['Wing1Con'] = Wing1Con
-
-	#-------H-Tail--------------------------------------------------
-	H_TAIL_CONSTRAINTS = {'Num' : H_TAIL}
-
-	# Temporary until file parsing function is done
-	H_TAIL1_CHORD_MIN = 0.2
-	H_TAIL1_CHORD_MAX = 2.0
-	H_TAIL1_WINGSPAN_MIN = 0.1
-	H_TAIL1_WINGSPAN_MAX = 3.0
-	H_TAIL1_X_START = 6.0
-	H_TAIL1_X_END = 10.0
-
-	#Assemble into dictionary
-	H_TAIL1Con = {}
-	H_TAIL1Con['H_TAIL1_CHORD_MIN'] = H_TAIL1_CHORD_MIN
-	H_TAIL1Con['H_TAIL1_CHORD_MAX'] = H_TAIL1_CHORD_MAX
-	H_TAIL1Con['H_TAIL1_WINGSPAN_MIN'] = H_TAIL1_WINGSPAN_MIN
-	H_TAIL1Con['H_TAIL1_WINGSPAN_MAX'] = H_TAIL1_WINGSPAN_MAX
-	H_TAIL1Con['H_TAIL1_X_START'] = H_TAIL1_X_START
-	H_TAIL1Con['H_TAIL1_X_END'] = H_TAIL1_X_END
-	H_TAIL_CONSTRAINTS['H_TAIL1Con'] = H_TAIL1Con
-
-	#-------V-Tail--------------------------------------------------
-	V_TAIL_CONSTRAINTS = {'Num' : V_TAIL}
-
-	# Temporary until file parsing function is done
-	V_TAIL1_CHORD_MIN = 0.1
-	V_TAIL1_CHORD_MAX = 2.0
-	V_TAIL1_WINGSPAN_MAX = 0.1
-	V_TAIL1_WINGSPAN_MIN = 3.0
-	V_TAIL1_X_START = 6.0
-	V_TAIL1_X_END = 10.0
-
-	#Assemble into dictionary
-	V_TAIL1Con = {}
-	V_TAIL1Con['V_TAIL1_CHORD_MIN'] = V_TAIL1_CHORD_MIN
-	V_TAIL1Con['V_TAIL1_CHORD_MAX'] = V_TAIL1_CHORD_MAX
-	V_TAIL1Con['V_TAIL1_WINGSPAN_MIN'] = V_TAIL1_WINGSPAN_MIN
-	V_TAIL1Con['V_TAIL1_WINGSPAN_MAX'] = V_TAIL1_WINGSPAN_MAX
-	V_TAIL1Con['V_TAIL1_X_START'] = V_TAIL1_X_START
-	V_TAIL1Con['V_TAIL1_X_END'] = V_TAIL1_X_END
-	V_TAIL_CONSTRAINTS['V_TAIL1Con'] = V_TAIL1Con
-
-
-	
-	
-
-
-
-
-
-	#=============================================================
-	# Starting points for each surface
-	#=============================================================
-
-	TAPER_INIT_WING = []
-	for num in range(WING_SEC):
-		TAPER_INIT_WING.append(1.0)
-	ANGLE_INIT_WING = []
-	for num in range(WING_SEC):
-		ANGLE_INIT_WING.append(1.0)
-	DIHEDRAL_INIT_WING = []
-	for num in range(WING_SEC):
-		DIHEDRAL_INIT_WING.append(1.0)
-	X_OFFSET_INIT_WING = []
-	for num in range(WING_SEC):
-		X_OFFSET_INIT_WING.append(1.0)
-
-	TAPER_INIT_V_TAIL = []
-	for num in range(V_SEC):
-		TAPER_INIT_V_TAIL.append(1.0)
-	ANGLE_INIT_V_TAIL = []
-	for num in range(V_SEC):
-		ANGLE_INIT_V_TAIL.append(1.0)
-	DIHEDRAL_INIT_V_TAIL = []
-	for num in range(V_SEC):
-		DIHEDRAL_INIT_V_TAIL.append(1.0)
-	X_OFFSET_INIT_V_TAIL = []
-	for num in range(V_SEC):
-		X_OFFSET_INIT_V_TAIL.append(1.0)
-	
-	TAPER_INIT_H_TAIL = []
-	for num in range(H_SEC):
-		TAPER_INIT_H_TAIL.append(1.0)
-	ANGLE_INIT_H_TAIL = []
-	for num in range(H_SEC):
-		ANGLE_INIT_H_TAIL.append(1.0)
-	DIHEDRAL_INIT_H_TAIL = []
-	for num in range(H_SEC):
-		DIHEDRAL_INIT_H_TAIL.append(1.0)
-	X_OFFSET_INIT_H_TAIL = []
-	for num in range(H_SEC):
-		X_OFFSET_INIT_H_TAIL.append(1.0)
-	
-	#=============================================================
-	# Setting Geometry conditions
-	#=============================================================
-
-	# Object initialization
+	global AC_0
 	AC_0 = AC(AIRCRAFT_NAME)
 
 	for i in range(WING):
@@ -241,5 +191,4 @@ def init():
 	
 		
 
-#def parse_config_file(self):
 

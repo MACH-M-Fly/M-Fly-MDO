@@ -38,36 +38,40 @@ class aero_AVL(Component):
 
 		# ----Wing Design Variables-----------
 		for i in range(settings.WING):
-			key_start = 'wing_' + str(i+1) + '_'
-			self.add_param(key_start+'chord', val = settings.W['W' + str(i+1)][2])
-			self.add_param(key_start+'b', val = settings.W['W' + str(i+1)][3])
-			for j in range(settings.W['W' + str(i+1)][4]):
-				self.add_param(key_start+'taper_'+str(j+1), val = settings.TAPER_INIT_WING[j])
-				self.add_param(key_start+'angle_'+str(j+1), val = settings.ANGLE_INIT_WING[j])
-				self.add_param(key_start+'dihedral_'+str(j+1), val = settings.DIHEDRAL_INIT_WING[j])
-				self.add_param(key_start+'x_offset_'+str(j+1), val = settings.X_OFFSET_INIT_WING[j])
+			if W['W'+str(i+1)][6]:
+				key_start = 'wing_' + str(i+1) + '_'
+				self.add_param(key_start+'chord', val = settings.W['W' + str(i+1)][2])
+				self.add_param(key_start+'b', val = settings.W['W' + str(i+1)][3])
+				for j in range(settings.W['W' + str(i+1)][4]):
+					self.add_param(key_start+'taper_'+str(j+1), val = 1.0)
+					self.add_param(key_start+'angle_'+str(j+1), val = 0.0)
+					self.add_param(key_start+'dihedral_'+str(j+1), val = 0.0)
+					self.add_param(key_start+'x_offset_'+str(j+1), val = 0.0)
 
 		# ----H tail Design Variables---------
 		for i in range(settings.H_TAIL):
-			key_start = 'h_tail_' + str(i+1) + '_'
-			self.add_param(key_start+'chord', val =  settings.H['H' + str(i+1)][2])
-			self.add_param(key_start+'b', val = settings.H['H' + str(i+1)][3])
-			for j in range(settings.H['H' + str(i+1)][4]):
-				self.add_param(key_start+'taper_'+str(j+1), val = settings.TAPER_INIT_H_TAIL[j])
-				self.add_param(key_start+'angle_'+str(j+1), val = settings.ANGLE_INIT_H_TAIL[j])
-				self.add_param(key_start+'dihedral_'+str(j+1), val = settings.DIHEDRAL_INIT_H_TAIL[j])
-				self.add_param(key_start+'x_offset_'+str(j+1), val = settings.X_OFFSET_INIT_H_TAIL[j])
+			if H['H'+str(i+1)][6]:
+				key_start = 'h_tail_' + str(i+1) + '_'
+				self.add_param(key_start+'chord', val =  settings.H['H' + str(i+1)][2])
+				self.add_param(key_start+'b', val = settings.H['H' + str(i+1)][3])
+				for j in range(settings.H['H' + str(i+1)][4]):
+					self.add_param(key_start+'taper_'+str(j+1), val = 1.0)
+					self.add_param(key_start+'angle_'+str(j+1), val = 0.0)
+					self.add_param(key_start+'dihedral_'+str(j+1), val = 0.0)
+					self.add_param(key_start+'x_offset_'+str(j+1), val = 0.0)
 
 		# ----V tail Design Variables---------
 		for i in range(settings.V_TAIL):
-			key_start = 'v_tail_' + str(i+1) + '_'
-			self.add_param(key_start+'chord', val = settings.V['V' + str(i+1)][2])
-			self.add_param(key_start+'b', val =  settings.V['V' + str(i+1)][3])
-			for j in range(settings.V['V' + str(i+1)][4]):
-				self.add_param(key_start+'taper_'+str(j+1), val = settings.TAPER_INIT_V_TAIL[j])
-				self.add_param(key_start+'angle_'+str(j+1), val = settings.ANGLE_INIT_V_TAIL[j])
-				self.add_param(key_start+'dihedral_'+str(j+1), val = settings.DIHEDRAL_INIT_V_TAIL[j])
-				self.add_param(key_start+'x_offset_'+str(j+1), val = settings.X_OFFSET_INIT_V_TAIL[j])
+			if V['V'+str(i+1)][7]:
+				key_start = 'v_tail_' + str(i+1) + '_'
+				self.add_param(key_start+'chord', val = settings.V['V' + str(i+1)][2])
+				self.add_param(key_start+'b', val =  settings.V['V' + str(i+1)][3])
+				for j in range(settings.V['V' + str(i+1)][4]):
+					self.add_param(key_start+'taper_'+str(j+1), val = 1.0)
+					self.add_param(key_start+'angle_'+str(j+1), val = 0.0)
+					self.add_param(key_start+'dihedral_'+str(j+1), val = 0.0)
+					self.add_param(key_start+'x_offset_'+str(j+1), val = 0.0)
+					self.add_param(key_start+'y_offset_'+str(j+1), val = 0.0)
 
 		# ---- Boom Design variables----------
 		for i in range(settings.BOOM):
@@ -94,72 +98,78 @@ class aero_AVL(Component):
 
 		# Wing
 		for i in range(AC_0.wing['Num']):
-			key_start = 'wing_' + str(i+1) 
-			key_start2 = 'wing_' + str(i+1) + '_'
-			AC_0.wing[key_start]['root_chord'] = params[key_start2 +'chord']
-			AC_0.wing[key_start]['wingspan'] = params[key_start2 +'b']
+			if W['W'+str(i+1)][6]:
+				key_start = 'wing_' + str(i+1) 
+				key_start2 = 'wing_' + str(i+1) + '_'
+				AC_0.wing[key_start]['root_chord'] = params[key_start2 +'chord']
+				AC_0.wing[key_start]['wingspan'] = params[key_start2 +'b']
 
-			#-----collect taper, dihedral, x_offset, and angle into one array-------
-			taper_w = []
-			dihedral_w = []
-			x_offset_w = []
-			angle_w = []
-			for j in range(AC_0.wing[key_start]['num_sections']):
-				taper_w.append(params[key_start2+'taper_'+str(j+1)])
-				dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
-				x_offset_w.append(params[key_start2+'x_offset_'+str(j+1)])
-				angle_w.append(params[key_start2+'angle_'+str(j+1)])
+				#-----collect taper, dihedral, x_offset, and angle into one array-------
+				taper_w = []
+				dihedral_w = []
+				x_offset_w = []
+				angle_w = []
+				for j in range(AC_0.wing[key_start]['num_sections']):
+					taper_w.append(params[key_start2+'taper_'+str(j+1)])
+					dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
+					x_offset_w.append(params[key_start2+'x_offset_'+str(j+1)])
+					angle_w.append(params[key_start2+'angle_'+str(j+1)])
 
-			AC_0.wing[key_start]['taper'] = taper_w
-			AC_0.wing[key_start]['angle'] = angle_w
-			AC_0.wing[key_start]['X_offset'] = x_offset_w
-			AC_0.wing[key_start]['dihedral'] = dihedral_w
+				AC_0.wing[key_start]['taper'] = taper_w
+				AC_0.wing[key_start]['angle'] = angle_w
+				AC_0.wing[key_start]['X_offset'] = x_offset_w
+				AC_0.wing[key_start]['dihedral'] = dihedral_w
 
 		# H_tail
 		for i in range(AC_0.h_tail['Num']):
-			key_start = 'h_tail_' + str(i+1) 
-			key_start2 = 'h_tail_' + str(i+1) + '_'
-			AC_0.h_tail[key_start]['root_chord'] = params[key_start2 +'chord']
-			AC_0.h_tail[key_start]['wingspan'] = params[key_start2 +'b']
+			if H['H'+str(i+1)][6]:
+				key_start = 'h_tail_' + str(i+1) 
+				key_start2 = 'h_tail_' + str(i+1) + '_'
+				AC_0.h_tail[key_start]['root_chord'] = params[key_start2 +'chord']
+				AC_0.h_tail[key_start]['wingspan'] = params[key_start2 +'b']
 
-			#-----collect taper, dihedral, x_offset, and angle into one array-------
-			taper_w = []
-			dihedral_w = []
-			x_offset_w = []
-			angle_w = []
-			for j in range(AC_0.h_tail[key_start]['num_sections']):
-				taper_w.append(params[key_start2+'taper_'+str(j+1)])
-				dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
-				x_offset_w.append(params[key_start2+'x_offset_'+str(j+1)])
-				angle_w.append(params[key_start2+'angle_'+str(j+1)])
+				#-----collect taper, dihedral, x_offset, and angle into one array-------
+				taper_w = []
+				dihedral_w = []
+				x_offset_w = []
+				angle_w = []
+				for j in range(AC_0.h_tail[key_start]['num_sections']):
+					taper_w.append(params[key_start2+'taper_'+str(j+1)])
+					dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
+					x_offset_w.append(params[key_start2+'x_offset_'+str(j+1)])
+					angle_w.append(params[key_start2+'angle_'+str(j+1)])
 
-			AC_0.h_tail[key_start]['taper'] = taper_w
-			AC_0.h_tail[key_start]['angle'] = angle_w
-			AC_0.h_tail[key_start]['X_offset'] = x_offset_w
-			AC_0.h_tail[key_start]['dihedral'] = dihedral_w
+				AC_0.h_tail[key_start]['taper'] = taper_w
+				AC_0.h_tail[key_start]['angle'] = angle_w
+				AC_0.h_tail[key_start]['X_offset'] = x_offset_w
+				AC_0.h_tail[key_start]['dihedral'] = dihedral_w
 
 		# V_tail
 		for i in range(AC_0.v_tail['Num']):
-			key_start = 'v_tail_' + str(i+1) 
-			key_start2 = 'v_tail_' + str(i+1) + '_'
-			AC_0.v_tail[key_start]['root_chord'] = params[key_start2 +'chord']
-			AC_0.v_tail[key_start]['wingspan'] = params[key_start2 +'b']
+			if V['V'+str(i+1)][7]:
+				key_start = 'v_tail_' + str(i+1) 
+				key_start2 = 'v_tail_' + str(i+1) + '_'
+				AC_0.v_tail[key_start]['root_chord'] = params[key_start2 +'chord']
+				AC_0.v_tail[key_start]['wingspan'] = params[key_start2 +'b']
 
-			#-----collect taper, dihedral, x_offset, and angle into one array-------
-			taper_w = []
-			dihedral_w = []
-			x_offset_w = []
-			angle_w = []
-			for j in range(AC_0.v_tail[key_start]['num_sections']):
-				taper_w.append(params[key_start2+'taper_'+str(j+1)])
-				dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
-				x_offset_w.append(params[key_start2+'x_offset_'+str(j+1)])
-				angle_w.append(params[key_start2+'angle_'+str(j+1)])
+				#-----collect taper, dihedral, x_offset, and angle into one array-------
+				taper_w = []
+				dihedral_w = []
+				x_offset_w = []
+				y_offset_w = []
+				angle_w = []
+				for j in range(AC_0.v_tail[key_start]['num_sections']):
+					taper_w.append(params[key_start2+'taper_'+str(j+1)])
+					dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
+					x_offset_w.append(params[key_start2+'x_offset_'+str(j+1)])
+					y_offset_w.append(params[key_start2+'y_offset_'+str(j+1)])
+					angle_w.append(params[key_start2+'angle_'+str(j+1)])
 
-			AC_0.v_tail[key_start]['taper'] = taper_w
-			AC_0.v_tail[key_start]['angle'] = angle_w
-			AC_0.v_tail[key_start]['X_offset'] = x_offset_w
-			AC_0.v_tail[key_start]['dihedral'] = dihedral_w
+				AC_0.v_tail[key_start]['taper'] = taper_w
+				AC_0.v_tail[key_start]['angle'] = angle_w
+				AC_0.v_tail[key_start]['X_offset'] = x_offset_w
+				AC_0.v_tail[key_start]['Y_offset'] = y_offset_w
+				AC_0.v_tail[key_start]['dihedral'] = dihedral_w
 
 
 		#-------Update Geometry file and run-----------
