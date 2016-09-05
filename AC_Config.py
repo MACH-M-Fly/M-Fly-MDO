@@ -133,7 +133,7 @@ class AC():
 		new_wing['root_chord'] = root_chord
 		new_wing['airfoil'] = size_array_airfoil
 		new_wing['angle'] = size_array_0
-		new_wing['X_offset'] = size_array_0
+		new_wing['X_offset'] = size_array_offset
 		new_wing['wingspan'] = wingspan
 		new_wing['taper'] = size_array_1
 		new_wing['dihedral'] = size_array_0

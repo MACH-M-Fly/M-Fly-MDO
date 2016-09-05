@@ -181,10 +181,10 @@ def init(filename):
 		AC_0.add_wing(Wing[0], Wing[1], Wing[2], Wing[3], Wing[4], Wing[5])
 	for i in range(H_TAIL):
 		H_tail = H['H'+str(i+1)]
-		AC_0.add_h_tail(H_tail[0], H_tail[1], H_tail[2], H_tail[3], H_tail[4], 3)
+		AC_0.add_h_tail(H_tail[0], H_tail[1], H_tail[2], H_tail[3], H_tail[4], H_tail[5])
 	for i in range(V_TAIL):
 		V_tail = V['V'+str(i+1)]
-		AC_0.add_v_tail(V_tail[0], V_tail[1], V_tail[2], V_tail[3], V_tail[4], V_tail[5], 6)
+		AC_0.add_v_tail(V_tail[0], V_tail[1], V_tail[2], V_tail[3], V_tail[4], V_tail[5], V_tail[6])
 	for i in range(BOOM):
 		boom = B['B'+str(i+1)]
 		AC_0.add_boom(boom[0], boom[1])
