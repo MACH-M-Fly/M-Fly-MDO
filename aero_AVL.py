@@ -45,7 +45,7 @@ class aero_AVL(Component):
 				for j in range(settings.W['W' + str(i+1)][4]):
 					self.add_param(key_start+'taper_'+str(j+1), val = 1.0)
 					self.add_param(key_start+'angle_'+str(j+1), val = 0.0)
-					self.add_param(key_start+'dihedral_'+str(j+1), val = 0.0)
+					#self.add_param(key_start+'dihedral_'+str(j+1), val = 0.0)
 					self.add_param(key_start+'x_offset_'+str(j+1), val = 0.0)
 
 		# ----H tail Design Variables---------
@@ -57,7 +57,7 @@ class aero_AVL(Component):
 				for j in range(settings.H['H' + str(i+1)][4]):
 					self.add_param(key_start+'taper_'+str(j+1), val = 1.0)
 					self.add_param(key_start+'angle_'+str(j+1), val = 0.0)
-					self.add_param(key_start+'dihedral_'+str(j+1), val = 0.0)
+					#self.add_param(key_start+'dihedral_'+str(j+1), val = 0.0)
 					self.add_param(key_start+'x_offset_'+str(j+1), val = 0.0)
 
 		# ----V tail Design Variables---------
@@ -69,7 +69,7 @@ class aero_AVL(Component):
 				for j in range(settings.V['V' + str(i+1)][4]):
 					self.add_param(key_start+'taper_'+str(j+1), val = 1.0)
 					self.add_param(key_start+'angle_'+str(j+1), val = 0.0)
-					self.add_param(key_start+'dihedral_'+str(j+1), val = 0.0)
+					#self.add_param(key_start+'dihedral_'+str(j+1), val = 0.0)
 					self.add_param(key_start+'x_offset_'+str(j+1), val = 0.0)
 					self.add_param(key_start+'y_offset_'+str(j+1), val = 0.0)
 
@@ -111,14 +111,14 @@ class aero_AVL(Component):
 				angle_w = []
 				for j in range(AC_0.wing[key_start]['num_sections']):
 					taper_w.append(params[key_start2+'taper_'+str(j+1)])
-					dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
+					#dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
 					x_offset_w.append(params[key_start2+'x_offset_'+str(j+1)])
 					angle_w.append(params[key_start2+'angle_'+str(j+1)])
 
 				AC_0.wing[key_start]['taper'] = taper_w
 				AC_0.wing[key_start]['angle'] = angle_w
 				AC_0.wing[key_start]['X_offset'] = x_offset_w
-				AC_0.wing[key_start]['dihedral'] = dihedral_w
+				#AC_0.wing[key_start]['dihedral'] = dihedral_w
 
 		# H_tail
 		for i in range(AC_0.h_tail['Num']):
@@ -135,14 +135,14 @@ class aero_AVL(Component):
 				angle_w = []
 				for j in range(AC_0.h_tail[key_start]['num_sections']):
 					taper_w.append(params[key_start2+'taper_'+str(j+1)])
-					dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
+					#dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
 					x_offset_w.append(params[key_start2+'x_offset_'+str(j+1)])
 					angle_w.append(params[key_start2+'angle_'+str(j+1)])
 
 				AC_0.h_tail[key_start]['taper'] = taper_w
 				AC_0.h_tail[key_start]['angle'] = angle_w
 				AC_0.h_tail[key_start]['X_offset'] = x_offset_w
-				AC_0.h_tail[key_start]['dihedral'] = dihedral_w
+				#AC_0.h_tail[key_start]['dihedral'] = dihedral_w
 
 		# V_tail
 		for i in range(AC_0.v_tail['Num']):
@@ -160,7 +160,7 @@ class aero_AVL(Component):
 				angle_w = []
 				for j in range(AC_0.v_tail[key_start]['num_sections']):
 					taper_w.append(params[key_start2+'taper_'+str(j+1)])
-					dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
+					#dihedral_w.append(params[key_start2+'dihedral_'+str(j+1)])
 					x_offset_w.append(params[key_start2+'x_offset_'+str(j+1)])
 					y_offset_w.append(params[key_start2+'y_offset_'+str(j+1)])
 					angle_w.append(params[key_start2+'angle_'+str(j+1)])
@@ -169,7 +169,7 @@ class aero_AVL(Component):
 				AC_0.v_tail[key_start]['angle'] = angle_w
 				AC_0.v_tail[key_start]['X_offset'] = x_offset_w
 				AC_0.v_tail[key_start]['Y_offset'] = y_offset_w
-				AC_0.v_tail[key_start]['dihedral'] = dihedral_w
+				#AC_0.v_tail[key_start]['dihedral'] = dihedral_w
 
 
 		#-------Update Geometry file and run-----------

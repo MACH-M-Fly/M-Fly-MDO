@@ -161,7 +161,7 @@ class AC():
 			size_array_offset.append(offset)
 		size_array_offset_y = []
 		for num in range(num_sections):
-			size_array_offset.append(offset_y)
+			size_array_offset_y.append(offset_y)
 		size_array_airfoil = []
 		if not isinstance(airfoil, list):
 			for num in range(num_sections):
@@ -169,7 +169,8 @@ class AC():
 		else:
 			size_array_airfoil = airfoil
 
-
+		# print('Offset: '+str(offset)+"\n")
+		# print('Offset Y: '+str(offset_y)+"\n")
 
 		new_wing = {'name' : name}
 		new_wing['num_sections'] = num_sections
@@ -196,7 +197,6 @@ class AC():
 	def create_AVL_geometry(self):
 		with open('Output/'+str(self.name)+'.avl', 'w') as geo:
 			geo.write(str(self.name))
-
 			#Initial first 4 lines
 			geo.write('\r\n#Mach\r\n')
 			geo.write(str(self.proper['MACH'])+'\r\n')
@@ -209,7 +209,7 @@ class AC():
 			geo.write('#---------------------------------------------------------\r\n')
 
 			geo.write('#---------------------------------------------------------\r\n')
-			geo.write(' WING(s)                                                    \r\n')
+			geo.write('# WING(s)                                                    \r\n')
 			geo.write('#---------------------------------------------------------\r\n')
 
 			for i in range(self.wing['Num']):
@@ -235,7 +235,6 @@ class AC():
 					taper_sec = 1.0
 					for k in range(j):
 						taper_sec = taper_sec * self.wing['wing_'+str(i+1)]['taper'][k]
-
 					geo.write('SECTION\r\n')
 					geo.write('#Xle\tYle\tZle\tChord\tAinc\tNspanwise\tSspace\r\n')
 					geo.write(str(self.wing['wing_'+str(i+1)]['X_offset'][j])+' '+str(wingspan* j / (num_sections - 1))+' '+str(math.sin(self.wing['wing_'+str(i+1)]['dihedral'][j]) * wingspan / (num_sections - 1)) +' '+str(taper_sec * self.wing['wing_'+str(i+1)]['root_chord'])+' '+str(self.wing['wing_'+str(i+1)]['angle'][j])+'\r\n')
@@ -243,7 +242,7 @@ class AC():
 					geo.write('Airfoil/'+str(self.wing['wing_'+str(i+1)]['airfoil'][j])+'\r\n\r\n')
 
 			geo.write('#---------------------------------------------------------\r\n')
-			geo.write(' Horizontal Tail(s)                                                    \r\n')
+			geo.write('# Horizontal Tail(s)                                                    \r\n')
 			geo.write('#---------------------------------------------------------\r\n')
 
 			for i in range(self.h_tail['Num']):
@@ -266,6 +265,7 @@ class AC():
 				wingspan = self.h_tail['h_tail_'+str(i+1)]['wingspan']
 				num_sections = self.h_tail['h_tail_'+str(i+1)]['num_sections']
 				for j in range(num_sections):
+					print(self.h_tail['h_tail_'+str(i+1)]['X_offset'])
 					geo.write('SECTION\r\n')
 					geo.write('#Xle\tYle\tZle\tChord\tAinc\tNspanwise\tSspace\r\n')
 					geo.write(str(self.h_tail['h_tail_'+str(i+1)]['X_offset'][j])+' '+str(wingspan* j / (num_sections - 1))+' '+str(math.sin(self.h_tail['h_tail_'+str(i+1)]['dihedral'][j]) * wingspan / (num_sections - 1)) +' '+str(self.h_tail['h_tail_'+str(i+1)]['taper'][j] * self.h_tail['h_tail_'+str(i+1)]['root_chord'])+' '+str(self.h_tail['h_tail_'+str(i+1)]['angle'][j])+'\r\n')
@@ -273,7 +273,7 @@ class AC():
 					geo.write('Airfoil/'+str(self.h_tail['h_tail_'+str(i+1)]['airfoil'][j])+'\r\n\r\n')
 
 			geo.write('#---------------------------------------------------------\r\n')
-			geo.write(' Vertical Tail(s)                                                    \r\n')
+			geo.write('# Vertical Tail(s)                                                    \r\n')
 			geo.write('#---------------------------------------------------------\r\n')
 
 			for i in range(self.v_tail['Num']):

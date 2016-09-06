@@ -9,7 +9,7 @@ Aircraft overall configuration (1. make sure all listed variables have values) (
 AIRCRAFT_NAME = new_AC
 WING = 1
 H_TAIL = 1
-V_TAIL = 1
+V_TAIL = 0
 BOOM = 1
 FUESELAGE_SURFACE = 0
 FUESELAGE_BODY = 0
@@ -78,34 +78,6 @@ H_TAIL1_WINGSPAN_MIN = 0.1
 H_TAIL1_WINGSPAN_MAX = 3.0
 
 -------------------------------# V_tail--------------------------------------------
--- Characterisitics --
-V_TAIL1_Optimize = TRUE
-V_TAIL1_Num_Sections = 3
-V_TAIL1_Name = V_TAIL1
-
--- Initial starting points --
-X_OFFSET_INIT_V_TAIL1 = 9.0
-Y_OFFSET_INIT_V_TAIL1 = 0.0
-AIRFOIL_INIT_V_TAIL1 = n0012.dat
-ROOT_CHORD_INIT_V_TAIL1 = 1.0
-WINGSPAN_INIT_V_TAIL1 = 2.0
-
--- Constrainits --
-V_TAIL1_TAPER_MAX = 1.0
-V_TAIL1_TAPER_MIN = 0.01
-V_TAIL1_ANGLE_MAX = 3.0
-V_TAIL1_ANGLE_MIN = -3.0
-V_TAIL1_DIHEDRAL_MAX = 2.0
-V_TAIL1_DIHEDRAL_MIN = -2.0
-V_TAIL1_X_OFFSET_MAX = 10.0
-V_TAIL1_X_OFFSET_MIN = 6.0
-V_TAIL1_Y_OFFSET_MAX = 1.0
-V_TAIL1_Y_OFFSET_MIN = 0.0
-V_TAIL1_CHORD_MIN = 0.1
-V_TAIL1_CHORD_MAX = 2.0
-V_TAIL1_WINGSPAN_MIN = 0.1
-V_TAIL1_WINGSPAN_MAX = 3.0
-
 
 ----------------------------# Fueselage (Body) -----------------------------------
 

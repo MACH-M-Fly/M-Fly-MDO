@@ -4,7 +4,7 @@
 
 Parameters:
 -------------------------------------------------------------------------------------------------
-Swarmsize           :       40    MaxOuterIters     :      200    Seed:       1472504686.30242205
+Swarmsize           :       40    MaxOuterIters     :      200    Seed:       1473124590.56100202
 Cognitive Parameter :    2.000    MaxInnerIters     :        6    Scaling            :          1
 Social Parameter    :    1.000    MinInnerIters     :        6    Stopping Criteria  :          1
 Initial Weight      :    0.990    DynInnerIters     :        0    Number of Failures :         15
